@@ -1,0 +1,156 @@
+/* ====== WAITLIST SECTION (CelestiFan Figma Style) ====== */
+
+.waitlistSection {
+  background: linear-gradient(180deg, #13123a 0%, #1d1558 100%);
+  border-radius: 23px;
+  padding: 90px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+  margin: 80px auto;
+  max-width: 1200px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  width: 100%;
+  max-width: 900px;
+}
+
+/* ====== Text Styles ====== */
+
+.title {
+  font-family: "Inter", sans-serif;
+  font-size: 3rem;
+  font-weight: 600;
+  line-height: 1.1;
+  text-align: center;
+  max-width: 800px;
+}
+
+.subtitle {
+  font-family: "Inter", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  opacity: 0.9;
+  max-width: 600px;
+  line-height: 1.5;
+  color: #ffffff;
+  margin-top: -20px
+}
+
+/* ====== Form Styles ====== */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  max-width: 600px;
+  margin-top: 30px;
+}
+
+.input {
+  width: 100%;
+  padding: 16px 18px;
+  background: #3431ea;
+  border: none;
+  border-radius: 10px;
+  color: #ffffff;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  outline: none;
+  transition: 0.3s ease;
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.input:focus {
+  background: #4a48ff;
+  transform: scale(1.02);
+}
+
+/* ====== Button ====== */
+
+.button {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  padding: 18px 25px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(6px);
+}
+
+.button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+}
+
+/* ====== Success Message ====== */
+
+.successMessage {
+  margin-top: 20px;
+  padding: 15px 25px;
+  border-radius: 10px;
+  background: rgba(178, 210, 52, 0.15);
+  border: 1px solid #b2d234;
+  color: #b2d234;
+  font-weight: 600;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  animation: fadeIn 0.5s ease-in-out, fadeOut 0.5s ease-out 4.5s forwards;
+}
+
+/* ====== Animations ====== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+/* ====== Responsive ====== */
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .form {
+    max-width: 90%;
+  }
+
+  .button {
+    font-size: 0.95rem;
+  }
+}
