@@ -2,7 +2,7 @@ import Header from '../components/Header';
 import HeroSection from '../components/HeroSection';
 import About from "../components/About";
 import WhyUs from "../components/WhyUs";
-import Waitlist from "../components/waitlist";
+import Waitlist from "../components/Waitlist";
 import Footer from '../components/Footer';
 
 export default function Home() {
