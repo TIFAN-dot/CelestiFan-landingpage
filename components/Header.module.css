@@ -1,0 +1,56 @@
+.header {
+  background: rgba(245, 245, 245, 0.2);
+  border-radius: 3rem;
+  margin: 2rem auto;
+  max-width: 1200px;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.joinButton {
+  background: #1a147f;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 0.75rem 2rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(26, 20, 127, 0.08);
+  transition: all 0.25s ease;
+}
+
+.joinButton:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(26, 20, 127, 0.15);
+}
+
+.joinButton:active {
+  transform: scale(0.97);
+}
+
+/* 📱 Responsive Styles */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    text-align: center;
+  }
+
+  .joinButton {
+    width: 100%;
+    max-width: 280px;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+}

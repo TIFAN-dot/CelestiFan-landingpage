@@ -1,5 +1,4 @@
 /* ====== WAITLIST SECTION (CelestiFan Figma Style) ====== */
-
 .waitlistSection {
   background: linear-gradient(180deg, #13123a 0%, #1d1558 100%);
   border-radius: 23px;
@@ -12,6 +11,7 @@
   margin: 80px auto;
   max-width: 1200px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  scroll-margin-top: 100px; /* 👈 makes smooth scroll stop nicely below header */
 }
 
 .container {
@@ -24,7 +24,6 @@
 }
 
 /* ====== Text Styles ====== */
-
 .title {
   font-family: "Inter", sans-serif;
   font-size: 3rem;
@@ -42,11 +41,10 @@
   max-width: 600px;
   line-height: 1.5;
   color: #ffffff;
-  margin-top: -20px
+  margin-top: -20px;
 }
 
 /* ====== Form Styles ====== */
-
 .form {
   display: flex;
   flex-direction: column;
@@ -79,7 +77,6 @@
 }
 
 /* ====== Button ====== */
-
 .button {
   background: rgba(255, 255, 255, 0.1);
   color: #ffffff;
@@ -101,7 +98,6 @@
 }
 
 /* ====== Success Message ====== */
-
 .successMessage {
   margin-top: 20px;
   padding: 15px 25px;
@@ -116,7 +112,6 @@
 }
 
 /* ====== Animations ====== */
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -136,10 +131,15 @@
 }
 
 /* ====== Responsive ====== */
-
 @media (max-width: 768px) {
+  .waitlistSection {
+    margin: 40px 16px;
+    padding: 60px 20px;
+  }
+
   .title {
     font-size: 2rem;
+    line-height: 1.2;
   }
 
   .subtitle {
@@ -147,10 +147,11 @@
   }
 
   .form {
-    max-width: 90%;
+    max-width: 100%;
   }
 
   .button {
     font-size: 0.95rem;
+    padding: 15px;
   }
 }

@@ -6,7 +6,7 @@ export default function HeroSection() {
       <div className={styles.heroContent}>
         <div className={styles.heroTitleRow}>
           <h1 className={styles.heroTitle}>
-            Empowering Artists. Elevating Fans.
+            Empowering Artists. <br /> Elevating Fans.
           </h1>
         </div>
         <div className={styles.heroSubtitleRow}>

@@ -2,20 +2,18 @@ import { useState } from "react";
 import styles from "./Waitlist.module.css";
 
 export default function Waitlist() {
-  const [status, setStatus] = useState(""); // to show success message
+  const [status, setStatus] = useState(""); // for feedback message
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
 
-    // ✅ Your Google Form URL (make sure it ends with /formResponse)
     const googleFormURL =
       "https://docs.google.com/forms/d/e/1FAIpQLSdkEfDZhzBJKPi75NE0H40gAM6zCv8HAiR8Vvy0o0AVRYcg2g/formResponse";
 
-    // ✅ The entry IDs you found for Name and Email
     const formData = new FormData();
-    formData.append("entry.393353337", form.name.value);   // Name field
-    formData.append("entry.1786889880", form.email.value); // Email field
+    formData.append("entry.393353337", form.name.value);   // Name field ID
+    formData.append("entry.1786889880", form.email.value); // Email field ID
 
     fetch(googleFormURL, {
       method: "POST",
@@ -25,16 +23,15 @@ export default function Waitlist() {
       .then(() => {
         setStatus("✅ You’ve joined the CelestiFan Waitlist! 🎶");
         form.reset();
-        setTimeout(() => setStatus(""), 5000); // fade out message after 5s
+        setTimeout(() => setStatus(""), 5000);
       })
-      .catch((err) => {
-        console.error("❌ Submission error:", err);
-        setStatus("Something went wrong. Please try again!");
+      .catch(() => {
+        setStatus("❌ Something went wrong. Please try again!");
       });
   };
 
   return (
-    <section className={styles.waitlistSection}>
+    <section id="waitlist" className={styles.waitlistSection}>
       <div className={styles.container}>
         <h2 className={styles.title}>
           The next wave of music power is in your hands
