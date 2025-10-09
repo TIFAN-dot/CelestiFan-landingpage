@@ -29,6 +29,7 @@
   font-weight: 600;
   line-height: 1.1;
   text-align: center;
+  margin-top: -20px;
 }
 
 .subtext {
@@ -37,6 +38,7 @@
   line-height: 1.6;
   max-width: 850px;
   opacity: 0.95;
+  margin-top: -20px;
 }
 
 /* ===== FEATURES ===== */
@@ -75,6 +77,7 @@
   line-height: 1.5;
   opacity: 0.9;
   color: #ffffff;
+  margin-top: -10px;
 }
 
 /* ===== WHY US SECTION ===== */
