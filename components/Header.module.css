@@ -39,7 +39,7 @@
 }
 
 /* 📱 Responsive Styles */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .header {
     flex-direction: column;
     gap: 1rem;
@@ -49,8 +49,8 @@
 
   .joinButton {
     width: 100%;
-    max-width: 280px;
+    max-width: 180px;
     padding: 0.75rem 1rem;
-    font-size: 0.9rem;
+    font-size: 0.3rem;
   }
 }
