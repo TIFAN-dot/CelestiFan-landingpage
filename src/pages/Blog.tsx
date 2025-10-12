@@ -79,7 +79,7 @@ const Blog = () => {
               variant={category === "All" ? "default" : "outline"}
               className={
                 category === "All"
-                  ? "bg-gradient-neon hover:opacity-90 text-white"
+                  ? "bg-primary hover:bg-primary/90 text-primary-foreground"
                   : "border-border hover:border-primary/50"
               }
             >
@@ -115,7 +115,7 @@ const Blog = () => {
                   {posts[0].readTime}
                 </div>
               </div>
-              <Button className="w-fit bg-gradient-neon hover:opacity-90 text-white">
+              <Button className="w-fit bg-primary hover:bg-primary/90 text-primary-foreground">
                 Read More
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
@@ -222,7 +222,7 @@ const Blog = () => {
               placeholder="Enter your email"
               className="flex-1 px-6 py-3 rounded-lg bg-background border border-border focus:border-primary outline-none"
             />
-            <Button size="lg" className="bg-gradient-neon hover:opacity-90 text-white font-semibold">
+            <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
               Subscribe
             </Button>
           </div>

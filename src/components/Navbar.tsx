@@ -11,12 +11,20 @@ const Navbar = () => {
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
     { name: "Features", path: "/features" },
-    { name: "Pricing", path: "/pricing" },
-    { name: "Blog", path: "/blog" },
+    // { name: "Pricing", path: "/pricing" },
+    // { name: "Blog", path: "/blog" },
     { name: "Connect", path: "/connect" },
   ];
 
   const isActive = (path: string) => location.pathname === path;
+
+  const handleWaitlistClick = () => {
+    const section = document.getElementById('waitlist-section');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+    setIsOpen(false);
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
@@ -41,7 +49,7 @@ const Navbar = () => {
                 to={item.path}
                 className={`px-4 py-2 rounded-lg transition-all ${
                   isActive(item.path)
-                    ? "bg-gradient-neon text-white font-semibold"
+                    ? "text-primary font-semibold"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted"
                 }`}
               >
@@ -52,8 +60,8 @@ const Navbar = () => {
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <Button className="bg-gradient-neon hover:opacity-90 font-semibold animate-glow">
-              Join Now
+            <Button onClick={handleWaitlistClick} className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold">
+              Join the Waitlist
             </Button>
           </div>
 
@@ -76,7 +84,7 @@ const Navbar = () => {
                 onClick={() => setIsOpen(false)}
                 className={`block px-4 py-2 rounded-lg transition-all ${
                   isActive(item.path)
-                    ? "bg-gradient-neon text-white font-semibold"
+                    ? "text-primary font-semibold"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted"
                 }`}
               >
@@ -84,8 +92,8 @@ const Navbar = () => {
               </Link>
             ))}
             <div className="pt-4">
-              <Button className="w-full bg-gradient-neon hover:opacity-90 font-semibold">
-                Join Now
+              <Button onClick={handleWaitlistClick} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold">
+                Join the Waitlist
               </Button>
             </div>
           </div>

@@ -133,7 +133,7 @@ const Pricing = () => {
               }`}
             >
               {plan.highlighted && (
-                <div className="bg-gradient-neon text-white text-sm font-semibold px-4 py-1 rounded-full inline-block mb-4">
+                <div className="bg-primary text-primary-foreground text-sm font-semibold px-4 py-1 rounded-full inline-block mb-4">
                   Most Popular
                 </div>
               )}
@@ -148,7 +148,7 @@ const Pricing = () => {
                 size="lg"
                 className={`w-full mb-8 ${
                   plan.highlighted
-                    ? "bg-gradient-neon hover:opacity-90 text-white font-semibold"
+                    ? "bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
                     : "border-primary text-primary hover:bg-primary/10"
                 }`}
                 variant={plan.highlighted ? "default" : "outline"}

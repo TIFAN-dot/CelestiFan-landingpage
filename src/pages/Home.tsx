@@ -1,6 +1,7 @@
 import { ArrowRight, TrendingUp, Trophy, Music, Zap, Users, BarChart3, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import Mockup from "@/components/ui/mockup";
 
 const Home = () => {
   const stats = [
@@ -32,40 +33,26 @@ const Home = () => {
     {
       icon: Zap,
       title: "Launch Campaigns",
-      description: "Create challenges that drive streams and build momentum",
+      description: "As an artist, you're in control. Design and launch dynamic campaigns that mobilize your fanbase. Create exciting challenges, set streaming goals, and offer unique rewards to build unstoppable momentum for your new releases. Watch in real-time as your fans rally to support your music, driving streams and expanding your reach organically. It's your vision, your music, your movement.",
+      imageUrl: "https://cdn.dribbble.com/userupload/4022879/file/original-27a92213d629009183355b38f8312065.png?resize=1024x768",
     },
     {
       icon: Trophy,
       title: "Prove Your Fandom",
-      description: "Upload screenshots to verify support and earn rewards",
+      description: "Your support is more than just a number. With CelestiFan, you can prove your dedication by uploading screenshots of your streams, shares, and purchases. This tangible proof of your fandom earns you points, unlocks exclusive content, and gets you noticed by your favorite artists. It's a direct way to show your impact and be rewarded for your loyalty in a way that truly matters.",
+      imageUrl: "https://i.pinimg.com/originals/1b/27/6f/1b276f923b37d45748f70d519b736239.png",
     },
     {
       icon: BarChart3,
       title: "Shine Bright",
-      description: "Top the leaderboards and get recognized by artists",
+      description: "Rise through the ranks and make your mark. Our dynamic leaderboards track real-time fan engagement, showcasing the most dedicated supporters for each artist. Compete with other fans, climb to the top, and gain recognition for your unwavering passion. This is your chance to shine bright, get noticed by artists, and become a legendary supporter in your favorite music community.",
+      imageUrl: "https://cdn.dribbble.com/users/38553/screenshots/1969240/01-leaderboard_2x.png",
     },
     {
       icon: MessageCircle,
       title: "Connect Directly",
-      description: "Chat with artists and join exclusive communities",
-    },
-  ];
-
-  const testimonials = [
-    {
-      quote: "CelestiFan got my song trending! My fans are incredible.",
-      author: "Mia Chen",
-      role: "Independent Artist",
-    },
-    {
-      quote: "Finally, my streams matter! I'm #3 for my favorite artist.",
-      author: "Jordan Blake",
-      role: "Top Fan",
-    },
-    {
-      quote: "This platform changed how I connect with my audience.",
-      author: "DJ Pulse",
-      role: "Electronic Producer",
+      description: "Break down the barriers between artist and fan. CelestiFan offers exclusive chat rooms and communities where you can connect directly with the artists you admire. Get a behind-the-scenes look at their creative process, ask questions in intimate Q&A sessions, and join a community of like-minded fans. This is more than just a platform; it's a place to build genuine connections.",
+      imageUrl: "https://i.pinimg.com/originals/a4/43/61/a4436153965f335b2b2d13149c4d9b62.png",
     },
   ];
 
@@ -89,7 +76,7 @@ const Home = () => {
             The ultimate platform where fans fuel music breakthroughs
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up" style={{ animationDelay: "0.2s" }}>
-            <Button size="lg" className="bg-gradient-neon hover:opacity-90 text-white font-semibold animate-glow text-lg px-8">
+            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-lg px-8">
               Start as an Artist
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
@@ -123,8 +110,8 @@ const Home = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {howItWorks.map((item, index) => (
             <Card key={item.title} className="p-8 bg-card border-border hover:border-primary/50 transition-all hover:scale-105">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-neon flex items-center justify-center mb-6 animate-float">
-                <item.icon className="h-8 w-8 text-white" />
+              <div className="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center mb-6 animate-float">
+                <item.icon className="h-8 w-8 text-primary-foreground" />
               </div>
               <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
               <p className="text-muted-foreground">{item.description}</p>
@@ -133,67 +120,55 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Why CelestiFan */}
+      {/* Why CelestiFan Section */}
       <section className="py-20 bg-card">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl md:text-5xl font-display mb-6 text-gradient">
-              Why CelestiFan?
-            </h2>
-            <p className="text-xl text-muted-foreground mb-8">
-              Your streams spark careers. Your shares build legends. Join a music
-              revolution where every action counts.
-            </p>
-            
-            {/* Testimonials */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-              {testimonials.map((testimonial, index) => (
-                <Card key={index} className="p-6 bg-background border-border hover:border-primary/50 transition-all">
-                  <p className="text-muted-foreground italic mb-4">"{testimonial.quote}"</p>
-                  <div className="font-semibold">{testimonial.author}</div>
-                  <div className="text-sm text-muted-foreground">{testimonial.role}</div>
-                </Card>
-              ))}
-            </div>
+          <h2 className="text-4xl md:text-5xl font-display text-center mb-12 text-gradient">
+            Why CelestiFan?
+          </h2>
+          <div className="space-y-20">
+            {features.map((feature, index) => (
+              <div key={feature.title} className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div className={`flex ${index % 2 === 0 ? 'lg:order-last justify-end' : 'lg:order-first justify-start'}`}>
+                  <Mockup imageUrl={feature.imageUrl} />
+                </div>
+                <div>
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-12 h-12 rounded-lg bg-primary flex items-center justify-center">
+                      <feature.icon className="h-6 w-6 text-primary-foreground" />
+                    </div>
+                    <h3 className="text-3xl font-bold">{feature.title}</h3>
+                  </div>
+                  <p className="text-muted-foreground text-lg">{feature.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Quick Features */}
-      <section className="py-20 container mx-auto px-4">
-        <h2 className="text-4xl md:text-5xl font-display text-center mb-12 text-gradient">
-          Quick Features
-        </h2>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {features.map((feature) => (
-            <Card key={feature.title} className="p-6 bg-card border-border hover:border-primary/50 transition-all group cursor-pointer">
-              <feature.icon className="h-12 w-12 text-primary mb-4 group-hover:scale-110 transition-transform" />
-              <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-              <p className="text-muted-foreground text-sm">{feature.description}</p>
-            </Card>
-          ))}
-        </div>
-      </section>
-
       {/* CTA Section */}
-      <section className="py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20" />
+      <section id="waitlist-section" className="py-20">
         <div className="container mx-auto px-4 relative z-10 text-center">
           <h2 className="text-4xl md:text-6xl font-display mb-6 text-gradient">
-            Ready to Change Music?
+            Join the Waitlist
           </h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Join thousands of artists and fans building the future of music together
+            Be the first to know when CelestiFan launches. Join thousands of artists and fans building the future of music together.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+          <div className="flex flex-col gap-4 max-w-md mx-auto">
+            <input
+              type="text"
+              placeholder="Enter your name"
+              className="px-6 py-3 rounded-lg bg-background border border-border focus:border-primary outline-none"
+            />
             <input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 px-6 py-3 rounded-lg bg-background border border-border focus:border-primary outline-none"
+              className="px-6 py-3 rounded-lg bg-background border border-border focus:border-primary outline-none"
             />
-            <Button size="lg" className="bg-gradient-neon hover:opacity-90 text-white font-semibold">
-              Join Now
+            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold">
+              Join the Waitlist
             </Button>
           </div>
         </div>

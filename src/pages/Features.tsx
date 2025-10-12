@@ -91,8 +91,8 @@ const Features = () => {
               <div className="grid md:grid-cols-3 gap-8">
                 <div className="md:col-span-2">
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="w-14 h-14 rounded-xl bg-gradient-neon flex items-center justify-center flex-shrink-0">
-                      <feature.icon className="h-7 w-7 text-white" />
+                    <div className="w-14 h-14 rounded-xl bg-primary flex items-center justify-center flex-shrink-0">
+                      <feature.icon className="h-7 w-7 text-primary-foreground" />
                     </div>
                     <div>
                       <h3 className="text-2xl font-bold mb-2">{feature.title}</h3>
@@ -142,8 +142,8 @@ const Features = () => {
                 <div className="grid md:grid-cols-3 gap-8">
                   <div className="md:col-span-2">
                     <div className="flex items-start gap-4 mb-4">
-                      <div className="w-14 h-14 rounded-xl bg-gradient-neon flex items-center justify-center flex-shrink-0">
-                        <feature.icon className="h-7 w-7 text-white" />
+                      <div className="w-14 h-14 rounded-xl bg-primary flex items-center justify-center flex-shrink-0">
+                        <feature.icon className="h-7 w-7 text-primary-foreground" />
                       </div>
                       <div>
                         <h3 className="text-2xl font-bold mb-2">{feature.title}</h3>
@@ -176,7 +176,7 @@ const Features = () => {
                   <div
                     key={entry.rank}
                     className={`flex items-center justify-between p-4 rounded-lg ${
-                      entry.rank <= 3 ? "bg-gradient-neon/10 border border-primary/30" : "bg-muted"
+                      entry.rank <= 3 ? "bg-primary/10 border border-primary/30" : "bg-muted"
                     }`}
                   >
                     <div className="flex items-center gap-4">
@@ -218,7 +218,7 @@ const Features = () => {
 
         <div className="text-center mt-12">
           <p className="text-muted-foreground mb-6">Connect once, track everywhere</p>
-          <Button size="lg" className="bg-gradient-neon hover:opacity-90 text-white font-semibold">
+          <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
             Unlock All Features with Pro
           </Button>
         </div>

@@ -1,5 +1,6 @@
-import { Target, Heart, Zap, Users } from "lucide-react";
+import { Target, Heart, Zap, Users, Music } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 const About = () => {
   const team = [
@@ -88,8 +89,8 @@ const About = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((value) => (
               <Card key={value.title} className="p-8 bg-background border-border text-center hover:border-primary/50 transition-all">
-                <div className="w-16 h-16 rounded-full bg-gradient-neon flex items-center justify-center mx-auto mb-4">
-                  <value.icon className="h-8 w-8 text-white" />
+                <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center mx-auto mb-4">
+                  <value.icon className="h-8 w-8 text-primary-foreground" />
                 </div>
                 <h3 className="text-xl font-bold mb-3">{value.title}</h3>
                 <p className="text-muted-foreground">{value.description}</p>
@@ -112,7 +113,7 @@ const About = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {team.map((member) => (
             <Card key={member.name} className="p-8 bg-card border-border hover:border-primary/50 transition-all text-center">
-              <div className="w-24 h-24 rounded-full bg-gradient-neon mx-auto mb-4 flex items-center justify-center text-4xl font-bold text-white">
+              <div className="w-24 h-24 rounded-full bg-primary mx-auto mb-4 flex items-center justify-center text-4xl font-bold text-primary-foreground">
                 {member.name.charAt(0)}
               </div>
               <h3 className="text-2xl font-bold mb-2">{member.name}</h3>
@@ -169,30 +170,13 @@ const About = () => {
             believe in something bigger. The next wave of music power is in your
             hands.
           </p>
-          <button className="px-8 py-4 bg-gradient-neon text-white font-semibold rounded-lg hover:opacity-90 transition-opacity text-lg">
+          <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
             Get Started Today
-          </button>
+          </Button>
         </div>
       </section>
     </div>
   );
 };
-
-const Music = ({ className }: { className?: string }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-  >
-    <path d="M9 18V5l12-2v13" />
-    <circle cx="6" cy="18" r="3" />
-    <circle cx="18" cy="16" r="3" />
-  </svg>
-);
 
 export default About;
