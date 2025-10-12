@@ -55,11 +55,18 @@ const Home = () => {
       imageUrl: "https://i.pinimg.com/originals/a4/43/61/a4436153965f335b2b2d13149c4d9b62.png",
     },
   ];
+  
+  const handleWaitlistClick = () => {
+    const section = document.getElementById('waitlist-section');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 md:pt-0">
         <div className="absolute inset-0 bg-gradient-to-br from-background via-card to-background" />
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-20 left-20 w-72 h-72 bg-primary rounded-full blur-[100px] animate-float" />
@@ -76,11 +83,11 @@ const Home = () => {
             The ultimate platform where fans fuel music breakthroughs
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up" style={{ animationDelay: "0.2s" }}>
-            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-lg px-8">
+            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-lg px-8" onClick={handleWaitlistClick}>
               Start as an Artist
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8">
+            <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8" onClick={handleWaitlistClick}>
               Join as a Fan
             </Button>
           </div>
@@ -129,7 +136,7 @@ const Home = () => {
           <div className="space-y-20">
             {features.map((feature, index) => (
               <div key={feature.title} className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div className={`flex ${index % 2 === 0 ? 'lg:order-last justify-end' : 'lg:order-first justify-start'}`}>
+                <div className={`flex justify-center ${index % 2 === 0 ? 'lg:order-last lg:justify-end' : 'lg:order-first lg:justify-start'}`}>
                   <Mockup imageUrl={feature.imageUrl} />
                 </div>
                 <div>
