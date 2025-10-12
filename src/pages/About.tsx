@@ -1,0 +1,198 @@
+import { Target, Heart, Zap, Users } from "lucide-react";
+import { Card } from "@/components/ui/card";
+
+const About = () => {
+  const team = [
+    {
+      name: "Alex Rivera",
+      role: "CEO & Founder",
+      bio: "Music nerd turned tech disruptor. Built CelestiFan to bridge the gap between artists and their biggest supporters.",
+    },
+    {
+      name: "Sam Chen",
+      role: "Head of Product",
+      bio: "Former Spotify engineer passionate about gamifying music discovery and fan engagement.",
+    },
+    {
+      name: "Jordan Blake",
+      role: "Community Lead",
+      bio: "Ex-touring musician who knows firsthand how fans can make or break an artist's career.",
+    },
+  ];
+
+  const impactStories = [
+    {
+      title: "From Bedroom to Billboard",
+      artist: "Kai Morrison",
+      fan: "Jordan Blake",
+      story: "Jordan's relentless sharing and streaming helped Kai's single 'Neon Nights' gain 500K streams in two weeks, catching the attention of a major label. Today, Kai has a record deal and Jordan is recognized as a top supporter.",
+      image: "placeholder",
+    },
+    {
+      title: "Building a Movement",
+      artist: "Luna & The Waves",
+      fan: "Community",
+      story: "Through targeted campaigns, Luna mobilized 2,000 fans to stream their album on release day, pushing it to #3 on indie charts. The band now uses CelestiFan to reward their most dedicated listeners with exclusive content.",
+      image: "placeholder",
+    },
+  ];
+
+  const values = [
+    {
+      icon: Heart,
+      title: "Fan-First",
+      description: "Every feature is designed to celebrate and empower the fans who fuel music culture.",
+    },
+    {
+      icon: Target,
+      title: "Artist-Driven",
+      description: "We give artists the tools and insights to understand and connect with their audience.",
+    },
+    {
+      icon: Zap,
+      title: "Innovation",
+      description: "Constantly pushing boundaries to create new ways for music communities to thrive.",
+    },
+    {
+      icon: Users,
+      title: "Community",
+      description: "Building a supportive ecosystem where everyone wins—artists, fans, and music itself.",
+    },
+  ];
+
+  return (
+    <div className="min-h-screen pt-20">
+      {/* Hero */}
+      <section className="py-20 container mx-auto px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-5xl md:text-7xl font-display mb-6 text-gradient animate-slide-up">
+            Our Mission
+          </h1>
+          <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed">
+            We're rewriting music's future by putting fans at the heart of every
+            artist's rise. CelestiFan turns passion into power, streams into
+            careers, and supporters into legends. In a world where algorithms
+            decide success, we believe the real influence lies with the people who
+            truly care—the fans who discover, share, and champion music before
+            anyone else.
+          </p>
+        </div>
+      </section>
+
+      {/* Values */}
+      <section className="py-20 bg-card">
+        <div className="container mx-auto px-4">
+          <h2 className="text-4xl md:text-5xl font-display text-center mb-12 text-gradient">
+            What We Stand For
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {values.map((value) => (
+              <Card key={value.title} className="p-8 bg-background border-border text-center hover:border-primary/50 transition-all">
+                <div className="w-16 h-16 rounded-full bg-gradient-neon flex items-center justify-center mx-auto mb-4">
+                  <value.icon className="h-8 w-8 text-white" />
+                </div>
+                <h3 className="text-xl font-bold mb-3">{value.title}</h3>
+                <p className="text-muted-foreground">{value.description}</p>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Team */}
+      <section className="py-20 container mx-auto px-4">
+        <h2 className="text-4xl md:text-5xl font-display text-center mb-6 text-gradient">
+          Who We Are
+        </h2>
+        <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+          We're a team of music lovers, tech builders, and community creators
+          backed by industry innovators who believe in democratizing music success.
+        </p>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          {team.map((member) => (
+            <Card key={member.name} className="p-8 bg-card border-border hover:border-primary/50 transition-all text-center">
+              <div className="w-24 h-24 rounded-full bg-gradient-neon mx-auto mb-4 flex items-center justify-center text-4xl font-bold text-white">
+                {member.name.charAt(0)}
+              </div>
+              <h3 className="text-2xl font-bold mb-2">{member.name}</h3>
+              <p className="text-primary font-semibold mb-3">{member.role}</p>
+              <p className="text-muted-foreground">{member.bio}</p>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* Impact Stories */}
+      <section className="py-20 bg-card">
+        <div className="container mx-auto px-4">
+          <h2 className="text-4xl md:text-5xl font-display text-center mb-12 text-gradient">
+            Impact Stories
+          </h2>
+          
+          <div className="space-y-12 max-w-5xl mx-auto">
+            {impactStories.map((story, index) => (
+              <Card key={index} className="overflow-hidden bg-background border-border hover:border-primary/50 transition-all">
+                <div className="grid md:grid-cols-2 gap-8 p-8">
+                  <div>
+                    <h3 className="text-3xl font-display mb-2 text-gradient">
+                      {story.title}
+                    </h3>
+                    <p className="text-primary font-semibold mb-4">
+                      Artist: {story.artist} • Fan: {story.fan}
+                    </p>
+                    <p className="text-muted-foreground leading-relaxed">
+                      {story.story}
+                    </p>
+                  </div>
+                  <div className="bg-muted rounded-lg flex items-center justify-center min-h-[200px]">
+                    <div className="text-center text-muted-foreground">
+                      <Music className="h-16 w-16 mx-auto mb-2 opacity-50" />
+                      <p className="text-sm">Image: {story.artist} on stage</p>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Join Movement */}
+      <section className="py-20 container mx-auto px-4">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-4xl md:text-6xl font-display mb-6 text-gradient">
+            Join the Movement
+          </h2>
+          <p className="text-xl text-muted-foreground mb-8">
+            We're building CelestiFan with artists, fans, and innovators who
+            believe in something bigger. The next wave of music power is in your
+            hands.
+          </p>
+          <button className="px-8 py-4 bg-gradient-neon text-white font-semibold rounded-lg hover:opacity-90 transition-opacity text-lg">
+            Get Started Today
+          </button>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+const Music = ({ className }: { className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M9 18V5l12-2v13" />
+    <circle cx="6" cy="18" r="3" />
+    <circle cx="18" cy="16" r="3" />
+  </svg>
+);
+
+export default About;
