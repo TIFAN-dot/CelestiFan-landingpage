@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Music2 } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
@@ -33,12 +33,12 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
             <div className="relative">
-              <Music2 className="h-8 w-8 text-primary group-hover:animate-float" />
+              <img src="/logo.webp" alt="CelestiFan Logo" className="h-32 w-32 text-primary group-hover:animate-float" />
               <div className="absolute inset-0 bg-primary/20 blur-xl group-hover:animate-glow" />
             </div>
-            <span className="text-2xl font-display tracking-wider text-gradient">
+            {/* <span className="text-2xl font-display tracking-wider text-gradient">
               CelestiFan
-            </span>
+            </span> */}
           </Link>
 
           {/* Desktop Navigation */}

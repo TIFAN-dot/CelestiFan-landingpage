@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Music2, Twitter, Instagram, Facebook, Youtube } from "lucide-react";
+import { Twitter, Instagram, Facebook, Youtube } from "lucide-react";
 
 const Footer = () => {
   const footerLinks = [
@@ -46,10 +46,10 @@ const Footer = () => {
           {/* Brand */}
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-4 group">
-              <Music2 className="h-8 w-8 text-primary group-hover:animate-float" />
-              <span className="text-2xl font-display tracking-wider text-gradient">
+              <img src="/logo.webp" alt="CelestiFan Logo" className="h-32 w-32 text-primary group-hover:animate-float" />
+              {/* <span className="text-2xl font-display tracking-wider text-gradient">
                 CelestiFan
-              </span>
+              </span> */}
             </Link>
             <p className="text-muted-foreground mb-6 max-w-sm">
               Empowering artists and elevating fans. Join the music revolution
