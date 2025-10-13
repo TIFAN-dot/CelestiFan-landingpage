@@ -3,8 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Mockup from "@/components/ui/mockup";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 const Home = () => {
+  const [formData, setFormData] = useState({ name: '', email: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' });
+
   const stats = [
     { label: "Active Fans", value: "50K+", icon: Users },
     { label: "Artists", value: "1.2K+", icon: Music },
@@ -56,7 +61,14 @@ const Home = () => {
       imageUrl: "/mockups/contact.png",
     },
   ];
-  
+
+  // const handleWaitlistClick = () => {
+  //   const section = document.getElementById('waitlist-section');
+  //   if (section) {
+  //     section.scrollIntoView({ behavior: 'smooth' });
+  //   }
+  // };
+
   const handleWaitlistClick = () => {
     const section = document.getElementById('waitlist-section');
     if (section) {
@@ -64,22 +76,83 @@ const Home = () => {
     }
   };
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Validate inputs
+    if (!formData.name.trim() || !formData.email.trim()) {
+      setSubmitStatus({ type: 'error', message: 'Please fill in all fields' });
+      return;
+    }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setSubmitStatus({ type: 'error', message: 'Please enter a valid email address' });
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus({ type: '', message: '' });
+
+    try {
+      // Replace this URL with your Google Apps Script Web App URL
+      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzHtjBUTZrE0ML9SV0XvyOzAYFIOF3YXyXX3v0fJizvK0IgikyqF2dGrRUbw1nFNSyB/exec';
+
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors', // Important for Google Apps Script
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+
+      // Since we're using no-cors mode, we won't get a readable response
+      // We'll assume success if no error was thrown
+      setSubmitStatus({
+        type: 'success',
+        message: 'Successfully joined the waitlist! Check your email for updates.'
+      });
+      setFormData({ name: '', email: '' });
+
+    } catch (error) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'Something went wrong. Please try again.'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+
   return (
-    <motion.div 
+    <motion.div
       className="min-h-screen"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
       {/* Hero Section */}
-      <motion.section 
+      <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
         className="min-h-screen flex items-center justify-center text-center overflow-hidden pt-20 md:pt-0"
       >
+        <div className="absolute inset-0 opacity-20">
+
+          <div className="absolute top-20 left-20 w-72 h-72 bg-primary rounded-full blur-[100px] animate-float" />
+          <div className="absolute bottom-20 right-20 w-96 h-96 bg-secondary rounded-full blur-[120px] animate-float" style={{ animationDelay: "1s" }} />
+        </div>
         <div className="container mx-auto px-4 relative z-10">
-          <motion.h1 
+          <motion.h1
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -87,7 +160,7 @@ const Home = () => {
           >
             Amplify Artists.<br />Ignite Fandom.
           </motion.h1>
-          <motion.p 
+          <motion.p
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
@@ -95,7 +168,7 @@ const Home = () => {
           >
             The ultimate platform where fans fuel music breakthroughs
           </motion.p>
-          <motion.div 
+          <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.6 }}
@@ -110,7 +183,7 @@ const Home = () => {
             </Button>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.8 }}
@@ -128,7 +201,7 @@ const Home = () => {
       </motion.section>
 
       {/* How It Works */}
-      <motion.section 
+      <motion.section
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -141,7 +214,7 @@ const Home = () => {
         <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
           Three simple steps to revolutionize your music journey
         </p>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {howItWorks.map((item, index) => (
             <motion.div
@@ -164,7 +237,7 @@ const Home = () => {
       </motion.section>
 
       {/* Why CelestiFan Section */}
-      <motion.section 
+      <motion.section
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -180,8 +253,8 @@ const Home = () => {
           </p>
           <div className="space-y-20">
             {features.map((feature, index) => (
-              <motion.div 
-                key={feature.title} 
+              <motion.div
+                key={feature.title}
                 className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
                 initial={{ opacity: 0, x: index % 2 === 0 ? 50 : -50 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -208,7 +281,7 @@ const Home = () => {
       </motion.section>
 
       {/* CTA Section */}
-      <motion.section 
+      <motion.section
         id="waitlist-section"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -223,8 +296,9 @@ const Home = () => {
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
             Be the first to know when CelestiFan launches. Join thousands of artists and fans building the future of music together.
           </p>
-          <motion.div 
+          <motion.form
             initial={{ opacity: 0, y: 20 }}
+            onSubmit={handleSubmit}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
@@ -232,18 +306,34 @@ const Home = () => {
           >
             <input
               type="text"
+              value={formData.name}
+              onChange={handleInputChange}
+              name="name"
+              disabled={isSubmitting}
               placeholder="Enter your name"
               className="px-6 py-3 rounded-lg bg-background border border-border focus:border-primary outline-none"
             />
             <input
               type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
               placeholder="Enter your email"
+              disabled={isSubmitting}
               className="px-6 py-3 rounded-lg bg-background border border-border focus:border-primary outline-none"
             />
-            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold">
-              Join the Waitlist
+            <Button disabled={isSubmitting} size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold">
+              {isSubmitting ? 'Joining...' : 'Join the Waitlist'}
             </Button>
-          </motion.div>
+            {submitStatus.message && (
+              <div className={`p-4 rounded-lg ${submitStatus.type === 'success'
+                ? 'bg-green-100 text-green-800 border border-green-200'
+                : 'bg-red-100 text-red-800 border border-red-200'
+                }`}>
+                {submitStatus.message}
+              </div>
+            )}
+          </motion.form>
         </div>
       </motion.section>
     </motion.div>
