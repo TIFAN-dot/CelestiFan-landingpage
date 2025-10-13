@@ -158,7 +158,12 @@ const Home = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-5xl md:text-7xl lg:text-8xl mb-6"
           >
-            Amplify Artists.<br />Ignite Fandom.
+            {/* Amplify Artists.<br />Ignite Fandom. */}
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-display mb-6 animate-slide-up">
+              <span className="text-gradient">Amplify Artists.</span>
+              <br />
+              <span className="text-gradient">Ignite Fandom.</span>
+            </h1>
           </motion.h1>
           <motion.p
             initial={{ y: 20, opacity: 0 }}
@@ -208,7 +213,7 @@ const Home = () => {
         viewport={{ once: true }}
         className="py-20 container mx-auto px-4"
       >
-        <h2 className="text-5xl md:text-5xl text-center mb-4">
+        <h2 className="text-4xl md:text-5xl font-display text-center mb-4 text-gradient">
           How It Works
         </h2>
         <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
@@ -245,7 +250,7 @@ const Home = () => {
         className="py-20 bg-card"
       >
         <div className="container mx-auto px-4">
-          <h2 className="text-5xl md:text-5xl text-center mb-4">
+          <h2 className="text-4xl md:text-5xl font-display mb-6 text-gradient mx-auto text-center">
             Why CelestiFan?
           </h2>
           <p className="text-center text-muted-foreground mb-12 max-w-3xl mx-auto">
