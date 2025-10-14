@@ -5,20 +5,20 @@ import { Button } from "@/components/ui/button";
 const About = () => {
   const team = [
     {
-      name: "Alex Rivera",
+      name: "Tometti Koffi Romeo",
       role: "CEO & Founder",
       bio: "Music nerd turned tech disruptor. Built CelestiFan to bridge the gap between artists and their biggest supporters.",
     },
-    {
-      name: "Sam Chen",
-      role: "Head of Product",
-      bio: "Former Spotify engineer passionate about gamifying music discovery and fan engagement.",
-    },
-    {
-      name: "Jordan Blake",
-      role: "Community Lead",
-      bio: "Ex-touring musician who knows firsthand how fans can make or break an artist's career.",
-    },
+    // {
+    //   name: "Sam Chen",
+    //   role: "Head of Product",
+    //   bio: "Former Spotify engineer passionate about gamifying music discovery and fan engagement.",
+    // },
+    // {
+    //   name: "Jordan Blake",
+    //   role: "Community Lead",
+    //   bio: "Ex-touring musician who knows firsthand how fans can make or break an artist's career.",
+    // },
   ];
 
   const impactStories = [

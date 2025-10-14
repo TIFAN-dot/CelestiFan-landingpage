@@ -33,10 +33,10 @@ const Footer = () => {
   ];
 
   const socialLinks = [
-    { icon: Twitter, href: "#", label: "Twitter" },
-    { icon: Instagram, href: "#", label: "Instagram" },
-    { icon: Facebook, href: "#", label: "Facebook" },
-    { icon: Youtube, href: "#", label: "YouTube" },
+    { icon: Twitter, href: "https://x.com/celestifan_off?s=21", label: "Twitter" },
+    { icon: Instagram, href: "https://www.instagram.com/celestifan_official?igsh=dWQ3b205ZDJ6bWNl&utm_source=qr", label: "Instagram" },
+    // { icon: Facebook, href: "#", label: "Facebook" },
+    // { icon: Youtube, href: "#", label: "YouTube" },
   ];
 
   return (

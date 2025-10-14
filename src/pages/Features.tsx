@@ -117,13 +117,13 @@ const Features = () => {
         </div>
 
         {/* Dashboard Mockup */}
-        <Card className="mt-12 p-8 bg-muted/30 border-border">
+        {/* <Card className="mt-12 p-8 bg-muted/30 border-border">
           <div className="text-center mb-4">
             <BarChart3 className="h-16 w-16 mx-auto mb-2 text-primary opacity-50" />
             <p className="text-muted-foreground">Artist Dashboard Mockup</p>
             <p className="text-sm text-muted-foreground">View fan insights, campaign performance, and more</p>
           </div>
-        </Card>
+        </Card> */}
       </section>
 
       {/* For Fans */}
