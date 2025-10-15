@@ -5,20 +5,20 @@ import { Button } from "@/components/ui/button";
 const About = () => {
   const team = [
     {
-      name: "Tometti Koffi Romeo",
+      name: "Tometi Koffi Romeo",
       role: "CEO & Founder",
       bio: "Music nerd turned tech disruptor. Built CelestiFan to bridge the gap between artists and their biggest supporters.",
     },
-    // {
-    //   name: "Sam Chen",
-    //   role: "Head of Product",
-    //   bio: "Former Spotify engineer passionate about gamifying music discovery and fan engagement.",
-    // },
-    // {
-    //   name: "Jordan Blake",
-    //   role: "Community Lead",
-    //   bio: "Ex-touring musician who knows firsthand how fans can make or break an artist's career.",
-    // },
+    {
+      name: "Mustapha Sakyi",
+      role: "Technical Lead",
+      bio: "Architecting the robust infrastructure that powers real-time fan engagement.",
+    },
+    {
+      name: "Mubarak Abdulrafiu",
+      role: "Head of Product & Design",
+      bio: "Leading our product vision and user experience, crafting the CelestiFan platform.",
+    },
   ];
 
   const impactStories = [
@@ -109,7 +109,7 @@ const About = () => {
           We're a team of music lovers, tech builders, and community creators
           backed by industry innovators who believe in democratizing music success.
         </p>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {team.map((member) => (
             <Card key={member.name} className="p-8 bg-card border-border hover:border-primary/50 transition-all text-center">
@@ -130,7 +130,7 @@ const About = () => {
           <h2 className="text-4xl md:text-5xl font-display text-center mb-12 text-gradient">
             Impact Stories
           </h2>
-          
+
           <div className="space-y-12 max-w-5xl mx-auto">
             {impactStories.map((story, index) => (
               <Card key={index} className="overflow-hidden bg-background border-border hover:border-primary/50 transition-all">
