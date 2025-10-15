@@ -144,7 +144,7 @@ const Home = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="min-h-screen flex items-center justify-center text-center overflow-hidden pt-20 md:pt-0"
+        className="min-h-screen flex items-center justify-center text-center overflow-hidden"
       >
         <div className="absolute inset-0 opacity-20">
 

@@ -22,15 +22,17 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/features" element={<Features />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/connect" element={<Connect />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <main className="pt-16">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/features" element={<Features />} />
+            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/connect" element={<Connect />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
         <Footer />
       </BrowserRouter>
     </TooltipProvider>
