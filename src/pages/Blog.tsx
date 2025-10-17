@@ -14,7 +14,7 @@ const Blog = () => {
     },
     {
       title: "The Ultimate Fan Guide: Ranking Up Fast",
-      excerpt: "Want to become a top-ranked fan for your favorite artist? This comprehensive guide covers every point-earning action, leaderboard strategy, and proof submission tip you need to climb to #1.",
+      excerpt: "Want to become a top-ranked fan for your favorite artist? This comprehensive guide covers every celeste-earning action, leaderboard strategy, and proof submission tip you need to climb to #1.",
       date: "March 10, 2025",
       readTime: "7 min read",
       category: "Fan Strategy",
@@ -45,12 +45,12 @@ const Blog = () => {
       image: "campaign-ideas",
     },
     {
-      title: "Understanding CelestiFan's Point System",
-      excerpt: "Not all fan actions are created equal. Breaking down how streams, shares, screenshots, and engagement are weighted in our ranking algorithm—plus pro tips to maximize your points.",
+      title: "Understanding CelestiFan's Celeste System",
+      excerpt: "Not all fan actions are created equal. Breaking down how streams, shares, screenshots, and engagement are weighted in our ranking algorithm—plus pro tips to maximize your celeste.",
       date: "February 15, 2025",
       readTime: "4 min read",
       category: "Platform Guide",
-      image: "points-system",
+      image: "celeste-system",
     },
   ];
 
