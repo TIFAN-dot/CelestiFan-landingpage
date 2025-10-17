@@ -40,7 +40,7 @@ const Home = () => {
       icon: Zap,
       title: "Launch Campaigns",
       description: "As an artist, you're in control. Design and launch dynamic campaigns that mobilize your fanbase. Create exciting challenges, set streaming goals, and offer unique rewards to build unstoppable momentum for your new releases. Watch in real-time as your fans rally to support your music, driving streams and expanding your reach organically. It's your vision, your music, your movement.",
-      imageUrl: "/mockups/campaign.png",
+      imageUrl: "/mockups/celeste.png",
     },
     {
       icon: Trophy,
