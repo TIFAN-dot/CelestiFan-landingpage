@@ -124,7 +124,7 @@ const Connect = () => {
       </section>
 
       {/* Rich Media Section */}
-      <section className="py-20 bg-card">
+      {/* <section className="py-20 bg-card">
         <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div>
             <Card className="p-8 bg-background border-border">
@@ -165,7 +165,7 @@ const Connect = () => {
             </Card>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 };

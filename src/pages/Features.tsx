@@ -28,14 +28,14 @@ const Features = () => {
     {
       icon: Trophy,
       title: "Rank Up System",
-      description: "Every stream, share, and shoutout earns you points. Climb the leaderboard to become a top fan and unlock exclusive perks.",
-      benefits: ["Points for all actions", "Weekly/monthly rankings", "Level progression", "Special badges"],
+      description: "Every stream, share, and shoutout earns you celeste. Climb the leaderboard to become a top fan and unlock exclusive perks.",
+      benefits: ["Celeste for all actions", "Weekly/monthly rankings", "Level progression", "Special badges"],
     },
     {
       icon: Upload,
       title: "Proof Submission",
       description: "Upload screenshots of your streams, shares, and support to verify your fandom. Turn receipts into rewards and recognition.",
-      benefits: ["Screenshot verification", "Multiple platform support", "Instant point awards", "Activity history"],
+      benefits: ["Screenshot verification", "Multiple platform support", "Instant celeste awards", "Activity history"],
     },
     {
       icon: Crown,
@@ -55,11 +55,11 @@ const Features = () => {
   ];
 
   const sampleLeaderboard = [
-    { rank: 1, name: "Jordan Blake", points: 15420, badge: "🥇" },
-    { rank: 2, name: "Taylor Swift", points: 14890, badge: "🥈" },
-    { rank: 3, name: "Alex Rivera", points: 13760, badge: "🥉" },
-    { rank: 4, name: "Sam Chen", points: 12350, badge: "⭐" },
-    { rank: 5, name: "Casey Mills", points: 11920, badge: "⭐" },
+    { rank: 1, name: "Jordan Blake", celeste: 15420, badge: "🥇" },
+    { rank: 2, name: "Taylor Swift", celeste: 14890, badge: "🥈" },
+    { rank: 3, name: "Alex Rivera", celeste: 13760, badge: "🥉" },
+    { rank: 4, name: "Sam Chen", celeste: 12350, badge: "⭐" },
+    { rank: 5, name: "Casey Mills", celeste: 11920, badge: "⭐" },
   ];
 
   return (
@@ -187,8 +187,8 @@ const Features = () => {
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="font-bold text-lg text-primary">{entry.points.toLocaleString()}</div>
-                      <div className="text-sm text-muted-foreground">points</div>
+                      <div className="font-bold text-lg text-primary">{entry.celeste.toLocaleString()}</div>
+                      <div className="text-sm text-muted-foreground">celeste</div>
                     </div>
                   </div>
                 ))}

@@ -26,7 +26,7 @@ const Home = () => {
     {
       icon: Trophy,
       title: "Climb Leaderboards",
-      description: "Earn points for streams, shares, and engagement activities",
+      description: "Earn celeste for streams, shares, and engagement activities",
     },
     {
       icon: Music,
@@ -45,7 +45,7 @@ const Home = () => {
     {
       icon: Trophy,
       title: "Prove Your Fandom",
-      description: "Your support is more than just a number. With CelestiFan, you can prove your dedication by uploading screenshots of your streams, shares, and purchases. This tangible proof of your fandom earns you points, unlocks exclusive content, and gets you noticed by your favorite artists. It's a direct way to show your impact and be rewarded for your loyalty in a way that truly matters.",
+      description: "Your support is more than just a number. With CelestiFan, you can prove your dedication by uploading screenshots of your streams, shares, and purchases. This tangible proof of your fandom earns you celeste, unlocks exclusive content, and gets you noticed by your favorite artists. It's a direct way to show your impact and be rewarded for your loyalty in a way that truly matters.",
       imageUrl: "/mockups/proof.png",
     },
     {
