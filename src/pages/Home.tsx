@@ -1,14 +1,21 @@
-import { ArrowRight, TrendingUp, Trophy, Music, Zap, Users, BarChart3, MessageCircle } from "lucide-react";
+import { ArrowRight, TrendingUp, Trophy, Music, Zap, Users, BarChart3, MessageCircle, PartyPopper } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import Mockup from "@/components/ui/mockup";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const Home = () => {
   const [formData, setFormData] = useState({ name: '', email: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' });
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
   const stats = [
     { label: "Active Fans", value: "50K+", icon: Users },
@@ -40,7 +47,7 @@ const Home = () => {
       icon: Zap,
       title: "Launch Campaigns",
       description: "As an artist, you're in control. Design and launch dynamic campaigns that mobilize your fanbase. Create exciting challenges, set streaming goals, and offer unique rewards to build unstoppable momentum for your new releases. Watch in real-time as your fans rally to support your music, driving streams and expanding your reach organically. It's your vision, your music, your movement.",
-      imageUrl: "/mockups/celeste.png",
+      imageUrl: "/mockups/campaign.png",
     },
     {
       icon: Trophy,
@@ -62,13 +69,6 @@ const Home = () => {
     },
   ];
 
-  // const handleWaitlistClick = () => {
-  //   const section = document.getElementById('waitlist-section');
-  //   if (section) {
-  //     section.scrollIntoView({ behavior: 'smooth' });
-  //   }
-  // };
-
   const handleWaitlistClick = () => {
     const section = document.getElementById('waitlist-section');
     if (section) {
@@ -84,13 +84,11 @@ const Home = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate inputs
     if (!formData.name.trim() || !formData.email.trim()) {
       setSubmitStatus({ type: 'error', message: 'Please fill in all fields' });
       return;
     }
 
-    // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       setSubmitStatus({ type: 'error', message: 'Please enter a valid email address' });
@@ -101,24 +99,18 @@ const Home = () => {
     setSubmitStatus({ type: '', message: '' });
 
     try {
-      // Replace this URL with your Google Apps Script Web App URL
       const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzHtjBUTZrE0ML9SV0XvyOzAYFIOF3YXyXX3v0fJizvK0IgikyqF2dGrRUbw1nFNSyB/exec';
 
-      const response = await fetch(SCRIPT_URL, {
+      await fetch(SCRIPT_URL, {
         method: 'POST',
-        mode: 'no-cors', // Important for Google Apps Script
+        mode: 'no-cors',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData)
       });
 
-      // Since we're using no-cors mode, we won't get a readable response
-      // We'll assume success if no error was thrown
-      setSubmitStatus({
-        type: 'success',
-        message: 'Successfully joined the waitlist! Check your email for updates.'
-      });
+      setIsSuccessModalOpen(true);
       setFormData({ name: '', email: '' });
 
     } catch (error) {
@@ -131,7 +123,6 @@ const Home = () => {
     }
   };
 
-
   return (
     <motion.div
       className="min-h-screen"
@@ -139,6 +130,29 @@ const Home = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
+      <Dialog open={isSuccessModalOpen} onOpenChange={setIsSuccessModalOpen}>
+        <DialogContent className="sm:max-w-md bg-background border-primary shadow-2xl shadow-primary/20">
+          <DialogHeader className="text-center items-center pt-8">
+            <PartyPopper className="h-16 w-16 text-primary animate-bounce" />
+            <DialogTitle className="text-3xl font-display mt-4 text-gradient">Welcome to the Movement!</DialogTitle>
+            <DialogDescription asChild>
+              <div className="text-lg text-muted-foreground mt-4 space-y-4">
+                <p>Welcome to CelestiFan, where every moment of support matters.</p>
+                <p>You’ve officially joined the movement that connects artists and fans through real actions, creativity, and rewards.</p>
+                <div className="!mt-6">
+                    <p className="font-bold text-gradient">Your journey starts now</p>
+                    <p>Earn Celeste. Empower artists. Elevate fandom.</p>
+                </div>
+              </div>
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-center py-4">
+            <Button onClick={() => setIsSuccessModalOpen(false)} className="bg-primary text-primary-foreground hover:bg-primary/90">
+              Awesome!
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
       {/* Hero Section */}
       <motion.section
         initial={{ opacity: 0 }}
@@ -158,7 +172,6 @@ const Home = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-5xl md:text-7xl lg:text-8xl mb-6"
           >
-            {/* Amplify Artists.<br />Ignite Fandom. */}
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-display mb-6 animate-slide-up">
               <span className="text-gradient">Amplify Artists.</span>
               <br />
@@ -194,7 +207,7 @@ const Home = () => {
             transition={{ duration: 0.5, delay: 0.8 }}
             className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 max-w-4xl mx-auto"
           >
-            {stats.map((stat, index) => (
+            {stats.map((stat) => (
               <div key={stat.label}>
                 <stat.icon className="h-8 w-8 text-primary mx-auto mb-2" />
                 <div className="text-xl md:text-4xl font-bold text-gradient mb-1">{stat.value}</div>
@@ -267,7 +280,6 @@ const Home = () => {
                 viewport={{ once: true }}
               >
                 <div className={`flex justify-center ${index % 2 === 0 ? 'lg:order-last lg:justify-end' : 'lg:order-first lg:justify-start'}`}>
-                  {/* <Mockup imageUrl={feature.imageUrl} /> */}
                   <img src={feature.imageUrl} alt={feature.title} />
                 </div>
                 <div className={`${index % 2 === 0 ? 'lg:order-first' : 'lg:order-last'}`}>
@@ -330,11 +342,8 @@ const Home = () => {
             <Button disabled={isSubmitting} size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold">
               {isSubmitting ? 'Joining...' : 'Join the Waitlist'}
             </Button>
-            {submitStatus.message && (
-              <div className={`p-4 rounded-lg ${submitStatus.type === 'success'
-                ? 'bg-green-100 text-green-800 border border-green-200'
-                : 'bg-red-100 text-red-800 border border-red-200'
-                }`}>
+            {submitStatus.type === 'error' && submitStatus.message && (
+              <div className="p-4 mt-4 rounded-lg bg-red-100 text-red-800 border border-red-200">
                 {submitStatus.message}
               </div>
             )}
