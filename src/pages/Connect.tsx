@@ -4,9 +4,24 @@ import { Card } from "@/components/ui/card";
 
 const Connect = () => {
   const socialLinks = [
-    { icon: Twitter, label: "Twitter", handle: "@celestifan", url: "#" },
-    { icon: Instagram, label: "Instagram", handle: "@celestifan", url: "#" },
-    { icon: Facebook, label: "Facebook", handle: "/celestifan", url: "#" },
+    { 
+      icon: Twitter, 
+      label: "Twitter", 
+      handle: "@celestifan_off", 
+      url: "https://x.com/celestifan_off" 
+    },
+    { 
+      icon: Instagram, 
+      label: "Instagram", 
+      handle: "@celestifan_official", 
+      url: "https://www.instagram.com/celestifan_official" 
+    },
+    { 
+      icon: Facebook, 
+      label: "Facebook", 
+      handle: "/celestifan", 
+      url: "https://www.facebook.com/celestifan" 
+    },
   ];
 
   const contactCards = [
@@ -58,15 +73,24 @@ const Connect = () => {
           Follow Our Journey
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-          {socialLinks.map((link) => (
-            <a href={link.url} target="_blank" rel="noopener noreferrer" key={link.label}>
-              <Card className="p-6 bg-card border-border hover:border-primary/50 transition-all text-center hover:scale-105">
-                <link.icon className="h-12 w-12 text-primary mx-auto mb-4" />
-                <h3 className="text-xl font-bold">{link.label}</h3>
-                <p className="text-muted-foreground">{link.handle}</p>
-              </Card>
-            </a>
-          ))}
+          {socialLinks.map((link) => {
+            const IconComponent = link.icon;
+            return (
+              <a 
+                href={link.url} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                key={link.label}
+                className="block"
+              >
+                <Card className="p-6 bg-card border-border hover:border-primary/50 transition-all text-center hover:scale-105 cursor-pointer h-full">
+                  <IconComponent className="h-12 w-12 text-primary mx-auto mb-4" />
+                  <h3 className="text-xl font-bold">{link.label}</h3>
+                  <p className="text-muted-foreground">{link.handle}</p>
+                </Card>
+              </a>
+            );
+          })}
         </div>
       </section>
 
@@ -80,9 +104,11 @@ const Connect = () => {
               <p className="text-muted-foreground mb-4">
                 Join our Discord for fan discussions, artist Q&As, and platform updates
               </p>
-              <Button variant="outline" className="border-primary text-primary hover:bg-primary/10">
-                Join Discord
-              </Button>
+              <a href="https://discord.com" target="_blank" rel="noopener noreferrer">
+                <Button variant="outline" className="border-primary text-primary hover:bg-primary/10">
+                  Join Discord
+                </Button>
+              </a>
             </Card>
           </div>
           <div>
@@ -92,9 +118,11 @@ const Connect = () => {
               <p className="text-muted-foreground mb-4">
                 Read about the latest trends in music, fan engagement, and platform news
               </p>
-              <Button variant="outline" className="border-primary text-primary hover:bg-primary/10">
-                Read Now
-              </Button>
+              <a href="/blog" target="_blank" rel="noopener noreferrer">
+                <Button variant="outline" className="border-primary text-primary hover:bg-primary/10">
+                  Read Now
+                </Button>
+              </a>
             </Card>
           </div>
         </div>
@@ -106,66 +134,25 @@ const Connect = () => {
           Get in Touch
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {contactCards.map((card) => (
-            <Card key={card.title} className="p-8 bg-card border-border text-center">
-              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                <card.icon className="h-8 w-8 text-primary-foreground" />
-              </div>
-              <h3 className="text-2xl font-bold mb-3">{card.title}</h3>
-              <p className="text-muted-foreground mb-6">{card.description}</p>
-              <a href={`mailto:${card.email}`}>
-                <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
-                  {card.buttonText}
-                </Button>
-              </a>
-            </Card>
-          ))}
+          {contactCards.map((card) => {
+            const IconComponent = card.icon;
+            return (
+              <Card key={card.title} className="p-8 bg-card border-border text-center">
+                <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
+                  <IconComponent className="h-8 w-8 text-primary-foreground" />
+                </div>
+                <h3 className="text-2xl font-bold mb-3">{card.title}</h3>
+                <p className="text-muted-foreground mb-6">{card.description}</p>
+                <a href={`mailto:${card.email}`}>
+                  <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+                    {card.buttonText}
+                  </Button>
+                </a>
+              </Card>
+            );
+          })}
         </div>
       </section>
-
-      {/* Rich Media Section */}
-      {/* <section className="py-20 bg-card">
-        <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <div>
-            <Card className="p-8 bg-background border-border">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-2xl">
-                  <Youtube className="h-6 w-6 text-primary-foreground" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold">YouTube Features</h3>
-                  <p className="text-sm text-muted-foreground">/celestifan</p>
-                </div>
-              </div>
-              <div className="bg-muted rounded-lg p-6 min-h-[200px] flex items-center justify-center">
-                <p className="text-muted-foreground text-center">
-                  Video content placeholder<br />
-                  Watch artist interviews and platform tutorials
-                </p>
-              </div>
-            </Card>
-          </div>
-          <div>
-            <Card className="p-8 bg-background border-border">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-2xl">
-                  <Disc className="h-6 w-6 text-primary-foreground" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold">Featured Playlists</h3>
-                  <p className="text-sm text-muted-foreground">on Spotify & Apple Music</p>
-                </div>
-              </div>
-              <div className="bg-muted rounded-lg p-6 min-h-[200px] flex items-center justify-center">
-                <p className="text-muted-foreground text-center">
-                  Playlist embed placeholder<br />
-                  Discover new music from CelestiFan artists
-                </p>
-              </div>
-            </Card>
-          </div>
-        </div>
-      </section> */}
     </div>
   );
 };

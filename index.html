@@ -1,31 +1,102 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-   
     <meta charset="UTF-8" />
     <link rel="icon" type="image/webp" href="/favicon.ico.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Primary Meta Tags -->
     <title>CelestiFan - Amplify Artists. Ignite Fandom.</title>
+    <meta name="title" content="CelestiFan - Amplify Artists. Ignite Fandom." />
     <meta name="description" content="Join the ultimate music platform for fan rankings and artist campaigns. Turn streams, shares, and support into career-changing momentum." />
-    <meta name="keywords" content="music fan rankings, artist engagement platform, fan campaigns music, music streaming gamification" />
+    <meta name="keywords" content="music fan rankings, artist engagement platform, fan campaigns music, music streaming gamification, celestifan" />
     <meta name="author" content="CelestiFan" />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Theme Color (for mobile browsers) -->
+    <meta name="theme-color" content="#6366f1" />
+    <meta name="msapplication-TileColor" content="#6366f1" />
 
+    <!-- Open Graph Meta Tags (Facebook, LinkedIn) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://celestifan.com/" />
+    <meta property="og:site_name" content="CelestiFan" />
     <meta property="og:title" content="CelestiFan - Amplify Artists. Ignite Fandom." />
     <meta property="og:description" content="The ultimate platform where fans fuel music breakthroughs through rankings, campaigns, and direct artist engagement." />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="/logo.webp" />
+    <meta property="og:image" content="https://celestifan.com/logo.webp" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="CelestiFan Logo" />
+    <meta property="og:locale" content="en_US" />
 
+    <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@celestifan" />
-    <meta name="twitter:image" content="/logo.webp" />
+    <meta name="twitter:site" content="@celestifan_off" />
+    <meta name="twitter:creator" content="@celestifan_off" />
+    <meta name="twitter:title" content="CelestiFan - Amplify Artists. Ignite Fandom." />
+    <meta name="twitter:description" content="The ultimate platform where fans fuel music breakthroughs through rankings, campaigns, and direct artist engagement." />
+    <meta name="twitter:image" content="https://celestifan.com/logo.webp" />
+    <meta name="twitter:image:alt" content="CelestiFan Logo" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://celestifan.com/" />
     
+    <!-- Alternative Language (if you plan to add other languages) -->
+    <!-- <link rel="alternate" hreflang="en" href="https://celestifan.com/" /> -->
+    
+    <!-- Preconnect for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    
+    <!-- Google Fonts with display=swap for performance -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet" />
+    
+    <!-- Structured Data (JSON-LD) for Rich Snippets -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "CelestiFan",
+      "url": "https://celestifan.com",
+      "description": "The ultimate music platform for fan rankings and artist campaigns",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://celestifan.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      },
+      "sameAs": [
+        "https://x.com/celestifan_off",
+        "https://www.instagram.com/celestifan_official",
+        "https://www.facebook.com/celestifan"
+      ]
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "CelestiFan",
+      "url": "https://celestifan.com",
+      "logo": "https://celestifan.com/logo.webp",
+      "description": "Music platform connecting artists and fans through rankings and campaigns",
+      "sameAs": [
+        "https://x.com/celestifan_off",
+        "https://www.instagram.com/celestifan_official",
+        "https://www.facebook.com/celestifan"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "hello@celestifan.com",
+        "contactType": "Customer Service"
+      }
+    }
+    </script>
   </head>
 
   <body>
-     <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-S2NR6RXKR7"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -33,6 +104,7 @@
       gtag('js', new Date());
       gtag('config', 'G-S2NR6RXKR7');
     </script>
+    
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
