@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 
 const Home = () => {
-  const [formData, setFormData] = useState({ name: '', email: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', userType: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' });
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
@@ -69,19 +69,21 @@ const Home = () => {
     },
   ];
 
-  const handleWaitlistClick = () => {
+  // Dynamic waitlist handler with user type
+  const handleWaitlistClick = (type: 'artist' | 'fan') => {
+    setFormData(prev => ({ ...prev, userType: type }));
     const section = document.getElementById('waitlist-section');
     if (section) {
       section.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!formData.name.trim() || !formData.email.trim()) {
@@ -107,11 +109,15 @@ const Home = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          userType: formData.userType || 'general'
+        })
       });
 
       setIsSuccessModalOpen(true);
-      setFormData({ name: '', email: '' });
+      setFormData({ name: '', email: '', userType: '' });
 
     } catch (error) {
       setSubmitStatus({
@@ -121,6 +127,35 @@ const Home = () => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  // Dynamic form labels based on user type
+  const getNamePlaceholder = () => {
+    if (formData.userType === 'artist') return 'Enter your artist name';
+    if (formData.userType === 'fan') return 'Enter your name';
+    return 'Enter your name';
+  };
+
+  const getButtonText = () => {
+    if (formData.userType === 'artist') return isSubmitting ? 'Joining...' : 'Join as Artist';
+    if (formData.userType === 'fan') return isSubmitting ? 'Joining...' : 'Join as Fan';
+    return isSubmitting ? 'Joining...' : 'Join the Waitlist';
+  };
+
+  const getWaitlistTitle = () => {
+    if (formData.userType === 'artist') return 'Join as an Artist';
+    if (formData.userType === 'fan') return 'Join as a Fan';
+    return 'Join the Waitlist';
+  };
+
+  const getWaitlistDescription = () => {
+    if (formData.userType === 'artist') {
+      return 'Get early access to CelestiFan and start building meaningful connections with your fans. Launch campaigns, track engagement, and amplify your music career.';
+    }
+    if (formData.userType === 'fan') {
+      return 'Be among the first fans to join CelestiFan. Prove your dedication, earn rewards, and connect directly with your favorite artists.';
+    }
+    return 'Be the first to know when CelestiFan launches. Join thousands of artists and fans building the future of music together.';
   };
 
   return (
@@ -138,7 +173,7 @@ const Home = () => {
             <DialogDescription asChild>
               <div className="text-lg text-muted-foreground mt-4 space-y-4">
                 <p>Welcome to CelestiFan, where every moment of support matters.</p>
-                <p>You’ve officially joined the movement that connects artists and fans through real actions, creativity, and rewards.</p>
+                <p>You've officially joined the movement that connects artists and fans through real actions, creativity, and rewards.</p>
                 <div className="!mt-6">
                     <p className="font-bold text-gradient">Your journey starts now</p>
                     <p>Earn Celeste. Empower artists. Elevate fandom.</p>
@@ -153,6 +188,7 @@ const Home = () => {
           </div>
         </DialogContent>
       </Dialog>
+
       {/* Hero Section */}
       <motion.section
         initial={{ opacity: 0 }}
@@ -161,7 +197,6 @@ const Home = () => {
         className="min-h-screen flex items-center justify-center text-center overflow-hidden"
       >
         <div className="absolute inset-0 opacity-20">
-
           <div className="absolute top-20 left-20 w-72 h-72 bg-primary rounded-full blur-[100px] animate-float" />
           <div className="absolute bottom-20 right-20 w-96 h-96 bg-secondary rounded-full blur-[120px] animate-float" style={{ animationDelay: "1s" }} />
         </div>
@@ -192,11 +227,20 @@ const Home = () => {
             transition={{ duration: 0.5, delay: 0.6 }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-lg px-8" onClick={handleWaitlistClick}>
+            <Button 
+              size="lg" 
+              className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-lg px-8" 
+              onClick={() => handleWaitlistClick('artist')}
+            >
               Start as an Artist
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8" onClick={handleWaitlistClick}>
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="border-primary text-primary hover:bg-primary/10 text-lg px-8" 
+              onClick={() => handleWaitlistClick('fan')}
+            >
               Join as a Fan
             </Button> 
           </motion.div>
@@ -254,7 +298,7 @@ const Home = () => {
         </div>
       </motion.section>
 
-      {/* Why CelestiFan Section */}
+      {/* Why CelestiFan Section with Properly Sized Mockups */}
       <motion.section
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -273,14 +317,19 @@ const Home = () => {
             {features.map((feature, index) => (
               <motion.div
                 key={feature.title}
-                className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+                className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 items-center"
                 initial={{ opacity: 0, x: index % 2 === 0 ? 50 : -50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
               >
                 <div className={`flex justify-center ${index % 2 === 0 ? 'lg:order-last lg:justify-end' : 'lg:order-first lg:justify-start'}`}>
-                  <img src={feature.imageUrl} alt={feature.title} />
+                  <img 
+                    src={feature.imageUrl} 
+                    alt={feature.title}
+                    className="w-full max-w-sm md:max-w-md lg:max-w-lg h-auto rounded-2xl shadow-2xl hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                  />
                 </div>
                 <div className={`${index % 2 === 0 ? 'lg:order-first' : 'lg:order-last'}`}>
                   <div className="flex items-center gap-4 mb-4">
@@ -297,7 +346,7 @@ const Home = () => {
         </div>
       </motion.section>
 
-      {/* CTA Section */}
+      {/* CTA Section - Dynamic Waitlist */}
       <motion.section
         id="waitlist-section"
         initial={{ opacity: 0, y: 50 }}
@@ -308,10 +357,10 @@ const Home = () => {
       >
         <div className="container mx-auto px-4 relative z-10 text-center">
           <h2 className="text-5xl md:text-6xl mb-6">
-            Join the Waitlist
+            {getWaitlistTitle()}
           </h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Be the first to know when CelestiFan launches. Join thousands of artists and fans building the future of music together.
+            {getWaitlistDescription()}
           </p>
           <motion.form
             initial={{ opacity: 0, y: 20 }}
@@ -327,8 +376,9 @@ const Home = () => {
               onChange={handleInputChange}
               name="name"
               disabled={isSubmitting}
-              placeholder="Enter your name"
-              className="px-6 py-3 rounded-lg bg-background border border-border focus:border-primary outline-none"
+              placeholder={getNamePlaceholder()}
+              className="px-6 py-3 rounded-lg bg-background border border-border focus:border-primary outline-none transition-all"
+              required
             />
             <input
               type="email"
@@ -337,10 +387,16 @@ const Home = () => {
               onChange={handleInputChange}
               placeholder="Enter your email"
               disabled={isSubmitting}
-              className="px-6 py-3 rounded-lg bg-background border border-border focus:border-primary outline-none"
+              className="px-6 py-3 rounded-lg bg-background border border-border focus:border-primary outline-none transition-all"
+              required
             />
-            <Button disabled={isSubmitting} size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold">
-              {isSubmitting ? 'Joining...' : 'Join the Waitlist'}
+            <Button 
+              disabled={isSubmitting} 
+              size="lg" 
+              className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold"
+              type="submit"
+            >
+              {getButtonText()}
             </Button>
             {submitStatus.type === 'error' && submitStatus.message && (
               <div className="p-4 mt-4 rounded-lg bg-red-100 text-red-800 border border-red-200">
