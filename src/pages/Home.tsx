@@ -175,8 +175,8 @@ const Home = () => {
                 <p>Welcome to CelestiFan, where every moment of support matters.</p>
                 <p>You've officially joined the movement that connects artists and fans through real actions, creativity, and rewards.</p>
                 <div className="!mt-6">
-                    <p className="font-bold text-gradient">Your journey starts now</p>
-                    <p>Earn Celeste. Empower artists. Elevate fandom.</p>
+                  <p className="font-bold text-gradient">Your journey starts now</p>
+                  <p>Earn Celeste. Empower artists. Elevate fandom.</p>
                 </div>
               </div>
             </DialogDescription>
@@ -242,7 +242,7 @@ const Home = () => {
               onClick={() => handleWaitlistClick('fan')}
             >
               Join as a Fan
-            </Button> 
+            </Button>
           </motion.div>
 
           <motion.div
