@@ -69,7 +69,6 @@ const Home = () => {
     },
   ];
 
-  // Dynamic waitlist handler with user type
   const handleWaitlistClick = (type: 'artist' | 'fan') => {
     setFormData(prev => ({ ...prev, userType: type }));
     const section = document.getElementById('waitlist-section');
@@ -129,7 +128,6 @@ const Home = () => {
     }
   };
 
-  // Dynamic form labels based on user type
   const getNamePlaceholder = () => {
     if (formData.userType === 'artist') return 'Enter your artist name';
     if (formData.userType === 'fan') return 'Enter your name';
@@ -189,12 +187,12 @@ const Home = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Hero Section */}
+      {/* Hero Section - Adjusted for better stats visibility */}
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="min-h-screen flex items-center justify-center text-center overflow-hidden"
+        className="min-h-screen flex items-center justify-start pt-24 pb-28 md:pt-16 md:pb-32 md:justify-center text-center overflow-hidden"
       >
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-20 left-20 w-72 h-72 bg-primary rounded-full blur-[100px] animate-float" />
@@ -205,19 +203,16 @@ const Home = () => {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-5xl md:text-7xl lg:text-8xl mb-6"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-3 md:mb-5"
           >
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-display mb-6 animate-slide-up">
-              <span className="text-gradient">Amplify Artists.</span>
-              <br />
-              <span className="text-gradient">Ignite Fandom.</span>
-            </h1>
+            <span className="text-gradient font-display animate-slide-up block">Amplify Artists.</span>
+            <span className="text-gradient font-display animate-slide-up block">Ignite Fandom.</span>
           </motion.h1>
           <motion.p
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto"
+            className="text-base sm:text-lg md:text-xl text-muted-foreground mb-5 md:mb-7 max-w-2xl mx-auto"
           >
             The ultimate platform where fans fuel music breakthroughs
           </motion.p>
@@ -225,20 +220,20 @@ const Home = () => {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            className="flex flex-col sm:flex-row gap-4 justify-center mb-10 md:mb-14"
           >
             <Button 
               size="lg" 
-              className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-lg px-8" 
+              className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-base md:text-lg px-6 md:px-8" 
               onClick={() => handleWaitlistClick('artist')}
             >
               Start as an Artist
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
             </Button>
             <Button 
               size="lg" 
               variant="outline" 
-              className="border-primary text-primary hover:bg-primary/10 text-lg px-8" 
+              className="border-primary text-primary hover:bg-primary/10 text-base md:text-lg px-6 md:px-8" 
               onClick={() => handleWaitlistClick('fan')}
             >
               Join as a Fan
@@ -249,35 +244,35 @@ const Home = () => {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.8 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 max-w-4xl mx-auto"
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-4xl mx-auto"
           >
             {stats.map((stat) => (
-              <div key={stat.label}>
-                <stat.icon className="h-8 w-8 text-primary mx-auto mb-2" />
-                <div className="text-xl md:text-4xl font-bold text-gradient mb-1">{stat.value}</div>
-                <div className="text-sm text-muted-foreground">{stat.label}</div>
+              <div key={stat.label} className="flex flex-col items-center">
+                <stat.icon className="h-6 w-6 md:h-8 md:w-8 text-primary mx-auto mb-2" />
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-gradient mb-1">{stat.value}</div>
+                <div className="text-xs md:text-sm text-muted-foreground">{stat.label}</div>
               </div>
             ))}
           </motion.div>
         </div>
       </motion.section>
 
-      {/* How It Works */}
+      {/* How It Works - Reduced padding */}
       <motion.section
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
-        className="py-20 container mx-auto px-4"
+        className="py-16 md:py-20 container mx-auto px-4"
       >
-        <h2 className="text-4xl md:text-5xl font-display text-center mb-4 text-gradient">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-display text-center mb-4 text-gradient">
           How It Works
         </h2>
-        <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+        <p className="text-center text-muted-foreground mb-10 md:mb-12 max-w-2xl mx-auto">
           Three simple steps to revolutionize your music journey
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {howItWorks.map((item, index) => (
             <motion.div
               key={item.title}
@@ -286,34 +281,34 @@ const Home = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <Card className="p-8 bg-card border-border hover:border-primary/50 transition-all hover:scale-105 h-full">
-                <div className="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center mb-6">
-                  <item.icon className="h-8 w-8 text-primary-foreground" />
+              <Card className="p-6 md:p-8 bg-card border-border hover:border-primary/50 transition-all hover:scale-105 h-full">
+                <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-primary flex items-center justify-center mb-4 md:mb-6">
+                  <item.icon className="h-7 w-7 md:h-8 md:w-8 text-primary-foreground" />
                 </div>
-                <h3 className="text-3xl font-bold mb-3">{item.title}</h3>
-                <p className="text-muted-foreground">{item.description}</p>
+                <h3 className="text-2xl md:text-3xl font-bold mb-3">{item.title}</h3>
+                <p className="text-sm md:text-base text-muted-foreground">{item.description}</p>
               </Card>
             </motion.div>
           ))}
         </div>
       </motion.section>
 
-      {/* Why CelestiFan Section with Properly Sized Mockups */}
+      {/* Why CelestiFan Section - Reduced padding */}
       <motion.section
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
-        className="py-20 bg-card"
+        className="py-16 md:py-20 bg-card"
       >
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl md:text-5xl font-display mb-6 text-gradient mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display mb-4 md:mb-6 text-gradient mx-auto text-center">
             Why CelestiFan?
           </h2>
-          <p className="text-center text-muted-foreground mb-12 max-w-3xl mx-auto">
+          <p className="text-center text-muted-foreground mb-10 md:mb-12 max-w-3xl mx-auto">
             CelestiFan is more than just a platform; it's a movement. We're dedicated to empowering artists and giving fans a voice. Here's how we're changing the game.
           </p>
-          <div className="space-y-20">
+          <div className="space-y-12 md:space-y-20">
             {features.map((feature, index) => (
               <motion.div
                 key={feature.title}
@@ -332,13 +327,13 @@ const Home = () => {
                   />
                 </div>
                 <div className={`${index % 2 === 0 ? 'lg:order-first' : 'lg:order-last'}`}>
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 rounded-lg bg-primary flex items-center justify-center">
-                      <feature.icon className="h-6 w-6 text-primary-foreground" />
+                  <div className="flex items-center gap-3 md:gap-4 mb-4">
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
+                      <feature.icon className="h-5 w-5 md:h-6 md:w-6 text-primary-foreground" />
                     </div>
-                    <h3 className="text-3xl font-bold">{feature.title}</h3>
+                    <h3 className="text-2xl md:text-3xl font-bold">{feature.title}</h3>
                   </div>
-                  <p className="text-muted-foreground text-lg">{feature.description}</p>
+                  <p className="text-sm md:text-base lg:text-lg text-muted-foreground leading-relaxed">{feature.description}</p>
                 </div>
               </motion.div>
             ))}
@@ -346,20 +341,20 @@ const Home = () => {
         </div>
       </motion.section>
 
-      {/* CTA Section - Dynamic Waitlist */}
+      {/* CTA Section - Reduced padding */}
       <motion.section
         id="waitlist-section"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
-        className="py-20"
+        className="py-16 md:py-20"
       >
         <div className="container mx-auto px-4 relative z-10 text-center">
-          <h2 className="text-5xl md:text-6xl mb-6">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl mb-6">
             {getWaitlistTitle()}
           </h2>
-          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
             {getWaitlistDescription()}
           </p>
           <motion.form

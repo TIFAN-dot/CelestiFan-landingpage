@@ -12,7 +12,7 @@ const About = () => {
     {
       name: "Mustapha Sakyi",
       role: "Technical Lead",
-      bio: "Architecting the robust infrastructure that powers real-time fan engagement.",
+      bio: "Architecting the robust infrastructure that powers real-time fan engagement.",
     },
     {
       name: "Mubarak Abdulrafiu",
@@ -61,95 +61,103 @@ const About = () => {
     },
   ];
 
+  const scrollToWaitlist = () => {
+    // Scroll to home page waitlist section
+    window.location.href = '/#waitlist-section';
+  };
+
   return (
     <div className="min-h-screen pt-20">
-      {/* Hero */}
-      <section className="py-20 container mx-auto px-4">
+      {/* Hero - Reduced padding from py-20 to py-12 */}
+      <section className="py-12 md:py-16 container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl md:text-7xl font-display mb-6 text-gradient animate-slide-up">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-display mb-6 text-gradient animate-slide-up">
             Our Mission
           </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed">
-            We're rewriting music's future by putting fans at the heart of every
-            artist's rise. CelestiFan turns passion into power, streams into
-            careers, and supporters into legends. In a world where algorithms
-            decide success, we believe the real influence lies with the people who
-            truly care—the fans who discover, share, and champion music before
-            anyone else.
-          </p>
+          {/* Break long paragraph into smaller chunks */}
+          <div className="text-lg md:text-xl text-muted-foreground leading-relaxed space-y-4">
+            <p>
+              We're rewriting music's future by putting <span className="text-primary font-semibold">fans at the heart</span> of every artist's rise.
+            </p>
+            <p>
+              CelestiFan turns passion into power, streams into careers, and supporters into legends.
+            </p>
+            <p>
+              In a world where algorithms decide success, we believe the real influence lies with the people who truly care—<span className="text-primary font-semibold">the fans</span> who discover, share, and champion music before anyone else.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* Values */}
-      <section className="py-20 bg-card">
+      {/* Values - Reduced padding from py-20 to py-16 */}
+      <section className="py-16 bg-card">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl md:text-5xl font-display text-center mb-12 text-gradient">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display text-center mb-10 text-gradient">
             What We Stand For
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {values.map((value) => (
-              <Card key={value.title} className="p-8 bg-background border-border text-center hover:border-primary/50 transition-all">
-                <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center mx-auto mb-4">
-                  <value.icon className="h-8 w-8 text-primary-foreground" />
+              <Card key={value.title} className="p-6 md:p-8 bg-background border-border text-center hover:border-primary/50 transition-all hover:scale-105">
+                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-primary flex items-center justify-center mx-auto mb-4">
+                  <value.icon className="h-7 w-7 md:h-8 md:w-8 text-primary-foreground" />
                 </div>
-                <h3 className="text-xl font-bold mb-3">{value.title}</h3>
-                <p className="text-muted-foreground">{value.description}</p>
+                <h3 className="text-lg md:text-xl font-bold mb-2">{value.title}</h3>
+                <p className="text-sm md:text-base text-muted-foreground">{value.description}</p>
               </Card>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Team */}
-      <section className="py-20 container mx-auto px-4">
-        <h2 className="text-4xl md:text-5xl font-display text-center mb-6 text-gradient">
+      {/* Team - Reduced padding from py-20 to py-16 */}
+      <section className="py-16 container mx-auto px-4">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-display text-center mb-4 text-gradient">
           Who We Are
         </h2>
-        <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-          We're a team of music lovers, tech builders, and community creators
-          backed by industry innovators who believe in democratizing music success.
+        <p className="text-center text-muted-foreground mb-10 max-w-2xl mx-auto">
+          We're a team of music lovers, tech builders, and community creators backed by industry innovators who believe in democratizing music success.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto">
           {team.map((member) => (
-            <Card key={member.name} className="p-8 bg-card border-border hover:border-primary/50 transition-all text-center">
-              <div className="w-24 h-24 rounded-full bg-primary mx-auto mb-4 flex items-center justify-center text-4xl font-bold text-primary-foreground">
+            <Card key={member.name} className="p-6 md:p-8 bg-card border-border hover:border-primary/50 transition-all text-center hover:scale-105">
+              <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-primary mx-auto mb-4 flex items-center justify-center text-3xl md:text-4xl font-bold text-primary-foreground">
                 {member.name.charAt(0)}
               </div>
-              <h3 className="text-2xl font-bold mb-2">{member.name}</h3>
-              <p className="text-primary font-semibold mb-3">{member.role}</p>
-              <p className="text-muted-foreground">{member.bio}</p>
+              <h3 className="text-xl md:text-2xl font-bold mb-2">{member.name}</h3>
+              <p className="text-primary font-semibold mb-3 text-sm md:text-base">{member.role}</p>
+              <p className="text-sm md:text-base text-muted-foreground">{member.bio}</p>
             </Card>
           ))}
         </div>
       </section>
 
-      {/* Impact Stories */}
-      <section className="py-20 bg-card">
+      {/* Impact Stories - Reduced padding from py-20 to py-16 */}
+      <section className="py-16 bg-card">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl md:text-5xl font-display text-center mb-12 text-gradient">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display text-center mb-10 text-gradient">
             Impact Stories
           </h2>
 
-          <div className="space-y-12 max-w-5xl mx-auto">
+          <div className="space-y-8 md:space-y-12 max-w-5xl mx-auto">
             {impactStories.map((story, index) => (
               <Card key={index} className="overflow-hidden bg-background border-border hover:border-primary/50 transition-all">
-                <div className="grid md:grid-cols-2 gap-8 p-8">
+                <div className="grid md:grid-cols-2 gap-6 md:gap-8 p-6 md:p-8">
                   <div>
-                    <h3 className="text-3xl font-display mb-2 text-gradient">
+                    <h3 className="text-2xl md:text-3xl font-display mb-2 text-gradient">
                       {story.title}
                     </h3>
-                    <p className="text-primary font-semibold mb-4">
+                    <p className="text-primary font-semibold mb-4 text-sm md:text-base">
                       Artist: {story.artist} • Fan: {story.fan}
                     </p>
-                    <p className="text-muted-foreground leading-relaxed">
+                    <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
                       {story.story}
                     </p>
                   </div>
-                  <div className="bg-muted rounded-lg flex items-center justify-center min-h-[200px]">
+                  <div className="bg-muted rounded-lg flex items-center justify-center min-h-[180px] md:min-h-[200px]">
                     <div className="text-center text-muted-foreground">
-                      <Music className="h-16 w-16 mx-auto mb-2 opacity-50" />
-                      <p className="text-sm">Image: {story.artist} on stage</p>
+                      <Music className="h-12 w-12 md:h-16 md:w-16 mx-auto mb-2 opacity-50" />
+                      <p className="text-xs md:text-sm">Image: {story.artist} on stage</p>
                     </div>
                   </div>
                 </div>
@@ -159,18 +167,20 @@ const About = () => {
         </div>
       </section>
 
-      {/* Join Movement */}
-      <section className="py-20 container mx-auto px-4">
+      {/* Join Movement - Reduced padding from py-20 to py-16 */}
+      <section className="py-16 container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-4xl md:text-6xl font-display mb-6 text-gradient">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display mb-6 text-gradient">
             Join the Movement
           </h2>
-          <p className="text-xl text-muted-foreground mb-8">
-            We're building CelestiFan with artists, fans, and innovators who
-            believe in something bigger. The next wave of music power is in your
-            hands.
+          <p className="text-lg md:text-xl text-muted-foreground mb-8">
+            We're building CelestiFan with artists, fans, and innovators who believe in something bigger. The next wave of music power is in your hands.
           </p>
-          <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
+          <Button 
+            size="lg" 
+            className="bg-primary text-primary-foreground hover:bg-primary/90"
+            onClick={scrollToWaitlist}
+          >
             Get Started Today
           </Button>
         </div>
