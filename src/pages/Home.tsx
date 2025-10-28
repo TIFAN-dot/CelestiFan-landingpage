@@ -323,7 +323,7 @@ const Home = () => {
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
               >
-                <div className={`flex justify-center ${index % 2 === 0 ? 'lg:order-last lg:justify-end' : 'lg:order-first lg:justify-start'}`}>
+                <div className={`flex justify-center ${index % 2 === 0 ? 'lg:order-last' : 'lg:order-first'}`}>
                   <div className="max-w-[300px]">
                     <img 
                       src={feature.imageUrl} 
