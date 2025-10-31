@@ -1,8 +1,9 @@
-import { ArrowRight, TrendingUp, Trophy, Music, Zap, Users, BarChart3, MessageCircle, PartyPopper } from "lucide-react";
+import { ArrowRight, TrendingUp, Trophy, Music, Zap, Users, BarChart3, MessageCircle, PartyPopper, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import CelestiQuiz from "@/components/CelestiQuiz";
 import {
   Dialog,
   DialogContent,
@@ -256,6 +257,25 @@ const Home = () => {
           </motion.div>
         </div>
       </motion.section>
+      {/* Quiz CTA Section */}
+<motion.section
+  initial={{ opacity: 0, y: 50 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.5 }}
+  viewport={{ once: true }}
+  className="py-16 md:py-20 bg-gradient-to-br from-primary/5 via-background to-primary/10"
+>
+  <div className="container mx-auto px-4 text-center">
+    <Sparkles className="w-16 h-16 mx-auto mb-6 text-primary animate-pulse" />
+    <h2 className="text-4xl md:text-5xl lg:text-6xl font-display mb-6 text-gradient">
+      What's Your Celesti Energy?
+    </h2>
+    <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+      Take our cosmic quiz and discover the unique energy that defines your music journey
+    </p>
+    <CelestiQuiz />
+  </div>
+</motion.section>
 
       {/* How It Works - Reduced padding */}
       <motion.section

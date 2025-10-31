@@ -1,0 +1,93 @@
+{
+  "navbar": {
+    "home": "Home",
+    "about": "About",
+    "features": "Features",
+    "pricing": "Pricing",
+    "blog": "Blog",
+    "connect": "Connect"
+  },
+  "home": {
+    "hero": {
+      "title": "Amplify Artists. Ignite Fandom.",
+      "subtitle": "The ultimate platform where fans fuel music breakthroughs",
+      "tagline": "Earn celeste. Climb leaderboards. Connect with artists.",
+      "artistButton": "Start as an Artist",
+      "fanButton": "Join as a Fan"
+    },
+    "stats": {
+      "activeFans": "Active Fans",
+      "artists": "Artists",
+      "campaigns": "Campaigns",
+      "totalStreams": "Total Streams"
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "subtitle": "Three simple steps to revolutionize your music journey",
+      "trackFanPower": {
+        "title": "Track Fan Power",
+        "description": "Real-time insights on your most loyal listeners and supporters"
+      },
+      "climbLeaderboards": {
+        "title": "Climb Leaderboards",
+        "description": "Earn celeste for streams, shares, and engagement activities"
+      },
+      "unlockMoments": {
+        "title": "Unlock Epic Moments",
+        "description": "Access exclusive content and direct artist interactions"
+      }
+    },
+    "whyCelestifan": {
+      "title": "Why CelestiFan?",
+      "subtitle": "CelestiFan is more than just a platform; it's a movement. We're dedicated to empowering artists and giving fans a voice. Here's how we're changing the game.",
+      "launchCampaigns": {
+        "title": "Launch Campaigns",
+        "description": "As an artist, you're in control. Design and launch dynamic campaigns that mobilize your fanbase. Create exciting challenges, set streaming goals, and offer unique rewards to build unstoppable momentum for your new releases. Watch in real-time as your fans rally to support your music, driving streams and expanding your reach organically. It's your vision, your music, your movement."
+      },
+      "proveFandom": {
+        "title": "Prove Your Fandom",
+        "description": "Your support is more than just a number. With CelestiFan, you can prove your dedication by uploading screenshots of your streams, shares, and purchases. This tangible proof of your fandom earns you celeste, unlocks exclusive content, and gets you noticed by your favorite artists. It's a direct way to show your impact and be rewarded for your loyalty in a way that truly matters."
+      },
+      "shineBright": {
+        "title": "Shine Bright",
+        "description": "Rise through the ranks and make your mark. Our dynamic leaderboards track real-time fan engagement, showcasing the most dedicated supporters for each artist. Compete with other fans, climb to the top, and gain recognition for your unwavering passion. This is your chance to shine bright, get noticed by artists, and become a legendary supporter in your favorite music community."
+      },
+      "connectDirectly": {
+        "title": "Connect Directly",
+        "description": "Break down the barriers between artist and fan. CelestiFan offers exclusive chat rooms and communities where you can connect directly with the artists you admire. Get a behind-the-scenes look at their creative process, ask questions in intimate Q&A sessions, and join a community of like-minded fans. This is more than just a platform; it's a place to build genuine connections."
+      }
+    },
+    "waitlist": {
+      "titleGeneral": "Join the Waitlist",
+      "titleArtist": "Join as an Artist",
+      "titleFan": "Join as a Fan",
+      "descriptionGeneral": "Be the first to know when CelestiFan launches. Join thousands of artists and fans building the future of music together.",
+      "descriptionArtist": "Get early access to CelestiFan and start building meaningful connections with your fans. Launch campaigns, track engagement, and amplify your music career.",
+      "descriptionFan": "Be among the first fans to join CelestiFan. Prove your dedication, earn rewards, and connect directly with your favorite artists.",
+      "placeholderName": "Enter your name",
+      "placeholderArtistName": "Enter your artist name",
+      "placeholderEmail": "Enter your email",
+      "buttonJoin": "Join the Waitlist",
+      "buttonArtist": "Join as Artist",
+      "buttonFan": "Join as Fan",
+      "buttonJoining": "Joining...",
+      "errorFillFields": "Please fill in all fields",
+      "errorInvalidEmail": "Please enter a valid email address",
+      "errorGeneral": "Something went wrong. Please try again."
+    },
+    "successModal": {
+      "title": "Welcome to the Movement!",
+      "description1": "Welcome to CelestiFan, where every moment of support matters.",
+      "description2": "You've officially joined the movement that connects artists and fans through real actions, creativity, and rewards.",
+      "journeyTitle": "Your journey starts now",
+      "journeySubtitle": "Earn Celeste. Empower artists. Elevate fandom.",
+      "closeButton": "Let's Go!"
+    }
+  },
+  "footer": {
+    "tagline": "Empowering artists. Elevating fans.",
+    "rights": "All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  }
+}
