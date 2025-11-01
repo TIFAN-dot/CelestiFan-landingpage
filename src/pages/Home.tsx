@@ -338,13 +338,15 @@ const Home = () => {
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
               >
-                <div className={`flex justify-center ${index % 2 === 0 ? 'lg:order-last lg:justify-end' : 'lg:order-first lg:justify-start'}`}>
-                  <img 
-                    src={feature.imageUrl} 
-                    alt={feature.title}
-                    className="w-full max-w-sm md:max-w-md lg:max-w-lg h-auto rounded-2xl shadow-2xl hover:scale-105 transition-transform duration-300"
-                    loading="lazy"
-                  />
+                <div className={`flex justify-center ${index % 2 === 0 ? 'lg:order-last' : 'lg:order-first'}`}>
+                  <div className="max-w-[300px]">
+                    <img 
+                      src={feature.imageUrl} 
+                      alt={feature.title}
+                      className="w-full h-auto rounded-2xl shadow-2xl hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                    />
+                  </div>
                 </div>
                 <div className={`${index % 2 === 0 ? 'lg:order-first' : 'lg:order-last'}`}>
                   <div className="flex items-center gap-3 md:gap-4 mb-4">

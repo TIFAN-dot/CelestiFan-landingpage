@@ -12,6 +12,7 @@ import Pricing from "./pages/Pricing";
 import Blog from "./pages/Blog";
 import Connect from "./pages/Connect";
 import NotFound from "./pages/NotFound";
+import Celeste from "./pages/Celeste";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/connect" element={<Connect />} />
+            <Route path="/celeste" element={<Celeste />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
