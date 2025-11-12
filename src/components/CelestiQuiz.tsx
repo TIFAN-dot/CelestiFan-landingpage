@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { 
   Sparkles, Music, Users, Waves, Flame, Star, Wind, Zap,
-  PartyPopper, Download, Share2, Lock
+  PartyPopper, Download, Share2, Twitter, Instagram, Gift, TrendingUp
 } from "lucide-react";
 
 // ========================================
@@ -23,7 +23,8 @@ const energyTypes = {
     color: "from-blue-600 to-purple-600",
     description: "You don't just listen to music — you travel through it. Every note carries your memories, every lyric your unspoken story.",
     traits: ["Deep", "Emotional", "Healing", "Reflective"],
-    message: "Your Celesti Energy flows like a gentle storm"
+    message: "Your Celesti Energy flows like a gentle storm",
+    hashtags: "#SoulVoyager #CelestiFan #MusicJourney"
   },
   vibeAlchemist: {
     name: "Vibe Alchemist",
@@ -31,7 +32,8 @@ const energyTypes = {
     color: "from-orange-500 to-yellow-500",
     description: "You transform every beat into emotion. Your Celesti Energy is pure rhythm — a mix of joy, motion, and instinct. Music isn't therapy for you — it's magic.",
     traits: ["Joyful", "Rhythmic", "Magnetic", "Spontaneous"],
-    message: "You turn sound into pure energy"
+    message: "You turn sound into pure energy",
+    hashtags: "#VibeAlchemist #CelestiFan #PureEnergy"
   },
   dreamArchitect: {
     name: "Dream Architect",
@@ -39,7 +41,8 @@ const energyTypes = {
     color: "from-cyan-500 to-blue-600",
     description: "You live in soundscapes. Your Celesti Energy is delicate and structured — music helps you build the world you dream of living in.",
     traits: ["Organized", "Creative", "Visionary", "Structured"],
-    message: "You build worlds from melodies"
+    message: "You build worlds from melodies",
+    hashtags: "#DreamArchitect #CelestiFan #Visionary"
   },
   fireSpirit: {
     name: "Fire Spirit",
@@ -47,7 +50,8 @@ const energyTypes = {
     color: "from-red-500 to-pink-600",
     description: "You burn bright — your Celesti Energy is raw and impulsive. Music keeps your flame alive when life feels heavy. You chase sound to find peace.",
     traits: ["Passionate", "Intense", "Authentic", "Bold"],
-    message: "Your flame never goes out"
+    message: "Your flame never goes out",
+    hashtags: "#FireSpirit #CelestiFan #BurnBright"
   },
   emotionalHealer: {
     name: "Emotional Healer",
@@ -55,7 +59,8 @@ const energyTypes = {
     color: "from-purple-600 to-pink-500",
     description: "You carry too much but heal through sound. Your Celesti Energy is reflective — you understand pain, yet turn it into peace every time a melody plays.",
     traits: ["Empathetic", "Nurturing", "Deep", "Understanding"],
-    message: "You heal hearts through harmony"
+    message: "You heal hearts through harmony",
+    hashtags: "#EmotionalHealer #CelestiFan #Healing"
   },
   flowSeeker: {
     name: "Flow Seeker",
@@ -63,7 +68,8 @@ const energyTypes = {
     color: "from-teal-500 to-green-500",
     description: "You're made of groove. Your Celesti Energy is calm confidence. Music doesn't fix you — it reminds you that you're already whole.",
     traits: ["Balanced", "Confident", "Smooth", "Grounded"],
-    message: "You move with effortless grace"
+    message: "You move with effortless grace",
+    hashtags: "#FlowSeeker #CelestiFan #InTheFlow"
   },
   storyCollector: {
     name: "Story Collector",
@@ -71,7 +77,8 @@ const energyTypes = {
     color: "from-indigo-600 to-purple-700",
     description: "You don't chase hits — you chase stories. Your Celesti Energy is nostalgic, cinematic, and deeply human. You find yourself in verses, again and again.",
     traits: ["Nostalgic", "Thoughtful", "Soulful", "Connected"],
-    message: "You live a thousand lives through lyrics"
+    message: "You live a thousand lives through lyrics",
+    hashtags: "#StoryCollector #CelestiFan #Storyteller"
   },
   cosmicConnector: {
     name: "Cosmic Connector",
@@ -79,7 +86,8 @@ const energyTypes = {
     color: "from-violet-600 to-fuchsia-600",
     description: "You're a bridge between feeling and sound. Your Celesti Energy is universal — it moves between joy, pain, and hope, turning music into your language with the world.",
     traits: ["Universal", "Empathetic", "Wise", "Connected"],
-    message: "You speak the language of the universe"
+    message: "You speak the language of the universe",
+    hashtags: "#CosmicConnector #CelestiFan #Universal"
   }
 };
 
@@ -238,12 +246,29 @@ const allArtistQuestions = [
 ];
 
 // ========================================
-// HELPER FUNCTION: Random Question Selection
+// HELPER FUNCTIONS
 // ========================================
 
 const getRandomQuestions = (questionPool: any[], count: number = 4) => {
   const shuffled = [...questionPool].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, count);
+};
+
+// Simulate fetching waitlist count from Google Sheets
+const useWaitlistCount = () => {
+  const [count, setCount] = useState(3124);
+  
+  useEffect(() => {
+    // In production, fetch from your Google Sheets
+    // For now, simulate growing count
+    const interval = setInterval(() => {
+      setCount(prev => prev + Math.floor(Math.random() * 3));
+    }, 30000); // Update every 30 seconds
+    
+    return () => clearInterval(interval);
+  }, []);
+  
+  return count;
 };
 
 // ========================================
@@ -268,14 +293,17 @@ const CelestiQuiz = () => {
   });
   const [result, setResult] = useState<keyof typeof energyTypes | null>(null);
   const [userName, setUserName] = useState("");
-  const [hasJoinedWaitlist, setHasJoinedWaitlist] = useState(() => {
-    // Check if user already joined
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('celestifan-waitlist-joined') === 'true';
-    }
-    return false;
-  });
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
+  const [showWaitlistPrompt, setShowWaitlistPrompt] = useState(false);
+  const [hasShared, setHasShared] = useState(false);
+  const [showWaitlistForm, setShowWaitlistForm] = useState(false);
+  const [waitlistStep, setWaitlistStep] = useState<'type' | 'details' | 'success'>('type');
+  const [waitlistType, setWaitlistType] = useState<'artist' | 'fan' | null>(null);
+  const [waitlistName, setWaitlistName] = useState('');
+  const [waitlistEmail, setWaitlistEmail] = useState('');
+  const [isSubmittingWaitlist, setIsSubmittingWaitlist] = useState(false);
+  
+  const waitlistCount = useWaitlistCount();
 
   // Initialize random questions when user selects type
   useEffect(() => {
@@ -311,18 +339,6 @@ const CelestiQuiz = () => {
         setScene(4);
       }, 3000);
     }
-  };
-
-  const handleJoinWaitlist = () => {
-    // Save to localStorage and unlock immediately
-    localStorage.setItem('celestifan-waitlist-joined', 'true');
-    
-    // Unlock with smooth transition
-    setTimeout(() => {
-      setHasJoinedWaitlist(true);
-    }, 100);
-    
-    // Modal stays open so they can download immediately!
   };
 
   const handleDownloadImage = async () => {
@@ -432,30 +448,104 @@ const CelestiQuiz = () => {
           a.download = `${userName}-celesti-energy.png`;
           a.click();
           URL.revokeObjectURL(url);
+          
+          // After download, show waitlist prompt if they haven't shared yet
+          if (!hasShared) {
+            setTimeout(() => setShowWaitlistPrompt(true), 1000);
+          }
         }
         setIsGeneratingImage(false);
       });
     }
   };
 
-  const handleShareToStory = () => {
+  const handleShareToTwitter = () => {
     if (!userName.trim()) {
       alert("Please enter your name first!");
       return;
     }
 
-    // Web Share API
-    if (navigator.share) {
-      navigator.share({
-        title: `${userName}'s Celesti Energy`,
-        text: `I'm a ${result ? energyTypes[result].name : ''}! Discover your Celesti Energy at celestifan.com/quiz`,
-        url: 'https://celestifan.com/quiz'
-      }).catch(console.error);
-    } else {
-      // Fallback - copy link
-      navigator.clipboard.writeText('https://celestifan.com/quiz');
-      alert('Link copied! Share it on your story!');
+    const text = `I'm a ${result ? energyTypes[result].name : ''}! 🌟\n${result ? energyTypes[result].message : ''}\n\nDiscover your Celesti Energy at`;
+    const url = 'https://celestifan.com/quiz';
+    const hashtags = result ? energyTypes[result].hashtags.replace(/#/g, '').replace(/ /g, ',') : '';
+    
+    window.open(
+      `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}&hashtags=${hashtags}`,
+      '_blank',
+      'width=550,height=420'
+    );
+    
+    setHasShared(true);
+    // Show waitlist prompt after they tweet
+    setTimeout(() => setShowWaitlistPrompt(true), 2000);
+  };
+
+  const handleShareToInstagram = () => {
+    if (!userName.trim()) {
+      alert("Please enter your name first!");
+      return;
     }
+
+    // Copy link for Instagram
+    navigator.clipboard.writeText('https://celestifan.com/quiz');
+    alert('✨ Link copied! Open Instagram and paste in your story. Don\'t forget to tag @celestifan!');
+    
+    setHasShared(true);
+    setTimeout(() => setShowWaitlistPrompt(true), 1000);
+  };
+
+  const handleJoinWaitlist = async () => {
+    if (!waitlistEmail.trim() || !waitlistName.trim()) {
+      alert('Please fill in all fields');
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(waitlistEmail)) {
+      alert('Please enter a valid email address');
+      return;
+    }
+
+    setIsSubmittingWaitlist(true);
+
+    try {
+      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzHtjBUTZrE0ML9SV0XvyOzAYFIOF3YXyXX3v0fJizvK0IgikyqF2dGrRUbw1nFNSyB/exec';
+
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: waitlistName,
+          email: waitlistEmail,
+          userType: waitlistType || 'general'
+        })
+      });
+
+      // Show success
+      setWaitlistStep('success');
+
+    } catch (error) {
+      alert('Something went wrong. Please try again.');
+    } finally {
+      setIsSubmittingWaitlist(false);
+    }
+  };
+
+  const openWaitlistForm = () => {
+    setShowWaitlistForm(true);
+    setWaitlistStep('type');
+    setShowWaitlistPrompt(false);
+  };
+
+  const closeWaitlistForm = () => {
+    setShowWaitlistForm(false);
+    setWaitlistStep('type');
+    setWaitlistType(null);
+    setWaitlistName('');
+    setWaitlistEmail('');
   };
 
   const resetQuiz = () => {
@@ -475,7 +565,8 @@ const CelestiQuiz = () => {
     });
     setResult(null);
     setUserName("");
-    setHasJoinedWaitlist(false);
+    setShowWaitlistPrompt(false);
+    setHasShared(false);
   };
 
   return (
@@ -648,15 +739,16 @@ const CelestiQuiz = () => {
               </motion.div>
             )}
 
-            {/* Scene 4: Results */}
+            {/* Scene 4: Results - IMPROVED! */}
             {scene === 4 && result && (
               <motion.div
                 key="scene4"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, type: "spring" }}
-                className="pt-8"
+                className="pt-8 pb-4"
               >
+                {/* CELEBRATION HEADER */}
                 <DialogHeader className="text-center items-center">
                   {(() => {
                     const Icon = energyTypes[result].icon;
@@ -674,7 +766,8 @@ const CelestiQuiz = () => {
                   </p>
                 </DialogHeader>
 
-                <div className="mt-8 space-y-6">
+                {/* DESCRIPTION & TRAITS */}
+                <div className="mt-6 space-y-6">
                   <p className="text-lg leading-relaxed text-center">
                     {energyTypes[result].description}
                   </p>
@@ -693,10 +786,10 @@ const CelestiQuiz = () => {
                     ))}
                   </div>
 
-                  {/* Name Input */}
-                  <div className="pt-6 border-t border-border">
+                  {/* NAME INPUT */}
+                  <div className="pt-4 border-t border-border">
                     <label className="block text-sm font-medium mb-2 text-center">
-                      Enter your name to claim your energy:
+                      Enter your name to personalize your energy card:
                     </label>
                     <input
                       type="text"
@@ -707,55 +800,348 @@ const CelestiQuiz = () => {
                     />
                   </div>
 
-                  {/* Sharing Section */}
-                  {!hasJoinedWaitlist ? (
-                    <div className="bg-primary/5 border-2 border-primary/20 rounded-lg p-6 text-center">
-                      <Lock className="w-12 h-12 mx-auto mb-3 text-primary/50" />
-                      <p className="text-muted-foreground mb-4">
-                        Join the waitlist to unlock sharing and download your personalized Celesti Energy card!
+                  {/* PRIMARY CTA: SHARE YOUR CELESTI ENERGY (UNLOCKED!) */}
+                  <div className="space-y-4 pt-4">
+                    <div className="text-center">
+                      <h3 className="text-xl font-bold mb-2 flex items-center justify-center gap-2">
+                        <Share2 className="w-5 h-5 text-primary" />
+                        Share Your Celesti Energy
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        Show the world your cosmic vibe! ✨
                       </p>
+                    </div>
+
+                    {/* SHARE BUTTONS - BIG & PROMINENT */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                       <Button
                         size="lg"
-                        onClick={handleJoinWaitlist}
-                        className="bg-primary hover:bg-primary/90 text-primary-foreground w-full"
+                        onClick={handleShareToTwitter}
+                        disabled={!userName.trim()}
+                        className="bg-[#1DA1F2] hover:bg-[#1a8cd8] text-white"
                       >
-                        Join Waitlist to Unlock
+                        <Twitter className="mr-2 h-5 w-5" />
+                        Tweet It
+                      </Button>
+                      
+                      <Button
+                        size="lg"
+                        onClick={handleShareToInstagram}
+                        disabled={!userName.trim()}
+                        className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+                      >
+                        <Instagram className="mr-2 h-5 w-5" />
+                        Story It
+                      </Button>
+                      
+                      <Button
+                        size="lg"
+                        onClick={handleDownloadImage}
+                        disabled={isGeneratingImage || !userName.trim()}
+                        variant="outline"
+                        className="border-primary/50 hover:bg-primary/10"
+                      >
+                        <Download className="mr-2 h-5 w-5" />
+                        {isGeneratingImage ? 'Creating...' : 'Download'}
                       </Button>
                     </div>
-                  ) : (
-                    <div className="space-y-4">
-                      <p className="text-center text-sm text-muted-foreground">
-                        ✨ Unlocked! Share your Celesti Energy with the world
-                      </p>
-                      <div className="flex flex-col sm:flex-row gap-4">
-                        <Button
-                          size="lg"
-                          onClick={handleDownloadImage}
-                          disabled={isGeneratingImage || !userName.trim()}
-                          className="flex-1 bg-primary hover:bg-primary/90"
-                        >
-                          <Download className="mr-2 h-5 w-5" />
-                          {isGeneratingImage ? 'Generating...' : 'Download Image'}
-                        </Button>
-                        <Button
-                          size="lg"
-                          variant="outline"
-                          onClick={handleShareToStory}
-                          disabled={!userName.trim()}
-                          className="flex-1"
-                        >
-                          <Share2 className="mr-2 h-5 w-5" />
-                          Share to Story
-                        </Button>
-                      </div>
+                  </div>
+
+                  {/* DIVIDER */}
+                  <div className="relative py-4">
+                    <div className="absolute inset-0 flex items-center">
+                      <div className="w-full border-t border-border"></div>
                     </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                      <span className="bg-background px-2 text-muted-foreground">
+                        Want More?
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* SECONDARY CTA: WAITLIST (OPTIONAL VALUE-ADD) */}
+                  {!showWaitlistPrompt ? (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20 rounded-xl p-6"
+                    >
+                      <div className="flex items-start gap-4">
+                        <Gift className="w-8 h-8 text-primary flex-shrink-0 mt-1" />
+                        <div className="flex-1">
+                          <h4 className="font-bold text-lg mb-2">
+                            ✨ Unlock Exclusive Perks
+                          </h4>
+                          <p className="text-sm text-muted-foreground mb-4">
+                            Join {waitlistCount.toLocaleString()}+ music lovers getting early access
+                          </p>
+                          
+                          <div className="space-y-2 mb-4">
+                            <div className="flex items-center gap-2 text-sm">
+                              <TrendingUp className="w-4 h-4 text-primary" />
+                              <span>Early platform access before public launch</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-sm">
+                              <Music className="w-4 h-4 text-primary" />
+                              <span>3 exclusive artist interviews immediately</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-sm">
+                              <Users className="w-4 h-4 text-primary" />
+                              <span>Private community of music lovers</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-sm">
+                              <Sparkles className="w-4 h-4 text-primary" />
+                              <span>Founder member badge on profile</span>
+                            </div>
+                          </div>
+
+                          <div className="flex flex-col sm:flex-row gap-3">
+                            <Button
+                              onClick={openWaitlistForm}
+                              className="flex-1 bg-primary hover:bg-primary/90"
+                            >
+                              Join Waitlist & Get Perks
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              onClick={() => setShowWaitlistPrompt(false)}
+                              className="sm:w-auto"
+                            >
+                              Maybe Later
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ) : (
+                    // POST-SHARE CONVERSION PROMPT
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      className="bg-gradient-to-br from-green-500/10 to-primary/10 border border-green-500/20 rounded-xl p-6"
+                    >
+                      <div className="text-center">
+                        <PartyPopper className="w-12 h-12 mx-auto mb-3 text-primary" />
+                        <h4 className="font-bold text-xl mb-2">
+                          🎉 Thanks for Sharing!
+                        </h4>
+                        <p className="text-muted-foreground mb-4">
+                          Want to unlock even more? Join our exclusive waitlist!
+                        </p>
+                        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                          <Button
+                            onClick={openWaitlistForm}
+                            size="lg"
+                            className="bg-primary hover:bg-primary/90"
+                          >
+                            Yes, Give Me Access!
+                          </Button>
+                          <Button
+                            variant="outline"
+                            onClick={() => setShowWaitlistPrompt(false)}
+                          >
+                            I'm Good
+                          </Button>
+                        </div>
+                      </div>
+                    </motion.div>
                   )}
 
-                  {/* Take Again */}
+                  {/* INLINE WAITLIST FORM */}
+                  <AnimatePresence>
+                    {showWaitlistForm && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                        animate={{ opacity: 1, height: 'auto', marginTop: 16 }}
+                        exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="bg-gradient-to-br from-primary/10 to-primary/5 border-2 border-primary/30 rounded-xl p-6">
+                          {/* Step 1: Select Type */}
+                          {waitlistStep === 'type' && (
+                            <motion.div
+                              initial={{ opacity: 0, x: 20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              exit={{ opacity: 0, x: -20 }}
+                            >
+                              <h4 className="text-xl font-bold text-center mb-4">
+                                🎵 Join as Artist or Fan?
+                              </h4>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <Button
+                                  size="lg"
+                                  onClick={() => {
+                                    setWaitlistType('artist');
+                                    setWaitlistStep('details');
+                                  }}
+                                  className="h-auto py-6 flex-col gap-2 bg-card hover:bg-primary/10 text-foreground border-2 border-primary/20 hover:border-primary/50"
+                                  variant="outline"
+                                >
+                                  <Music className="w-8 h-8 text-primary" />
+                                  <div>
+                                    <div className="font-bold">Artist</div>
+                                    <div className="text-xs text-muted-foreground">I create music</div>
+                                  </div>
+                                </Button>
+                                <Button
+                                  size="lg"
+                                  onClick={() => {
+                                    setWaitlistType('fan');
+                                    setWaitlistStep('details');
+                                  }}
+                                  className="h-auto py-6 flex-col gap-2 bg-card hover:bg-primary/10 text-foreground border-2 border-primary/20 hover:border-primary/50"
+                                  variant="outline"
+                                >
+                                  <Users className="w-8 h-8 text-primary" />
+                                  <div>
+                                    <div className="font-bold">Fan</div>
+                                    <div className="text-xs text-muted-foreground">I support artists</div>
+                                  </div>
+                                </Button>
+                              </div>
+                              <Button
+                                variant="ghost"
+                                onClick={closeWaitlistForm}
+                                className="w-full mt-4"
+                              >
+                                Cancel
+                              </Button>
+                            </motion.div>
+                          )}
+
+                          {/* Step 2: Enter Details */}
+                          {waitlistStep === 'details' && (
+                            <motion.div
+                              initial={{ opacity: 0, x: 20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              exit={{ opacity: 0, x: -20 }}
+                            >
+                              <h4 className="text-xl font-bold text-center mb-2">
+                                {waitlistType === 'artist' ? '🎸 Artist Waitlist' : '🎵 Fan Waitlist'}
+                              </h4>
+                              <p className="text-sm text-muted-foreground text-center mb-6">
+                                {waitlistType === 'artist' 
+                                  ? 'Get early access to launch your profile & connect with fans'
+                                  : 'Be first to support artists & unlock exclusive content'
+                                }
+                              </p>
+
+                              <div className="space-y-4">
+                                <div>
+                                  <label className="block text-sm font-medium mb-2">
+                                    {waitlistType === 'artist' ? 'Artist Name' : 'Your Name'}
+                                  </label>
+                                  <input
+                                    type="text"
+                                    value={waitlistName}
+                                    onChange={(e) => setWaitlistName(e.target.value)}
+                                    placeholder={waitlistType === 'artist' ? 'Enter your artist name' : 'Enter your name'}
+                                    className="w-full px-4 py-3 rounded-lg bg-background border-2 border-border focus:border-primary outline-none transition-all"
+                                    disabled={isSubmittingWaitlist}
+                                  />
+                                </div>
+
+                                <div>
+                                  <label className="block text-sm font-medium mb-2">
+                                    Email Address
+                                  </label>
+                                  <input
+                                    type="email"
+                                    value={waitlistEmail}
+                                    onChange={(e) => setWaitlistEmail(e.target.value)}
+                                    placeholder="your@email.com"
+                                    className="w-full px-4 py-3 rounded-lg bg-background border-2 border-border focus:border-primary outline-none transition-all"
+                                    disabled={isSubmittingWaitlist}
+                                  />
+                                </div>
+
+                                <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
+                                  <p className="text-sm font-medium mb-2">You'll get:</p>
+                                  <ul className="text-sm space-y-1 text-muted-foreground">
+                                    <li>✅ Early platform access</li>
+                                    <li>✅ Exclusive artist interviews</li>
+                                    <li>✅ Private community access</li>
+                                    <li>✅ Founder member badge</li>
+                                  </ul>
+                                </div>
+
+                                <div className="flex gap-3">
+                                  <Button
+                                    onClick={handleJoinWaitlist}
+                                    disabled={isSubmittingWaitlist || !waitlistName.trim() || !waitlistEmail.trim()}
+                                    className="flex-1 bg-primary hover:bg-primary/90"
+                                  >
+                                    {isSubmittingWaitlist ? 'Joining...' : 'Join Waitlist 🚀'}
+                                  </Button>
+                                  <Button
+                                    variant="outline"
+                                    onClick={() => setWaitlistStep('type')}
+                                    disabled={isSubmittingWaitlist}
+                                  >
+                                    Back
+                                  </Button>
+                                </div>
+                              </div>
+                            </motion.div>
+                          )}
+
+                          {/* Step 3: Success */}
+                          {waitlistStep === 'success' && (
+                            <motion.div
+                              initial={{ opacity: 0, scale: 0.9 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              className="text-center py-6"
+                            >
+                              <motion.div
+                                animate={{ 
+                                  rotate: [0, 10, -10, 10, 0],
+                                  scale: [1, 1.2, 1.2, 1.2, 1]
+                                }}
+                                transition={{ duration: 0.6 }}
+                              >
+                                <PartyPopper className="w-20 h-20 mx-auto mb-4 text-primary" />
+                              </motion.div>
+                              
+                              <h4 className="text-2xl font-bold mb-2 text-gradient">
+                                🎉 Welcome to the Movement!
+                              </h4>
+                              
+                              <p className="text-lg mb-4">
+                                You're officially on the waitlist, <span className="font-bold text-primary">{waitlistName}</span>!
+                              </p>
+                              
+                              <div className="bg-background/50 rounded-lg p-4 mb-6">
+                                <p className="text-sm text-muted-foreground mb-2">
+                                  Welcome to CelestiFan, where every moment of support matters.
+                                </p>
+                                <p className="text-sm text-muted-foreground">
+                                  <span className="font-bold text-primary">Your journey starts now:</span> Earn Celeste. Empower artists. Elevate fandom.
+                                </p>
+                              </div>
+
+                              <p className="text-sm text-muted-foreground mb-6">
+                                Check your email for next steps! 📧
+                              </p>
+
+                              <Button
+                                onClick={closeWaitlistForm}
+                                className="bg-primary hover:bg-primary/90"
+                              >
+                                Awesome! Back to Results
+                              </Button>
+                            </motion.div>
+                          )}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  {/* RETAKE QUIZ */}
                   <Button
                     variant="ghost"
                     onClick={resetQuiz}
-                    className="w-full"
+                    className="w-full mt-4"
                   >
                     Take Quiz Again
                   </Button>
