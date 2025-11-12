@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { 
@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { 
   Sparkles, Music, Users, Waves, Flame, Star, Wind, Zap,
-  PartyPopper, Download, Share2, Twitter, Instagram, Gift, TrendingUp
+  PartyPopper, Download, Share2, Twitter, Instagram, Gift, TrendingUp, Volume2, VolumeX
 } from "lucide-react";
 
 // ========================================
@@ -302,8 +302,38 @@ const CelestiQuiz = () => {
   const [waitlistName, setWaitlistName] = useState('');
   const [waitlistEmail, setWaitlistEmail] = useState('');
   const [isSubmittingWaitlist, setIsSubmittingWaitlist] = useState(false);
+  const [hasTrackedCompletion, setHasTrackedCompletion] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   
   const waitlistCount = useWaitlistCount();
+
+  // Track quiz completion
+  const trackQuizCompletion = async (resultType: string, name: string, type: 'creator' | 'fan') => {
+    if (hasTrackedCompletion) return; // Prevent duplicate tracking
+    
+    try {
+      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzHtjBUTZrE0ML9SV0XvyOzAYFIOF3YXyXX3v0fJizvK0IgikyqF2dGrRUbw1nFNSyB/exec';
+      
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'quiz_completion',
+          userType: type,
+          result: energyTypes[resultType as keyof typeof energyTypes]?.name || resultType,
+          name: name || 'anonymous'
+        })
+      });
+      
+      setHasTrackedCompletion(true);
+      console.log('Quiz completion tracked successfully');
+    } catch (error) {
+      console.error('Failed to track quiz completion:', error);
+    }
+  };
 
   // Initialize random questions when user selects type
   useEffect(() => {
@@ -313,6 +343,60 @@ const CelestiQuiz = () => {
       setQuestions(randomQuestions);
     }
   }, [userType]);
+
+  // Track quiz completion when user sees results and has entered name
+  useEffect(() => {
+    if (result && scene === 4 && userName.trim() && userType && !hasTrackedCompletion) {
+      // Small delay to ensure user is actually viewing the result
+      const timer = setTimeout(() => {
+        trackQuizCompletion(result, userName, userType);
+      }, 2000); // Track after 2 seconds of viewing result
+      
+      return () => clearTimeout(timer);
+    }
+  }, [result, scene, userName, userType, hasTrackedCompletion]);
+
+  // Manage background music playback
+  useEffect(() => {
+    // Initialize audio when modal opens
+    if (isOpen && !audioRef.current) {
+      audioRef.current = new Audio('/quiz-music.mp3.wav');
+      audioRef.current.loop = true;
+      audioRef.current.volume = 0.3; // 30% volume by default
+    }
+
+    // Play music when modal opens
+    if (isOpen && audioRef.current) {
+      audioRef.current.play().catch(error => {
+        // Autoplay might be blocked by browser, that's okay
+        console.log('Audio autoplay prevented:', error);
+      });
+    }
+
+    // Stop music when modal closes
+    if (!isOpen && audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+
+    // Cleanup on unmount
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+    };
+  }, [isOpen]);
+
+  // Handle mute/unmute
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.muted = isMuted;
+    }
+  }, [isMuted]);
+
+  const toggleMute = () => {
+    setIsMuted(!isMuted);
+  };
 
   const handleTypeSelect = (type: 'creator' | 'fan') => {
     setUserType(type);
@@ -567,6 +651,7 @@ const CelestiQuiz = () => {
     setUserName("");
     setShowWaitlistPrompt(false);
     setHasShared(false);
+    setHasTrackedCompletion(false); // Reset tracking for next quiz
   };
 
   return (
@@ -584,6 +669,19 @@ const CelestiQuiz = () => {
       {/* Quiz Modal */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="sm:max-w-2xl bg-background border-primary shadow-2xl shadow-primary/20 max-h-[90vh] overflow-y-auto">
+          {/* Mute/Unmute Button - Fixed Position */}
+          <button
+            onClick={toggleMute}
+            className="absolute top-4 right-14 z-50 p-2 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors"
+            aria-label={isMuted ? "Unmute music" : "Mute music"}
+          >
+            {isMuted ? (
+              <VolumeX className="w-5 h-5 text-primary" />
+            ) : (
+              <Volume2 className="w-5 h-5 text-primary" />
+            )}
+          </button>
+
           <AnimatePresence mode="wait">
             {/* Scene 1: Choose Path */}
             {scene === 1 && (
