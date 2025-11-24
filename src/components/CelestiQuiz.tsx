@@ -656,15 +656,37 @@ const CelestiQuiz = () => {
 
   return (
     <>
-      {/* Trigger Button */}
-      <Button
-        onClick={() => setIsOpen(true)}
-        size="lg"
-        className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
-      >
-        <Sparkles className="mr-2 h-5 w-5" />
-        Discover Your Celesti Energy
-      </Button>
+     {/* Trigger Button */}
+<>
+  <style>{`
+    @keyframes celestial-glow {
+      0%, 100% {
+        box-shadow: 0 0 20px rgba(34, 211, 238, 0.3),
+                    0 0 40px rgba(34, 211, 238, 0.2),
+                    0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      50% {
+        box-shadow: 0 0 30px rgba(34, 211, 238, 0.6),
+                    0 0 60px rgba(34, 211, 238, 0.4),
+                    0 0 90px rgba(34, 211, 238, 0.2),
+                    0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+    }
+    
+    .celesti-glow-button {
+      animation: celestial-glow 4s ease-in-out infinite;
+    }
+  `}</style>
+  
+  <Button
+    onClick={() => setIsOpen(true)}
+    size="lg"
+    className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold celesti-glow-button"
+  >
+    <Sparkles className="mr-2 h-5 w-5" />
+    Reveal My Celesti Energy
+  </Button>
+</>
 
       {/* Quiz Modal */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>

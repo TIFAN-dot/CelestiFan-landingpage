@@ -210,13 +210,15 @@ const Home = () => {
             <span className="text-gradient font-display animate-slide-up block">Ignite Fandom.</span>
           </motion.h1>
           <motion.p
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="text-base sm:text-lg md:text-xl text-muted-foreground mb-5 md:mb-7 max-w-2xl mx-auto"
-          >
-            The ultimate platform where fans fuel music breakthroughs
-          </motion.p>
+  initial={{ y: 20, opacity: 0 }}
+  animate={{ y: 0, opacity: 1 }}
+  transition={{ duration: 0.5, delay: 0.4 }}
+  className="text-base sm:text-lg md:text-xl text-muted-foreground mb-5 md:mb-7 max-w-2xl mx-auto"
+>
+  The ultimate platform where fans fuel music breakthroughs.
+  <br />
+  Support artists. Earn Celeste. Change the game.
+</motion.p>
           <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -267,11 +269,15 @@ const Home = () => {
 >
   <div className="container mx-auto px-4 text-center">
     <Sparkles className="w-16 h-16 mx-auto mb-6 text-primary animate-pulse" />
-    <h2 className="text-4xl md:text-5xl lg:text-6xl font-display mb-6 text-gradient">
-      What's Your Celesti Energy?
+    <h2 className="text-4xl md:text-5xl lg:text-6xl font-display mb-2 text-gradient">
+      Discover Your Celesti Energy
     </h2>
+    <p className="text-xl md:text-2xl lg:text-3xl font-semibold text-muted-foreground mb-6">
+      Find the music identity that makes you unforgettable.
+    </p>
     <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-      Take our cosmic quiz and discover the unique energy that defines your music journey
+      Your music taste isn’t random. it reveals who you are.
+Take our 60-second cosmic quiz and uncover the energy that defines your vibe.
     </p>
     <CelestiQuiz />
   </div>
@@ -286,10 +292,10 @@ const Home = () => {
         className="py-16 md:py-20 container mx-auto px-4"
       >
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-display text-center mb-4 text-gradient">
-          How It Works
+          How CelestiFan Works
         </h2>
         <p className="text-center text-muted-foreground mb-10 md:mb-12 max-w-2xl mx-auto">
-          Three simple steps to revolutionize your music journey
+          Three simple steps. A whole New Fan Experience
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
@@ -326,7 +332,9 @@ const Home = () => {
             Why CelestiFan?
           </h2>
           <p className="text-center text-muted-foreground mb-10 md:mb-12 max-w-3xl mx-auto">
-            CelestiFan is more than just a platform; it's a movement. We're dedicated to empowering artists and giving fans a voice. Here's how we're changing the game.
+            CelestiFan is A new fan-powered music economy where your support creates real impact and earns you real rewards. 
+            <br />
+            We're dedicated to empowering artists and giving fans a voice. Here's how we're changing the game.
           </p>
           <div className="space-y-12 md:space-y-20">
             {features.map((feature, index) => (
