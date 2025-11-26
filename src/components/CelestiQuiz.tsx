@@ -304,7 +304,11 @@ const CelestiQuiz = () => {
   const [isSubmittingWaitlist, setIsSubmittingWaitlist] = useState(false);
   const [hasTrackedCompletion, setHasTrackedCompletion] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
-  
+  const [userRating, setUserRating] = useState(0);
+  const [userComment, setUserComment] = useState('');
+  const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
+
   const audioRef = useRef<HTMLAudioElement | null>(null);
   
   const waitlistCount = useWaitlistCount();
@@ -618,6 +622,75 @@ const CelestiQuiz = () => {
     }
   };
 
+  const handleSubmitFeedback = async () => {
+    if (!userRating || !userName.trim()) {
+      alert('Please rate your experience and enter your name!');
+      return;
+    }
+
+    setIsSubmittingFeedback(true);
+
+    try {
+      // Detect user's country
+      let country = 'Unknown';
+      let flag = '🌍';
+      
+      try {
+        const geoResponse = await fetch('https://ipapi.co/json/');
+        const geoData = await geoResponse.json();
+        country = geoData.country_name || 'Unknown';
+        
+        // Map country to flag emoji
+        const countryFlags: Record<string, string> = {
+          'Nigeria': '🇳🇬', 'United States': '🇺🇸', 'Italy': '🇮🇹',
+          'United Kingdom': '🇬🇧', 'Germany': '🇩🇪', 'France': '🇫🇷',
+          'Canada': '🇨🇦', 'Australia': '🇦🇺', 'Brazil': '🇧🇷',
+          'Japan': '🇯🇵', 'South Korea': '🇰🇷', 'India': '🇮🇳',
+          'Mexico': '🇲🇽', 'Spain': '🇪🇸', 'Netherlands': '🇳🇱',
+          'South Africa': '🇿🇦', 'Kenya': '🇰🇪', 'Ghana': '🇬🇭',
+          'Ireland': '🇮🇪', 'Sweden': '🇸🇪', 'Poland': '🇵🇱',
+          'Portugal': '🇵🇹', 'Belgium': '🇧🇪', 'Switzerland': '🇨🇭',
+          'Austria': '🇦🇹', 'Greece': '🇬🇷', 'Turkey': '🇹🇷',
+          'UAE': '🇦🇪', 'Egypt': '🇪🇬', 'Argentina': '🇦🇷',
+          'Philippines': '🇵🇭', 'Thailand': '🇹🇭', 'Singapore': '🇸🇬',
+          'Malaysia': '🇲🇾', 'Indonesia': '🇮🇩', 'Jamaica': '🇯🇲'
+        };
+        
+        flag = countryFlags[country] || '🌍';
+      } catch (geoError) {
+        console.log('Geolocation failed, using default');
+      }
+
+      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzHtjBUTZrE0ML9SV0XvyOzAYFIOF3YXyXX3v0fJizvK0IgikyqF2dGrRUbw1nFNSyB/exec';
+
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          action: 'quiz_feedback',
+          name: userName,
+          rating: userRating,
+          comment: userComment || 'No comment',
+          energyType: result ? energyTypes[result].name : '',
+          country: country,
+          flag: flag,
+          timestamp: new Date().toISOString()
+        })
+      });
+
+      setFeedbackSubmitted(true);
+
+    } catch (error) {
+      console.error('Failed to submit feedback:', error);
+      alert('Something went wrong. Please try again.');
+    } finally {
+      setIsSubmittingFeedback(false);
+    }
+  };
+
   const openWaitlistForm = () => {
     setShowWaitlistForm(true);
     setWaitlistStep('type');
@@ -656,37 +729,37 @@ const CelestiQuiz = () => {
 
   return (
     <>
-     {/* Trigger Button */}
-<>
-  <style>{`
-    @keyframes celestial-glow {
-      0%, 100% {
-        box-shadow: 0 0 20px rgba(34, 211, 238, 0.3),
-                    0 0 40px rgba(34, 211, 238, 0.2),
-                    0 4px 6px rgba(0, 0, 0, 0.1);
-      }
-      50% {
-        box-shadow: 0 0 30px rgba(34, 211, 238, 0.6),
-                    0 0 60px rgba(34, 211, 238, 0.4),
-                    0 0 90px rgba(34, 211, 238, 0.2),
-                    0 4px 6px rgba(0, 0, 0, 0.1);
-      }
-    }
-    
-    .celesti-glow-button {
-      animation: celestial-glow 4s ease-in-out infinite;
-    }
-  `}</style>
-  
-  <Button
-    onClick={() => setIsOpen(true)}
-    size="lg"
-    className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold celesti-glow-button"
-  >
-    <Sparkles className="mr-2 h-5 w-5" />
-    Reveal My Celesti Energy
-  </Button>
-</>
+      {/* Trigger Button */}
+      <>
+        <style>{`
+          @keyframes celestial-glow {
+            0%, 100% {
+              box-shadow: 0 0 20px rgba(34, 211, 238, 0.3),
+                          0 0 40px rgba(34, 211, 238, 0.2),
+                          0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            50% {
+              box-shadow: 0 0 30px rgba(34, 211, 238, 0.6),
+                          0 0 60px rgba(34, 211, 238, 0.4),
+                          0 0 90px rgba(34, 211, 238, 0.2),
+                          0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+          }
+          
+          .celesti-glow-button {
+            animation: celestial-glow 4s ease-in-out infinite;
+          }
+        `}</style>
+        
+        <Button
+          onClick={() => setIsOpen(true)}
+          size="lg"
+          className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold celesti-glow-button"
+        >
+          <Sparkles className="mr-2 h-5 w-5" />
+          Reveal My Celesti Energy
+        </Button>
+      </>
 
       {/* Quiz Modal */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -859,7 +932,7 @@ const CelestiQuiz = () => {
               </motion.div>
             )}
 
-            {/* Scene 4: Results - IMPROVED! */}
+            {/* Scene 4: Results */}
             {scene === 4 && result && (
               <motion.div
                 key="scene4"
@@ -920,7 +993,7 @@ const CelestiQuiz = () => {
                     />
                   </div>
 
-                  {/* PRIMARY CTA: SHARE YOUR CELESTI ENERGY (UNLOCKED!) */}
+                  {/* PRIMARY CTA: SHARE YOUR CELESTI ENERGY */}
                   <div className="space-y-4 pt-4">
                     <div className="text-center">
                       <h3 className="text-xl font-bold mb-2 flex items-center justify-center gap-2">
@@ -932,7 +1005,7 @@ const CelestiQuiz = () => {
                       </p>
                     </div>
 
-                    {/* SHARE BUTTONS - BIG & PROMINENT */}
+                    {/* SHARE BUTTONS */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                       <Button
                         size="lg"
@@ -979,7 +1052,7 @@ const CelestiQuiz = () => {
                     </div>
                   </div>
 
-                  {/* SECONDARY CTA: WAITLIST (OPTIONAL VALUE-ADD) */}
+                  {/* SECONDARY CTA: WAITLIST */}
                   {!showWaitlistPrompt ? (
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
@@ -1256,6 +1329,65 @@ const CelestiQuiz = () => {
                       </motion.div>
                     )}
                   </AnimatePresence>
+                  
+                  {/* Rating & Comment Section */}
+                  <div className="mt-8 pt-8 border-t border-border">
+                    <div className="bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20 rounded-xl p-6">
+                      <h3 className="text-xl font-bold text-center mb-2">
+                        ⭐ How Accurate Was Your Result?
+                      </h3>
+                      <p className="text-sm text-muted-foreground text-center mb-6">
+                        Your feedback helps us understand your vibe
+                      </p>
+                      
+                      {/* Star Rating */}
+                      <div className="flex justify-center gap-2 mb-6">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <button
+                            key={star}
+                            onClick={() => setUserRating(star)}
+                            className={`text-4xl transition-all hover:scale-110 ${
+                              userRating >= star ? 'opacity-100' : 'opacity-30'
+                            }`}
+                          >
+                            ⭐
+                          </button>
+                        ))}
+                      </div>
+                      
+                      {/* Comment Box */}
+                      <textarea
+                        value={userComment}
+                        onChange={(e) => setUserComment(e.target.value)}
+                        placeholder="Tell us what you think (max 140 characters)..."
+                        maxLength={140}
+                        className="w-full p-4 rounded-lg bg-background border-2 border-border focus:border-primary outline-none transition-all text-sm"
+                        rows={3}
+                      />
+                      
+                      {/* Character Count */}
+                      <div className="text-right text-xs text-muted-foreground mt-1">
+                        {userComment.length}/140
+                      </div>
+                      
+                      {/* Submit Button */}
+                      <Button
+                        onClick={handleSubmitFeedback}
+                        disabled={!userRating || isSubmittingFeedback}
+                        className="w-full mt-4 bg-primary hover:bg-primary/90"
+                      >
+                        {isSubmittingFeedback ? 'Submitting...' : 'Submit Feedback'}
+                      </Button>
+                      
+                      {feedbackSubmitted && (
+                        <div className="mt-4 p-3 bg-green-500/10 border border-green-500/20 rounded-lg text-center">
+                          <p className="text-sm text-green-600 dark:text-green-400">
+                            ✅ Thanks for your feedback! You might see it featured on our blog.
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
 
                   {/* RETAKE QUIZ */}
                   <Button

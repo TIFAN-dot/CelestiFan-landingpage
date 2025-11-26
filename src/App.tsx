@@ -16,6 +16,7 @@ import Connect from "./pages/Connect";
 import NotFound from "./pages/NotFound";
 import Celeste from "./pages/Celeste";
 import Quiz from "./pages/Quiz";
+import BlogReactions from '@/pages/BlogReactions';
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const App = () => (
               <Route path="/celeste" element={<Celeste />} />
               <Route path="/quiz" element={<Quiz />} />
               <Route path="*" element={<NotFound />} />
+              <Route path="/blog/reactions" element={<BlogReactions />} />
             </Routes>
           </main>
           <Footer />

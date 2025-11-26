@@ -1,9 +1,20 @@
 import { Calendar, Clock, ArrowRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const Blog = () => {
   const posts = [
+    {
+      title: "Celesti Energy – Fan Reactions",
+      excerpt: "See what fans around the world are saying about their quiz results! Real ratings, real reactions, real vibes. Join hundreds who've discovered their cosmic energy.",
+      date: "Live Now",
+      readTime: "Ongoing",
+      category: "Community",
+      image: "reactions",
+      link: "/blog/reactions",
+      featured: true
+    },
     {
       title: "How to Skyrocket Your Music with Fan Campaigns",
       excerpt: "Learn how independent artists are using CelestiFan campaigns to turn loyal listeners into viral marketing engines. Discover the strategies that helped Kai Morrison gain 500K streams in two weeks.",
@@ -11,6 +22,7 @@ const Blog = () => {
       readTime: "5 min read",
       category: "Artist Tips",
       image: "campaign-guide",
+      link: "#"
     },
     {
       title: "The Ultimate Fan Guide: Ranking Up Fast",
@@ -19,6 +31,7 @@ const Blog = () => {
       readTime: "7 min read",
       category: "Fan Strategy",
       image: "fan-guide",
+      link: "#"
     },
     {
       title: "Why Fan Engagement Beats Follower Counts",
@@ -27,6 +40,7 @@ const Blog = () => {
       readTime: "4 min read",
       category: "Industry Insights",
       image: "engagement",
+      link: "#"
     },
     {
       title: "Success Story: From Bedroom Producer to Charting Artist",
@@ -35,6 +49,7 @@ const Blog = () => {
       readTime: "6 min read",
       category: "Success Stories",
       image: "success-story",
+      link: "#"
     },
     {
       title: "5 Creative Campaign Ideas for Emerging Artists",
@@ -43,6 +58,7 @@ const Blog = () => {
       readTime: "5 min read",
       category: "Artist Tips",
       image: "campaign-ideas",
+      link: "#"
     },
     {
       title: "Understanding CelestiFan's Celeste System",
@@ -51,10 +67,11 @@ const Blog = () => {
       readTime: "4 min read",
       category: "Platform Guide",
       image: "celeste-system",
+      link: "#"
     },
   ];
 
-  const categories = ["All", "Artist Tips", "Fan Strategy", "Industry Insights", "Success Stories", "Platform Guide"];
+  const categories = ["All", "Artist Tips", "Fan Strategy", "Industry Insights", "Success Stories", "Platform Guide", "Community"];
 
   return (
     <div className="min-h-screen pt-20">
@@ -89,78 +106,99 @@ const Blog = () => {
         </div>
       </section>
 
-      {/* Featured Post */}
+      {/* Featured Post - FAN REACTIONS */}
       <section className="container mx-auto px-4 mb-20">
-        <Card className="overflow-hidden bg-card border-border hover:border-primary/50 transition-all">
-          <div className="grid md:grid-cols-2">
-            <div className="bg-muted flex items-center justify-center min-h-[300px]">
-              <div className="text-center text-muted-foreground">
-                <div className="text-6xl mb-2">🎵</div>
-                <p className="text-sm">Featured: Campaign Strategy</p>
+        <Link to={posts[0].link}>
+          <Card className="overflow-hidden bg-card border-border hover:border-primary/50 transition-all cursor-pointer group">
+            <div className="grid md:grid-cols-2">
+              <div className="bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center min-h-[300px] relative overflow-hidden">
+                <div className="text-center relative z-10">
+                  <div className="text-8xl mb-4 animate-pulse">⭐</div>
+                  <p className="text-sm font-semibold text-primary uppercase tracking-wider">
+                    Live Community Feed
+                  </p>
+                </div>
+                {/* Decorative stars */}
+                <div className="absolute top-10 left-10 text-4xl opacity-20">✨</div>
+                <div className="absolute bottom-10 right-10 text-4xl opacity-20">✨</div>
+                <div className="absolute top-1/2 right-20 text-3xl opacity-10">⭐</div>
+              </div>
+              <div className="p-8 flex flex-col justify-center">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="inline-block px-3 py-1 bg-primary/20 text-primary rounded-full text-sm font-semibold">
+                    Featured
+                  </span>
+                  <span className="inline-block px-3 py-1 bg-green-500/20 text-green-600 dark:text-green-400 rounded-full text-sm font-semibold animate-pulse">
+                    🔴 Live
+                  </span>
+                </div>
+                <h2 className="text-3xl font-bold mb-4 group-hover:text-primary transition-colors">
+                  {posts[0].title}
+                </h2>
+                <p className="text-muted-foreground mb-6">{posts[0].excerpt}</p>
+                <div className="flex items-center gap-6 text-sm text-muted-foreground mb-6">
+                  <div className="flex items-center gap-2">
+                    <Calendar className="h-4 w-4" />
+                    {posts[0].date}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Clock className="h-4 w-4" />
+                    {posts[0].readTime}
+                  </div>
+                </div>
+                <Button className="w-fit bg-primary hover:bg-primary/90 text-primary-foreground">
+                  View Reactions
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
               </div>
             </div>
-            <div className="p-8 flex flex-col justify-center">
-              <span className="inline-block px-3 py-1 bg-primary/20 text-primary rounded-full text-sm font-semibold mb-4 w-fit">
-                Featured
-              </span>
-              <h2 className="text-3xl font-bold mb-4">{posts[0].title}</h2>
-              <p className="text-muted-foreground mb-6">{posts[0].excerpt}</p>
-              <div className="flex items-center gap-6 text-sm text-muted-foreground mb-6">
-                <div className="flex items-center gap-2">
-                  <Calendar className="h-4 w-4" />
-                  {posts[0].date}
-                </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4" />
-                  {posts[0].readTime}
-                </div>
-              </div>
-              <Button className="w-fit bg-primary hover:bg-primary/90 text-primary-foreground">
-                Read More
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        </Card>
+          </Card>
+        </Link>
       </section>
 
       {/* Blog Posts Grid */}
       <section className="container mx-auto px-4 pb-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {posts.slice(1).map((post) => (
-            <Card key={post.title} className="overflow-hidden bg-card border-border hover:border-primary/50 transition-all group cursor-pointer">
-              <div className="bg-muted h-48 flex items-center justify-center">
-                <div className="text-center text-muted-foreground">
-                  <div className="text-4xl mb-2">📝</div>
-                  <p className="text-xs">{post.category}</p>
-                </div>
-              </div>
-              <div className="p-6">
-                <span className="inline-block px-3 py-1 bg-primary/20 text-primary rounded-full text-xs font-semibold mb-3">
-                  {post.category}
-                </span>
-                <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
-                  {post.title}
-                </h3>
-                <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
-                  {post.excerpt}
-                </p>
-                <div className="flex items-center gap-4 text-xs text-muted-foreground mb-4">
-                  <div className="flex items-center gap-1">
-                    <Calendar className="h-3 w-3" />
-                    {post.date}
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Clock className="h-3 w-3" />
-                    {post.readTime}
+            <Link 
+              key={post.title} 
+              to={post.link}
+              className="block"
+            >
+              <Card className="overflow-hidden bg-card border-border hover:border-primary/50 transition-all group cursor-pointer h-full">
+                <div className="bg-muted h-48 flex items-center justify-center">
+                  <div className="text-center text-muted-foreground">
+                    <div className="text-4xl mb-2">📝</div>
+                    <p className="text-xs">{post.category}</p>
                   </div>
                 </div>
-                <Button variant="ghost" className="p-0 h-auto text-primary hover:text-primary/80">
-                  Read More
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </div>
-            </Card>
+                <div className="p-6">
+                  <span className="inline-block px-3 py-1 bg-primary/20 text-primary rounded-full text-xs font-semibold mb-3">
+                    {post.category}
+                  </span>
+                  <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
+                    {post.title}
+                  </h3>
+                  <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
+                    {post.excerpt}
+                  </p>
+                  <div className="flex items-center gap-4 text-xs text-muted-foreground mb-4">
+                    <div className="flex items-center gap-1">
+                      <Calendar className="h-3 w-3" />
+                      {post.date}
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Clock className="h-3 w-3" />
+                      {post.readTime}
+                    </div>
+                  </div>
+                  <Button variant="ghost" className="p-0 h-auto text-primary hover:text-primary/80">
+                    Read More
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </div>
+              </Card>
+            </Link>
           ))}
         </div>
       </section>
