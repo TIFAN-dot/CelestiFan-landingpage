@@ -347,7 +347,7 @@ Take our 60-second cosmic quiz and uncover the energy that defines your vibe.
                 viewport={{ once: true }}
               >
                 <div className={`flex justify-center ${index % 2 === 0 ? 'lg:order-last' : 'lg:order-first'}`}>
-                  <div className="max-w-[300px]">
+                  <div className="max-w-[350px]">
                     <img 
                       src={feature.imageUrl} 
                       alt={feature.title}

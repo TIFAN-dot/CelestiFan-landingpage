@@ -13,7 +13,7 @@ const Navbar = () => {
     { name: "Features", path: "/features" },
     { name: "Celeste", path: "/celeste" },
     // { name: "Pricing", path: "/pricing" },
-    { name: "Blog", path: "/blog/reactions" }, // UNCOMMENTED AND UPDATED PATH
+    { name: "Blog", path: "/blog" }, // UNCOMMENTED AND UPDATED PATH
     { name: "Connect", path: "/connect" },
   ];
 
