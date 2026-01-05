@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+   All colors MUST be HSL. 
 */
 
 @layer base {
@@ -74,6 +74,11 @@ All colors MUST be HSL.
 @layer utilities {
   .text-gradient {
     @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
+  }
+
+  /* Added font-display for the professional headline look */
+  .font-display {
+    @apply font-sans tracking-tight;
   }
 
   .bg-gradient-neon {
