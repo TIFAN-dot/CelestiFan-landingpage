@@ -21,7 +21,7 @@ const Home = () => {
   // Generate stars on mount
   useEffect(() => {
     const starsContainer = document.getElementById('starsContainer');
-    if (starsContainer) {
+    if (starsContainer && starsContainer.children.length === 0) {
       for (let i = 0; i < 100; i++) {
         const star = document.createElement('div');
         star.className = 'star-dot';
@@ -192,8 +192,14 @@ const Home = () => {
           position: relative;
           width: 100%;
           max-width: 1200px;
-          height: 400px;
+          height: 500px;
           margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+          .cloud-scene {
+            height: 600px;
+          }
         }
 
         .music-note {
@@ -202,6 +208,14 @@ const Home = () => {
           right: 10%;
           font-size: 48px;
           animation: float 3s ease-in-out infinite, pulse 1.5s ease-in-out infinite;
+        }
+
+        @media (max-width: 768px) {
+          .music-note {
+            font-size: 32px;
+            right: 5%;
+            top: 10px;
+          }
         }
 
         .note-symbol {
@@ -214,6 +228,14 @@ const Home = () => {
           left: 8%;
           font-size: 36px;
           animation: twinkle 2s ease-in-out infinite, rotate 4s linear infinite;
+        }
+
+        @media (max-width: 768px) {
+          .star-emoji {
+            font-size: 24px;
+            left: 5%;
+            top: 35%;
+          }
         }
 
         .cloud-container {
@@ -233,6 +255,22 @@ const Home = () => {
           animation-delay: 0.5s;
         }
 
+        @media (max-width: 768px) {
+          .cloud-container {
+            left: 50% !important;
+            right: auto !important;
+            transform: translate(-50%, -50%);
+          }
+
+          .cloud-left {
+            top: 35%;
+          }
+
+          .cloud-right {
+            top: 65%;
+          }
+        }
+
         .cloud {
           position: relative;
           width: 200px;
@@ -241,6 +279,14 @@ const Home = () => {
           border-radius: 100px;
           filter: drop-shadow(0 10px 30px rgba(0,0,0,0.15));
           transition: transform 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+          .cloud {
+            width: 160px;
+            height: 96px;
+            border-radius: 80px;
+          }
         }
 
         .cloud:hover {
@@ -269,6 +315,22 @@ const Home = () => {
           right: 20px;
         }
 
+        @media (max-width: 768px) {
+          .cloud::before {
+            width: 80px;
+            height: 80px;
+            top: -40px;
+            left: 16px;
+          }
+
+          .cloud::after {
+            width: 96px;
+            height: 96px;
+            top: -48px;
+            right: 16px;
+          }
+        }
+
         .face {
           position: absolute;
           width: 100%;
@@ -285,6 +347,12 @@ const Home = () => {
           gap: 30px;
         }
 
+        @media (max-width: 768px) {
+          .eyes {
+            gap: 24px;
+          }
+        }
+
         .eye {
           width: 16px;
           height: 16px;
@@ -292,6 +360,13 @@ const Home = () => {
           border-radius: 50%;
           position: relative;
           animation: blink 4s infinite;
+        }
+
+        @media (max-width: 768px) {
+          .eye {
+            width: 13px;
+            height: 13px;
+          }
         }
 
         .eye::after {
@@ -303,6 +378,15 @@ const Home = () => {
           border-radius: 50%;
           top: 3px;
           left: 3px;
+        }
+
+        @media (max-width: 768px) {
+          .eye::after {
+            width: 5px;
+            height: 5px;
+            top: 2px;
+            left: 2px;
+          }
         }
 
         .mouth-happy {
@@ -317,6 +401,14 @@ const Home = () => {
           border-radius: 0 0 50px 50px;
         }
 
+        @media (max-width: 768px) {
+          .mouth-happy {
+            width: 40px;
+            height: 20px;
+            border-width: 2px;
+          }
+        }
+
         .mouth-sad {
           position: absolute;
           bottom: 30%;
@@ -329,6 +421,14 @@ const Home = () => {
           border-radius: 0 0 50px 50px;
         }
 
+        @media (max-width: 768px) {
+          .mouth-sad {
+            width: 40px;
+            height: 20px;
+            border-width: 2px;
+          }
+        }
+
         .headphones {
           position: absolute;
           top: -10px;
@@ -339,12 +439,27 @@ const Home = () => {
           z-index: 5;
         }
 
+        @media (max-width: 768px) {
+          .headphones {
+            width: 112px;
+            height: 80px;
+            top: -8px;
+          }
+        }
+
         .headband {
           width: 100%;
           height: 30px;
           border: 4px solid #ff6b6b;
           border-bottom: none;
           border-radius: 70px 70px 0 0;
+        }
+
+        @media (max-width: 768px) {
+          .headband {
+            height: 24px;
+            border-width: 3px;
+          }
         }
 
         .earpiece {
@@ -354,6 +469,13 @@ const Home = () => {
           background: #ff6b6b;
           border-radius: 8px;
           box-shadow: inset 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 768px) {
+          .earpiece {
+            width: 24px;
+            height: 28px;
+          }
         }
 
         .earpiece-left {
@@ -366,6 +488,16 @@ const Home = () => {
           top: 25px;
         }
 
+        @media (max-width: 768px) {
+          .earpiece-left {
+            top: 20px;
+          }
+
+          .earpiece-right {
+            top: 20px;
+          }
+        }
+
         .glasses {
           position: absolute;
           top: 30%;
@@ -376,6 +508,13 @@ const Home = () => {
           z-index: 15;
         }
 
+        @media (max-width: 768px) {
+          .glasses {
+            width: 80px;
+            height: 32px;
+          }
+        }
+
         .lens {
           position: absolute;
           width: 35px;
@@ -383,6 +522,14 @@ const Home = () => {
           background: rgba(100, 100, 100, 0.3);
           border: 3px solid #333;
           border-radius: 50%;
+        }
+
+        @media (max-width: 768px) {
+          .lens {
+            width: 28px;
+            height: 28px;
+            border-width: 2px;
+          }
         }
 
         .lens-left {
@@ -403,12 +550,30 @@ const Home = () => {
           transform: translate(-50%, -50%);
         }
 
+        @media (max-width: 768px) {
+          .bridge {
+            width: 16px;
+            height: 2px;
+          }
+        }
+
         @keyframes bounce {
           0%, 100% {
             transform: translateY(-50%) translateY(0);
           }
           50% {
             transform: translateY(-50%) translateY(-20px);
+          }
+        }
+
+        @media (max-width: 768px) {
+          @keyframes bounce {
+            0%, 100% {
+              transform: translate(-50%, -50%) translateY(0);
+            }
+            50% {
+              transform: translate(-50%, -50%) translateY(-15px);
+            }
           }
         }
 
@@ -490,6 +655,23 @@ const Home = () => {
           animation-delay: 2s;
         }
 
+        @media (max-width: 768px) {
+          .bg-circle-1 {
+            width: 60px;
+            height: 60px;
+          }
+
+          .bg-circle-2 {
+            width: 40px;
+            height: 40px;
+          }
+
+          .bg-circle-3 {
+            width: 50px;
+            height: 50px;
+          }
+        }
+
         @keyframes float-bg {
           0%, 100% {
             transform: translateY(0) scale(1);
@@ -508,6 +690,15 @@ const Home = () => {
           z-index: 100;
           max-width: 650px;
           padding: 0 30px;
+          width: 100%;
+        }
+
+        @media (max-width: 768px) {
+          .text-section {
+            bottom: 5%;
+            padding: 0 20px;
+            max-width: 100%;
+          }
         }
 
         .main-text {
@@ -518,7 +709,20 @@ const Home = () => {
           line-height: 1.4;
           margin-bottom: 14px;
           letter-spacing: 0.3px;
-          white-space: nowrap;
+        }
+
+        @media (max-width: 768px) {
+          .main-text {
+            font-size: 18px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .main-text {
+            font-size: 16px;
+          }
         }
 
         .highlight {
@@ -535,12 +739,31 @@ const Home = () => {
           letter-spacing: 0.2px;
         }
 
+        @media (max-width: 768px) {
+          .sub-text {
+            font-size: 14px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .sub-text {
+            font-size: 13px;
+          }
+        }
+
         .brand {
           color: #ffffff;
           font-weight: 500;
           background: #3b82f6;
           padding: 2px 8px;
           border-radius: 3px;
+        }
+
+        @media (max-width: 768px) {
+          .brand {
+            padding: 2px 6px;
+            font-size: 14px;
+          }
         }
       `}</style>
 
@@ -574,6 +797,7 @@ const Home = () => {
           </DialogContent> 
         </Dialog> 
   
+        {/* HERO SECTION */}
         <motion.section 
           initial={{ opacity: 0 }} 
           animate={{ opacity: 1 }} 
@@ -652,7 +876,7 @@ const Home = () => {
           </div> 
         </motion.section>
 
-        {/* Cloud Animation Section */}
+        {/* CLOUD ANIMATION SECTION */}
         <motion.section
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
