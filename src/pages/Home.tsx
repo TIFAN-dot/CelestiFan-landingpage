@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion"; 
 import { useState, useEffect } from "react"; 
 import CelestiQuiz from "@/components/CelestiQuiz"; 
+import ServicesSection from "@/components/ServicesSection";
 import { 
   Dialog, 
   DialogContent, 
@@ -942,6 +943,9 @@ const Home = () => {
             </div>
           </div>
         </motion.section>
+
+        {/* SERVICES SECTION */}
+        <ServicesSection />
   
         <motion.section 
           initial={{ opacity: 0, y: 50 }} 
