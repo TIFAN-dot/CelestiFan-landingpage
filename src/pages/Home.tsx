@@ -235,9 +235,9 @@ const Home = () => {
             className="text-slate-300/80 font-light leading-relaxed tracking-wide max-w-2xl mx-auto mb-10"
             style={{ fontSize: "clamp(1rem, 2.2vw, 1.35rem)" }}
           >
-            Streams don't pay fans. Followers don't tell artists who's real.
+            Your support has always been free. Your artist never knew your name. CelestiFan changes both.
             <br className="hidden md:block" />
-            CelestiFan is where dedication earns — and artists finally see who's truly riding for them.
+            
           </motion.p>
 
           <motion.div
