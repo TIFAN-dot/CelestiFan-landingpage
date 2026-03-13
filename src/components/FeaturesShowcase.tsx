@@ -9,8 +9,8 @@ const features = [
     gradientTo: "#3b82f6",
     tab: "Campaigns",
     headline: "Your Support Has a Progress Bar.",
-    sub: "Join active campaigns. Stream, share, show up. Watch your contribution move the needle in real time.",
-    image: "/mvp-screen-1.jpg",
+    sub: "Join active campaigns. Stream, share, show up. Watch your contribution move the needle — and let the artist see exactly who's driving their momentum in real time.",
+    image: "/mvp-screen-1.webp",
     alt: "Active Campaigns — CelestiFan MVP",
   },
   {
@@ -20,8 +20,8 @@ const features = [
     gradientTo: "#06b6d4",
     tab: "Leaderboard",
     headline: "Your Devotion. Finally Ranked.",
-    sub: "The top fans rise to the top. Your Celeste score places you on a podium the whole community can see.",
-    image: "/mvp-screen-2.jpg",
+    sub: "The top fans rise to the top. Your Celeste score places you on a public podium — and gives artists a real-time view of who their most dedicated community actually is.",
+    image: "/mvp-screen-2.webp",
     alt: "Top Fan Leaderboard — CelestiFan MVP",
   },
   {
@@ -31,8 +31,8 @@ const features = [
     gradientTo: "#10b981",
     tab: "Rewards",
     headline: "Earn More Than Memories.",
-    sub: "Every action earns Celeste. Level up your fan badge, track your XP, and redeem coins for real rewards.",
-    image: "/mvp-screen-3.jpg",
+    sub: "Every action earns Celeste. Level up your fan badge, stack your XP, and redeem coins for real rewards — because showing up this hard should never go uncompensated.",
+    image: "/mvp-screen-3.webp",
     alt: "SuperFan Rewards & Celeste — CelestiFan MVP",
   },
   {
@@ -41,9 +41,9 @@ const features = [
     gradientFrom: "#10b981",
     gradientTo: "#a855f7",
     tab: "Artists",
-    headline: "Every Artist. One Dashboard.",
-    sub: "Pin the artists you support. Track your rank, your Celeste, your campaigns — all in one place.",
-    image: "/mvp-screen-4.jpg",
+    headline: "Every Artist. All Your Proof.",
+    sub: "Pin the artists you support. Your rank, your Celeste, your full campaign history — a living record of everything that proves you were there before the world caught on.",
+    image: "/mvp-screen-4.webp",
     alt: "Pinned Artists Dashboard — CelestiFan MVP",
   },
 ];
@@ -53,7 +53,7 @@ const FeaturesShowcase = () => {
   const current = features[active];
 
   return (
-    <section className="py-20 md:py-28 relative overflow-hidden">
+    <section className="py-14 md:py-20 relative overflow-hidden">
 
       {/* Subtle background glow matching active gradient */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.04]">
@@ -102,10 +102,10 @@ const FeaturesShowcase = () => {
               fontSize: "clamp(2rem, 5vw, 3.5rem)",
             }}
           >
-            Built for Every Fan. Every Artist.
+            Built for the Ones Who Show Up.
           </h2>
-          <p className="text-sm md:text-base text-slate-400 max-w-md mx-auto">
-            The tools to make your support visible, rewarded, and real.
+          <p className="text-sm md:text-base text-slate-400 max-w-lg mx-auto">
+            For fans whose dedication never got credited. For artists who never knew who was really there. These are the tools that change that.
           </p>
         </motion.div>
 
@@ -238,7 +238,7 @@ const FeaturesShowcase = () => {
                 alt={current.alt}
                 loading="lazy"
                 className="w-full h-auto rounded-xl"
-                style={{ maxHeight: "420px", objectFit: "contain" }}
+                style={{ maxHeight: "340px", objectFit: "contain" }}
               />
             </div>
           </motion.div>
@@ -246,7 +246,7 @@ const FeaturesShowcase = () => {
 
         {/* ── BOTTOM GRADIENT LINE ── */}
         <div
-          className="mt-20 h-px w-full opacity-20"
+          className="mt-10 h-px w-full opacity-20"
           style={{
             background: "linear-gradient(to right, #a855f7, #3b82f6, #06b6d4, #10b981)",
           }}

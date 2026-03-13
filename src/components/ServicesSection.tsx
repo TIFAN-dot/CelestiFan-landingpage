@@ -6,113 +6,131 @@ export default function ServicesSection() {
     {
       number: "/01",
       title: "Fan-First Economy",
-      description: "We build the future where fans are co-creators and stakeholders. Streams, shares, edits, concert attendance, and energy become trackable, visible, and rewarded with Celeste — our native token that turns passion into real value.",
-      subtitle: "No more invisible dedication. Your love finally pays back.",
+      body: "Fans are the engine the industry never credited. Every stream, share, concert, and show-up now earns Celeste — your invisible dedication becomes visible value that artists can see, measure, and finally reward.",
+      gradientColors: "#a855f7, #3b82f6",
       color: "from-purple-500 to-blue-500"
     },
     {
       number: "/02",
       title: "Artist Empowerment",
-      description: "Artists gain full visibility into their true supporters, not only Direct fan relationships or exclusive access but a strong mutual growth that replace one-way streaming payouts.",
-      subtitle: "CelestiFan unlocks sustainable revenue through fan-driven rewards, early access drops, and community perks — making every era stronger together.",
+      body: "You put out the music. They showed up in the dark. But the data never told you who. CelestiFan gives artists a direct line to their real community — the ones streaming at 2am, defending the album, building the culture around your name.",
+      gradientColors: "#3b82f6, #06b6d4",
       color: "from-blue-500 to-cyan-500"
     },
     {
       number: "/03",
-      title: "Community-Driven Rewards",
-      description: "We reward engagement that matters: loyalty programs, tiered perks, features for top supporters, and gamified experiences.",
-      subtitle: "Fans earn Celeste for recreating the art covers, playlists, defenses, and more creating a thriving ecosystem where superfans drive the future.",
+      title: "Community Rewards",
+      body: "The fan who remade the cover, built the playlist, defended the album in every comment section. The artist who drops without a label. Both deserve recognition. CelestiFan rewards every act of showing up — because culture is built by the ones who stay.",
+      gradientColors: "#06b6d4, #10b981",
       color: "from-cyan-500 to-emerald-500"
     },
     {
       number: "/04",
       title: "Global Fan Future",
-      description: "In the emerging fan economy, platforms like CelestiFan lead the shift from passive consumption to active participation.",
-      subtitle: "Fans become investors in their favorite artists' journeys — with rewards, ownership, and recognition. The next generation of music success belongs to the communities that build it.",
+      body: "Whether you're a fan in Lagos or LA, An independent artist in London or in Seoul— the next era of music belongs to the communities that build it together. CelestiFan is where that future already lives.",
+      gradientColors: "#10b981, #a855f7",
       color: "from-emerald-500 to-purple-500"
     }
   ];
 
+  const scrollToFeatures = () => {
+    document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div className="w-full bg-black text-white py-20 px-4">
       <div className="max-w-6xl mx-auto">
-        {/* Header Section */}
-        <div className="mb-20 text-center max-w-4xl mx-auto">
-          <p className="text-sm text-gray-400 mb-4 uppercase tracking-widest">WHAT WE DO</p>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-light leading-relaxed">
-            We believe that we can live in a world where{' '}
-            <span className="bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent font-normal">
-              every fan's passion
-            </span>{' '}
-            is seen, rewarded, and turned into real value — not just invisible streams or likes.
+
+        {/* Header */}
+        <div className="mb-16 text-center max-w-3xl mx-auto">
+          <p className="text-xs text-gray-500 mb-5 uppercase tracking-[0.3em]">What We Do</p>
+          <h2
+            className="font-light leading-tight"
+            style={{
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontSize: "clamp(1.9rem, 4.5vw, 3.5rem)",
+            }}
+          >
+            Every stream you gave, every stage they built —
+            {" "}<span className="bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent">
+              the industry took it all and paid neither of you back.
+            </span>{" "}
+            That's about to change.
           </h2>
-          <p className="mt-8 text-lg text-gray-300 leading-relaxed">
-            CelestiFan is the platform that makes it happen: connecting artists and fans in a new, equitable economy where support flows both ways.
-          </p>
-          <p className="mt-6 text-lg text-gray-300 leading-relaxed">
-            Our mission is simple: Empower fans to recreate the music they love, while giving artists direct, meaningful connections and sustainable income beyond traditional streaming.
-          </p>
         </div>
 
-        {/* Services List */}
+        {/* Services */}
         <div className="space-y-0">
           {services.map((service, index) => (
             <div
               key={index}
-              className="border-t border-gray-800 py-16 hover:bg-white/[0.02] transition-all duration-300 group"
+              className="border-t border-gray-800 py-12 hover:bg-white/[0.015] transition-all duration-300 group"
             >
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                {/* Left Side - Number & Title */}
-                <div className="lg:col-span-5">
-                  <div className="flex items-start gap-6">
-                    <span 
-                      className={`text-2xl md:text-3xl font-light bg-gradient-to-r ${service.color} bg-clip-text text-transparent`}
-                    >
-                      {service.number}
-                    </span>
-                    <h3 className="text-4xl md:text-5xl lg:text-6xl font-light leading-tight">
-                      {service.title}
-                    </h3>
-                  </div>
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+
+                {/* Left — Number + Title */}
+                <div className="lg:col-span-5 flex items-center gap-6">
+                  <span
+                    className={`text-xl font-light bg-gradient-to-r ${service.color} bg-clip-text text-transparent flex-shrink-0`}
+                  >
+                    {service.number}
+                  </span>
+                  <h3
+                    className="font-light leading-[1.1]"
+                    style={{
+                      fontFamily: "'Cormorant Garamond', Georgia, serif",
+                      fontSize: "clamp(2.2rem, 3.5vw, 4rem)",
+                    }}
+                  >
+                    {service.title}
+                  </h3>
                 </div>
 
-                {/* Right Side - Description & CTA */}
-                <div className="lg:col-span-7">
-                  <div className="space-y-6">
-                    <p className="text-gray-400 text-base md:text-lg leading-relaxed">
-                      {service.description}
-                    </p>
-                    <p className="text-gray-300 text-base md:text-lg leading-relaxed font-light">
-                      {service.subtitle}
-                    </p>
-                    
-                    {/* CTA Buttons */}
-                    <div className="flex items-center gap-6 pt-4">
-                      <button className="text-sm text-gray-400 hover:text-white transition-colors tracking-wider uppercase">
-                        VIEW
-                      </button>
-                      <div className="w-16 h-px bg-gray-700 group-hover:bg-gradient-to-r group-hover:from-purple-500 group-hover:to-blue-500 transition-all duration-300"></div>
-                      <button className="text-sm text-gray-400 hover:text-white transition-colors tracking-wider uppercase flex items-center gap-2 group/btn">
-                        PROJECTS
-                        <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                      </button>
-                    </div>
-                  </div>
+                {/* Right — body + CTA */}
+                <div className="lg:col-span-7 flex flex-col sm:flex-row sm:items-center gap-8">
+                  <p
+                    className="text-gray-400 leading-relaxed flex-1"
+                    style={{
+                      fontFamily: "'Crimson Pro', Georgia, serif",
+                      fontSize: "clamp(1rem, 1.6vw, 1.15rem)",
+                    }}
+                  >
+                    {service.body}
+                  </p>
+
+                  {/* CTA */}
+                  <button
+                    onClick={scrollToFeatures}
+                    className="flex items-center gap-3 flex-shrink-0 group/cta"
+                  >
+                    <span
+                      className="text-xs font-semibold tracking-[0.2em] uppercase transition-all duration-300"
+                      style={{ color: 'rgba(255,255,255,0.25)' }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.8)'}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.25)'}
+                    >
+                      See it live
+                    </span>
+                    <div
+                      className="h-px transition-all duration-300 group-hover/cta:w-14"
+                      style={{
+                        width: '32px',
+                        background: `linear-gradient(to right, ${service.gradientColors})`
+                      }}
+                    />
+                    <ArrowRight className="w-4 h-4 text-gray-600 group-hover/cta:text-white group-hover/cta:translate-x-1 transition-all duration-300" />
+                  </button>
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Footer CTA */}
-        <div className="mt-20 pt-16 border-t border-gray-800 text-center">
-          <h3 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 bg-clip-text text-transparent">
-            Join the movement.
-          </h3>
-          <button className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white font-semibold px-10 py-4 rounded-full transition-all duration-300 hover:scale-105 shadow-2xl shadow-purple-500/20 text-lg">
-            Get Started Today
-          </button>
-        </div>
+        {/* Bottom line */}
+        <div
+          className="mt-12 h-px w-full opacity-20"
+          style={{ background: "linear-gradient(to right, #a855f7, #3b82f6, #06b6d4, #10b981)" }}
+        />
       </div>
     </div>
   );

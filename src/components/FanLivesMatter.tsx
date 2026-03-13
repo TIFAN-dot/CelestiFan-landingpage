@@ -27,7 +27,7 @@ const FanLivesMatter = () => {
       {/* ── IMAGE ── */}
       <motion.div className="absolute inset-0 w-full h-full" style={{ y }}>
         <img
-          src="/fanliveimage1.png"
+          src="/fanliveimage1.webp"
           alt="Fans around the world — Fan Lives Matter"
           loading="lazy"
           className="w-full h-full object-cover object-center"

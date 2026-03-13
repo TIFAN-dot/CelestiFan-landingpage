@@ -4,16 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- ── FONT PERFORMANCE — preconnect eliminates render-blocking ── -->
+    <!-- ── FONT PERFORMANCE — async load eliminates render-blocking ── -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Josefin+Sans:wght@300;400;600&display=swap"
-      rel="stylesheet"
+    <link rel="preload" as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap"
     />
+    <noscript>
+      <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap"
+      />
+    </noscript>
 
     <!-- ── FAVICON ── -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
     <!-- ── SEO / OG ── -->
     <title>CelestiFan — Amplify Artists. Ignite Fandom.</title>
@@ -26,7 +31,7 @@
       property="og:description"
       content="The platform where fans fuel music breakthroughs. Support artists. Earn Celeste. Change the game."
     />
-    <meta property="og:image" content="/fanliveimage1.png" />
+    <meta property="og:image" content="/fanliveimage1.webp" />
     <meta property="og:url" content="https://celestifan.com" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -36,7 +41,7 @@
       name="twitter:description"
       content="The platform where fans fuel music breakthroughs. Support artists. Earn Celeste."
     />
-    <meta name="twitter:image" content="/fanliveimage1.png" />
+    <meta name="twitter:image" content="/fanliveimage1.webp" />
   </head>
   <body>
     <div id="root"></div>

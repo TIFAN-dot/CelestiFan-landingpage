@@ -350,7 +350,7 @@ const BlogPostExchange = () => {
 
         {/* ── HERO ── */}
         <section className="rs-hero">
-          <img src="/image1.png" alt="Lone artist at the edge of a concert stage, single spotlight, empty arena after the show" />
+          <img src="/image1.webp" alt="Lone artist at the edge of a concert stage, single spotlight, empty arena after the show" />
           <div className="rs-hero-overlay" />
           <div className="rs-hero-content">
             {/* /01 purple→blue */}
@@ -397,7 +397,7 @@ const BlogPostExchange = () => {
 
           {/* IMAGE 2 */}
           <figure className="rs-img rs-fade">
-            <img src="/image2.png" alt="Music streaming analytics dashboard on a dark screen — cold data representing the hollow metrics of the modern music industry" />
+            <img src="/image2.webp" alt="Music streaming analytics dashboard on a dark screen — cold data representing the hollow metrics of the modern music industry" />
             <figcaption>
               <span style={{ background: "linear-gradient(to right,#a855f7,#3b82f6)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent" }}>▲</span>
               &nbsp;The industry built the most sophisticated measurement apparatus in music history. And measured the wrong thing entirely.
@@ -438,7 +438,7 @@ const BlogPostExchange = () => {
 
           {/* IMAGE 3 */}
           <figure className="rs-img-quote rs-fade">
-            <img src="/image3.png" alt="Pull quote — The artist makes the sound. The fan makes it mean something." />
+            <img src="/image3.webp" alt="Pull quote — The artist makes the sound. The fan makes it mean something." />
           </figure>
 
           {/* SECTION /02 pull quote — blue→cyan */}
@@ -470,7 +470,7 @@ const BlogPostExchange = () => {
 
           {/* IMAGE 4 */}
           <figure className="rs-img rs-fade">
-            <img src="/image4.png" alt="Concert crowd from behind at an Afrobeats show — thousands of hands raised toward stage lights" />
+            <img src="/image4.webp" alt="Concert crowd from behind at an Afrobeats show — thousands of hands raised toward stage lights" />
             <figcaption>
               <span style={{ background: "linear-gradient(to right,#3b82f6,#06b6d4)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent" }}>▲</span>
               &nbsp;Afrobeats built one of the most passionate global fan communities in contemporary music. Their role in the story remains invisible in the data.
@@ -513,7 +513,7 @@ const BlogPostExchange = () => {
 
           {/* IMAGE 5 */}
           <figure className="rs-img rs-img-portrait rs-fade">
-            <img src="/image5.png" alt="Small matte black box on a dark surface with a handwritten note — the silence concept" />
+            <img src="/image5.webp" alt="Small matte black box on a dark surface with a handwritten note — the silence concept" />
             <figcaption>
               <span style={{ background: "linear-gradient(to right,#10b981,#a855f7)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent" }}>▲</span>
               &nbsp;A matte black box. A USB drive. Three minutes of engineered quiet. And a handwritten note.
@@ -564,7 +564,7 @@ const BlogPostExchange = () => {
           {/* AUTHOR BIO */}
           <div className="rs-author-bio rs-fade">
             <div className="rs-bio-photo">
-              <img src="/image6.png" alt="Romeo, Founder of CelestiFan" />
+              <img src="/image6.webp" alt="Romeo, Founder of CelestiFan" />
             </div>
             <div>
               <div className="rs-bio-name">Romeo · Founder, CelestiFan</div>

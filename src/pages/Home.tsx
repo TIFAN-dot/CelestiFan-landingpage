@@ -1,4 +1,4 @@
-import { ArrowRight, PartyPopper, Sparkles } from "lucide-react";
+import { ArrowRight, PartyPopper } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useState } from "react";
@@ -16,8 +16,7 @@ import {
 } from "@/components/ui/dialog";
 
 /* ─────────────────────────────────────────
-   Social Proof — update PROOF_COUNT to your
-   real waitlist number anytime
+   Social Proof
 ───────────────────────────────────────── */
 const PROOF_COUNT = "800+";
 const PROOF_LABEL = "artists & fans already on the waitlist";
@@ -70,6 +69,14 @@ const SocialProof = () => (
     </p>
   </motion.div>
 );
+
+/* ─────────────────────────────────────────
+   Archetype names for background
+───────────────────────────────────────── */
+const archetypes = [
+  "Soul Voyager", "Vibe Alchemist", "Dream Architect", "Fire Spirit",
+  "Emotional Healer", "Flow Seeker", "Story Collector", "Cosmic Connector"
+];
 
 /* ─────────────────────────────────────────
    Home
@@ -143,10 +150,10 @@ const Home = () => {
 
   const getWaitlistDescription = () => {
     if (formData.userType === "artist")
-      return "Get early access and start building meaningful connections with your fans. Launch campaigns, track engagement, and amplify your music career.";
+      return "Your fans are streaming at 2am, defending your catalog, building culture around your name — and you can't see any of them. CelestiFan changes that. Know who your real community is. Reward them. Build with them.";
     if (formData.userType === "fan")
-      return "Be among the first fans to join CelestiFan. Prove your dedication, earn rewards, and connect directly with the artists you love.";
-    return "Be the first to know when CelestiFan launches. Join artists and fans worldwide building the future of music together.";
+      return "You've been carrying your artist further than any algorithm ever will — and getting nothing back for it. CelestiFan is where that finally changes. Your support earns, your dedication ranks, and the artist you ride for finally knows you're there.";
+    return "Music has always been built by two people — the artist who creates, and the fan who carries it into the world. CelestiFan is where both finally get what they deserve.";
   };
 
   return (
@@ -166,14 +173,14 @@ const Home = () => {
             </DialogTitle>
             <DialogDescription asChild>
               <div className="text-lg text-muted-foreground mt-4 space-y-4">
-                <p>Welcome to CelestiFan, where every moment of support matters.</p>
+                <p>You put in, you get back. The era where fans built careers in the dark — and artists never knew who was really there — is over.</p>
                 <p>
-                  You've officially joined the movement that connects artists and fans through real
-                  actions, creativity, and rewards.
+                  You've officially joined the movement where every act of support is seen,
+                  every artist knows their real community, and the culture finally rewards both sides.
                 </p>
                 <div className="!mt-6">
-                  <p className="font-bold text-gradient">Your journey starts now</p>
-                  <p>Earn Celeste. Empower artists. Elevate fandom.</p>
+                  <p className="font-bold text-gradient">Your seat at the table is confirmed.</p>
+                  <p>Earn Celeste. Know your fans. Build the future.</p>
                 </div>
               </div>
             </DialogDescription>
@@ -196,7 +203,6 @@ const Home = () => {
         transition={{ duration: 0.6 }}
         className="min-h-screen flex items-center justify-center text-center pt-20 pb-16 overflow-hidden relative"
       >
-        {/* Glow blobs */}
         <div className="absolute inset-0 opacity-20 pointer-events-none">
           <div className="absolute top-16 right-[12%] w-[45%] h-[55%] bg-primary rounded-full blur-[120px] animate-float" />
           <div
@@ -206,7 +212,6 @@ const Home = () => {
         </div>
 
         <div className="container mx-auto px-5 relative z-10">
-          {/* ── HEADLINE — fluid clamp() scaling, no step jumps ── */}
           <motion.div
             initial={{ y: 24, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -223,7 +228,6 @@ const Home = () => {
             </h1>
           </motion.div>
 
-          {/* ── SUBTITLE — fluid clamp() ── */}
           <motion.p
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -231,12 +235,11 @@ const Home = () => {
             className="text-slate-300/80 font-light leading-relaxed tracking-wide max-w-2xl mx-auto mb-10"
             style={{ fontSize: "clamp(1rem, 2.2vw, 1.35rem)" }}
           >
-            The ultimate platform where fans fuel music breakthroughs.
+            Streams don't pay fans. Followers don't tell artists who's real.
             <br className="hidden md:block" />
-            Support artists. Earn Celeste. Change the game.
+            CelestiFan is where dedication earns — and artists finally see who's truly riding for them.
           </motion.p>
 
-          {/* ── CTA BUTTONS ── */}
           <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -269,38 +272,177 @@ const Home = () => {
       {/* ── SERVICES ── */}
       <ServicesSection />
 
-      {/* ── QUIZ ── */}
-      <motion.section
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        viewport={{ once: true }}
-        className="py-16 md:py-24 bg-gradient-to-br from-primary/5 via-background to-primary/10"
-      >
-        <div className="container mx-auto px-5 text-center">
-          <Sparkles className="w-12 h-12 md:w-14 md:h-14 mx-auto mb-6 text-primary animate-pulse" />
-          <h2
-            className="font-display font-bold text-gradient mb-3"
-            style={{ fontSize: "clamp(1.8rem, 5vw, 3.5rem)" }}
-          >
-            Discover Your Celesti Energy
-          </h2>
-          <p
-            className="font-semibold text-muted-foreground mb-3"
-            style={{ fontSize: "clamp(1rem, 2vw, 1.4rem)" }}
-          >
-            Find the music identity that makes you unforgettable.
-          </p>
-          <p className="text-sm md:text-base text-muted-foreground mb-8 max-w-xl mx-auto">
-            Your music taste isn't random. It reveals who you are. Take our 60-second cosmic quiz
-            and uncover the energy that defines your vibe.
-          </p>
-          <CelestiQuiz />
+      {/* ── QUIZ — CINEMATIC SPLIT ── */}
+      <section className="relative overflow-hidden" style={{ background: '#04020a' }}>
+
+        {/* Film grain */}
+        <div
+          className="absolute inset-0 pointer-events-none opacity-[0.025] z-10"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+            backgroundRepeat: 'repeat',
+            backgroundSize: '128px',
+          }}
+        />
+
+        {/* Top accent */}
+        <div className="absolute top-0 left-0 right-0 h-px z-20"
+          style={{ background: 'linear-gradient(to right, transparent, rgba(168,85,247,0.3), rgba(59,130,246,0.3), transparent)' }}
+        />
+
+        <div className="relative z-20 grid grid-cols-1 lg:grid-cols-2" style={{ minHeight: '85vh' }}>
+
+          {/* ── LEFT — Text + CTA ── */}
+          <div className="flex flex-col justify-center px-8 md:px-14 py-24 lg:py-0">
+
+            {/* Label */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="flex items-center gap-4 mb-8"
+            >
+              <div className="h-px w-10" style={{ background: 'linear-gradient(to right, #a855f7, #3b82f6)' }} />
+              <span className="text-xs font-semibold tracking-[0.3em] uppercase"
+                style={{
+                  background: 'linear-gradient(to right, #a855f7, #3b82f6)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                60 Seconds · 8 Archetypes
+              </span>
+            </motion.div>
+
+            {/* Headline */}
+            <motion.h2
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="font-bold leading-[1.0] mb-7"
+              style={{
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontSize: 'clamp(3rem, 5.5vw, 5.5rem)',
+                background: 'linear-gradient(135deg, #ffffff 30%, rgba(168,85,247,0.95) 65%, rgba(59,130,246,0.9) 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
+              Discover<br />Your Celesti<br />Energy.
+            </motion.h2>
+
+            {/* Sub lines */}
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="mb-2 leading-relaxed"
+              style={{
+                fontFamily: "'Crimson Pro', Georgia, serif",
+                fontSize: 'clamp(1.05rem, 1.8vw, 1.3rem)',
+                color: 'rgba(255,255,255,0.5)',
+              }}
+            >
+              Your music taste isn't random.
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.27 }}
+              viewport={{ once: true }}
+              className="mb-10"
+              style={{
+                fontFamily: "'Crimson Pro', Georgia, serif",
+                fontSize: 'clamp(1.05rem, 1.8vw, 1.3rem)',
+                color: 'rgba(255,255,255,0.28)',
+              }}
+            >
+              It reveals exactly who you are in music.
+            </motion.p>
+
+            {/* CTA */}
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.33 }}
+              viewport={{ once: true }}
+            >
+              <CelestiQuiz />
+            </motion.div>
+
+            {/* Archetype pills */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              viewport={{ once: true }}
+              className="flex flex-wrap gap-2 mt-10"
+            >
+              {archetypes.map((name) => (
+                <span
+                  key={name}
+                  className="px-3 py-1 rounded-full text-xs font-medium"
+                  style={{
+                    background: 'rgba(255,255,255,0.03)',
+                    border: '1px solid rgba(168,85,247,0.1)',
+                    color: 'rgba(255,255,255,0.18)',
+                    letterSpacing: '0.04em',
+                  }}
+                >
+                  {name}
+                </span>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* ── RIGHT — Mosaic Image ── */}
+          <div className="relative hidden lg:block" style={{ overflow: 'hidden' }}>
+            <img
+              src="/quiz-archetype-mosaic.webp"
+              alt="Celesti Energy Archetypes"
+              className="absolute inset-0 w-full h-full object-cover object-center"
+              loading="lazy"
+            />
+            {/* Left fade — strong bleed into dark bg */}
+            <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, #04020a 0%, rgba(4,2,10,0.8) 15%, rgba(4,2,10,0.25) 45%, transparent 100%)', zIndex: 1 }} />
+            {/* Top + bottom fades */}
+            <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, #04020a 0%, transparent 10%, transparent 90%, #04020a 100%)', zIndex: 2 }} />
+            {/* Purple tint */}
+            <div className="absolute inset-0" style={{ background: 'rgba(100,60,180,0.07)', zIndex: 3 }} />
+          </div>
         </div>
-      </motion.section>
+
+        {/* Mobile image strip */}
+        <div className="relative lg:hidden h-64 overflow-hidden">
+          <img
+            src="/quiz-archetype-mosaic.webp"
+            alt="Celesti Energy Archetypes"
+            className="w-full h-full object-cover object-top"
+            loading="lazy"
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background: 'linear-gradient(to bottom, #04020a 0%, transparent 20%, transparent 70%, #04020a 100%)',
+            }}
+          />
+        </div>
+
+        {/* Bottom accent */}
+        <div className="absolute bottom-0 left-0 right-0 h-px z-20"
+          style={{ background: 'linear-gradient(to right, transparent, rgba(59,130,246,0.3), rgba(6,182,212,0.3), transparent)' }}
+        />
+      </section>
 
       {/* ── FEATURES SHOWCASE ── */}
-      <FeaturesShowcase />
+      <div id="features">
+        <FeaturesShowcase />
+      </div>
 
       {/* ── WAITLIST ── */}
       <motion.section
@@ -309,9 +451,8 @@ const Home = () => {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
-        className="py-16 md:py-24 relative overflow-hidden"
+        className="py-14 md:py-20 relative overflow-hidden"
       >
-        {/* Glow */}
         <div className="absolute inset-0 opacity-10 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[250px] bg-primary rounded-full blur-[100px]" />
         </div>
@@ -327,10 +468,21 @@ const Home = () => {
             {getWaitlistDescription()}
           </p>
 
-          {/* Social proof */}
           <SocialProof />
 
-          {/* Form */}
+          {/* Urgency */}
+          <p
+            className="text-sm font-semibold mb-6"
+            style={{
+              background: 'linear-gradient(to right, #a855f7, #06b6d4)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}
+          >
+            Early members get Founder status. That doesn't come back after launch.
+          </p>
+
           <motion.form
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -375,7 +527,7 @@ const Home = () => {
           </motion.form>
 
           <p className="text-xs text-slate-600 mt-4">
-            No spam. No credit card. Just early access.
+            No spam. No credit card. Just your seat at the table.
           </p>
         </div>
       </motion.section>
