@@ -15,9 +15,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-/* ─────────────────────────────────────────
-   Social Proof
-───────────────────────────────────────── */
 const PROOF_COUNT = "800+";
 const PROOF_LABEL = "artists & fans already on the waitlist";
 const avatars = [
@@ -70,17 +67,11 @@ const SocialProof = () => (
   </motion.div>
 );
 
-/* ─────────────────────────────────────────
-   Archetype names for background
-───────────────────────────────────────── */
 const archetypes = [
   "Soul Voyager", "Vibe Alchemist", "Dream Architect", "Fire Spirit",
   "Emotional Healer", "Flow Seeker", "Story Collector", "Cosmic Connector"
 ];
 
-/* ─────────────────────────────────────────
-   Home
-───────────────────────────────────────── */
 const Home = () => {
   const [formData, setFormData] = useState({ name: "", email: "", userType: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -157,12 +148,8 @@ const Home = () => {
   };
 
   return (
-    <motion.div
-      className="min-h-screen bg-slate-950 text-slate-50"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
+    <div className="min-h-screen bg-slate-950 text-slate-50">
+
       {/* ── SUCCESS MODAL ── */}
       <Dialog open={isSuccessModalOpen} onOpenChange={setIsSuccessModalOpen}>
         <DialogContent className="sm:max-w-md bg-background border-primary shadow-2xl shadow-primary/20">
@@ -196,28 +183,29 @@ const Home = () => {
         </DialogContent>
       </Dialog>
 
-      {/* ── HERO ── */}
-      <motion.section
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-        className="min-h-screen flex items-center justify-center text-center pt-20 pb-16 overflow-hidden relative"
-      >
-        <div className="absolute inset-0 opacity-20 pointer-events-none">
-          <div className="absolute top-16 right-[12%] w-[45%] h-[55%] bg-primary rounded-full blur-[120px] animate-float" />
+      {/* ── HERO ──
+          PERF: plain <section> — no JS needed to paint LCP
+          PERF: H1 has zero animation delay — paints immediately
+          PERF: blur blobs hidden on mobile via hidden md:block
+      ── */}
+      <section className="min-h-screen flex items-center justify-center text-center pt-20 pb-16 overflow-hidden relative">
+
+        {/* Blobs — desktop only, mobile GPUs skip entirely */}
+        <div className="absolute inset-0 opacity-20 pointer-events-none hidden md:block">
           <div
-            className="absolute top-[30%] right-[4%] w-[32%] h-[42%] bg-secondary rounded-full blur-[100px] animate-float"
-            style={{ animationDelay: "1s" }}
+            className="absolute top-16 right-[12%] w-[45%] h-[55%] bg-primary rounded-full blur-[80px] animate-float"
+            style={{ willChange: 'transform' }}
+          />
+          <div
+            className="absolute top-[30%] right-[4%] w-[32%] h-[42%] bg-secondary rounded-full blur-[80px] animate-float"
+            style={{ animationDelay: "1s", willChange: 'transform' }}
           />
         </div>
 
         <div className="container mx-auto px-5 relative z-10">
-          <motion.div
-            initial={{ y: 24, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mb-8"
-          >
+
+          {/* H1 — no motion wrapper, no delay, paints as LCP instantly */}
+          <div className="mb-8">
             <h1
               className="font-bold tracking-tight leading-[1.1] text-center text-gradient font-display"
               style={{ fontSize: "clamp(2.4rem, 7.5vw, 6.5rem)" }}
@@ -226,24 +214,22 @@ const Home = () => {
               <br />
               Ignite Fandom.
             </h1>
-          </motion.div>
+          </div>
 
-          <motion.p
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+          {/* Subtitle — no animation, renders with H1 */}
+          <p
             className="text-slate-300/80 font-light leading-relaxed tracking-wide max-w-2xl mx-auto mb-10"
             style={{ fontSize: "clamp(1rem, 2.2vw, 1.35rem)" }}
           >
-            Your support has always been free. Your artist never knew your name. CelestiFan changes both.
-            <br className="hidden md:block" />
-            
-          </motion.p>
+            Your support has always been free. Your artist never knew your name.
+            CelestiFan changes both.
+          </p>
 
+          {/* CTAs — animate fine, not LCP */}
           <motion.div
-            initial={{ y: 20, opacity: 0 }}
+            initial={{ y: 16, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
+            transition={{ duration: 0.5, delay: 0.15 }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
             <Button
@@ -264,7 +250,7 @@ const Home = () => {
             </Button>
           </motion.div>
         </div>
-      </motion.section>
+      </section>
 
       {/* ── FAN LIVES MATTER ── */}
       <FanLivesMatter />
@@ -274,8 +260,6 @@ const Home = () => {
 
       {/* ── QUIZ — CINEMATIC SPLIT ── */}
       <section className="relative overflow-hidden" style={{ background: '#04020a' }}>
-
-        {/* Film grain */}
         <div
           className="absolute inset-0 pointer-events-none opacity-[0.025] z-10"
           style={{
@@ -284,18 +268,11 @@ const Home = () => {
             backgroundSize: '128px',
           }}
         />
-
-        {/* Top accent */}
         <div className="absolute top-0 left-0 right-0 h-px z-20"
           style={{ background: 'linear-gradient(to right, transparent, rgba(168,85,247,0.3), rgba(59,130,246,0.3), transparent)' }}
         />
-
         <div className="relative z-20 grid grid-cols-1 lg:grid-cols-2" style={{ minHeight: '85vh' }}>
-
-          {/* ── LEFT — Text + CTA ── */}
           <div className="flex flex-col justify-center px-8 md:px-14 py-24 lg:py-0">
-
-            {/* Label */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -315,8 +292,6 @@ const Home = () => {
                 60 Seconds · 8 Archetypes
               </span>
             </motion.div>
-
-            {/* Headline */}
             <motion.h2
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -334,8 +309,6 @@ const Home = () => {
             >
               Discover<br />Your Celesti<br />Energy.
             </motion.h2>
-
-            {/* Sub lines */}
             <motion.p
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -364,8 +337,6 @@ const Home = () => {
             >
               It reveals exactly who you are in music.
             </motion.p>
-
-            {/* CTA */}
             <motion.div
               initial={{ opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -374,8 +345,6 @@ const Home = () => {
             >
               <CelestiQuiz />
             </motion.div>
-
-            {/* Archetype pills */}
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -399,8 +368,6 @@ const Home = () => {
               ))}
             </motion.div>
           </div>
-
-          {/* ── RIGHT — Mosaic Image ── */}
           <div className="relative hidden lg:block" style={{ overflow: 'hidden' }}>
             <img
               src="/quiz-archetype-mosaic.webp"
@@ -408,16 +375,11 @@ const Home = () => {
               className="absolute inset-0 w-full h-full object-cover object-center"
               loading="lazy"
             />
-            {/* Left fade — strong bleed into dark bg */}
             <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, #04020a 0%, rgba(4,2,10,0.8) 15%, rgba(4,2,10,0.25) 45%, transparent 100%)', zIndex: 1 }} />
-            {/* Top + bottom fades */}
             <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, #04020a 0%, transparent 10%, transparent 90%, #04020a 100%)', zIndex: 2 }} />
-            {/* Purple tint */}
             <div className="absolute inset-0" style={{ background: 'rgba(100,60,180,0.07)', zIndex: 3 }} />
           </div>
         </div>
-
-        {/* Mobile image strip */}
         <div className="relative lg:hidden h-64 overflow-hidden">
           <img
             src="/quiz-archetype-mosaic.webp"
@@ -425,15 +387,8 @@ const Home = () => {
             className="w-full h-full object-cover object-top"
             loading="lazy"
           />
-          <div
-            className="absolute inset-0"
-            style={{
-              background: 'linear-gradient(to bottom, #04020a 0%, transparent 20%, transparent 70%, #04020a 100%)',
-            }}
-          />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, #04020a 0%, transparent 20%, transparent 70%, #04020a 100%)' }} />
         </div>
-
-        {/* Bottom accent */}
         <div className="absolute bottom-0 left-0 right-0 h-px z-20"
           style={{ background: 'linear-gradient(to right, transparent, rgba(59,130,246,0.3), rgba(6,182,212,0.3), transparent)' }}
         />
@@ -456,7 +411,6 @@ const Home = () => {
         <div className="absolute inset-0 opacity-10 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[250px] bg-primary rounded-full blur-[100px]" />
         </div>
-
         <div className="container mx-auto px-5 relative z-10 text-center">
           <h2
             className="font-display font-bold text-gradient mb-4"
@@ -467,10 +421,7 @@ const Home = () => {
           <p className="text-sm md:text-base text-muted-foreground mb-8 max-w-lg mx-auto">
             {getWaitlistDescription()}
           </p>
-
           <SocialProof />
-
-          {/* Urgency */}
           <p
             className="text-sm font-semibold mb-6"
             style={{
@@ -482,7 +433,6 @@ const Home = () => {
           >
             Early members get Founder status. That doesn't come back after launch.
           </p>
-
           <motion.form
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -525,7 +475,6 @@ const Home = () => {
               </div>
             )}
           </motion.form>
-
           <p className="text-xs text-slate-600 mt-4">
             No spam. No credit card. Just your seat at the table.
           </p>
@@ -534,7 +483,7 @@ const Home = () => {
 
       {/* ── FAQ ── */}
       <FAQ />
-    </motion.div>
+    </div>
   );
 };
 
