@@ -15,6 +15,19 @@ const Blog = () => {
       link: "/blog/reactions",
       featured: true
     },
+    // ── NEW POST ──────────────────────────────────────────────────────────────
+    {
+      title: "The Music Industry Got the Exchange Backwards",
+      excerpt: "For decades, we've measured fandom by what it spends. What if the real currency was always something else entirely? Artists sell us escape. We sell them return.",
+      date: "March 11, 2025",
+      readTime: "8 min read",
+      category: "Culture",
+      image: "exchange",
+      link: "/blog/exchange-backwards",
+      featured: false,
+      isEditorial: true, // flag for special card styling
+    },
+    // ─────────────────────────────────────────────────────────────────────────
     {
       title: "How to Skyrocket Your Music with Fan Campaigns",
       excerpt: "Learn how independent artists are using CelestiFan campaigns to turn loyal listeners into viral marketing engines. Discover the strategies that helped Kai Morrison gain 500K streams in two weeks.",
@@ -71,7 +84,7 @@ const Blog = () => {
     },
   ];
 
-  const categories = ["All", "Artist Tips", "Fan Strategy", "Industry Insights", "Success Stories", "Platform Guide", "Community"];
+  const categories = ["All", "Culture", "Artist Tips", "Fan Strategy", "Industry Insights", "Success Stories", "Platform Guide", "Community"];
 
   return (
     <div className="min-h-screen pt-20">
@@ -107,7 +120,7 @@ const Blog = () => {
       </section>
 
       {/* Featured Post - FAN REACTIONS */}
-      <section className="container mx-auto px-4 mb-20">
+      <section className="container mx-auto px-4 mb-12">
         <Link to={posts[0].link}>
           <Card className="overflow-hidden bg-card border-border hover:border-primary/50 transition-all cursor-pointer group">
             <div className="grid md:grid-cols-2">
@@ -118,7 +131,6 @@ const Blog = () => {
                     Live Community Feed
                   </p>
                 </div>
-                {/* Decorative stars */}
                 <div className="absolute top-10 left-10 text-4xl opacity-20">✨</div>
                 <div className="absolute bottom-10 right-10 text-4xl opacity-20">✨</div>
                 <div className="absolute top-1/2 right-20 text-3xl opacity-10">⭐</div>
@@ -156,12 +168,65 @@ const Blog = () => {
         </Link>
       </section>
 
+      {/* ── EDITORIAL SPOTLIGHT — The Exchange Article ── */}
+      <section className="container mx-auto px-4 mb-12">
+        <Link to={posts[1].link}>
+          <Card className="overflow-hidden border-border hover:border-primary/50 transition-all cursor-pointer group relative">
+            {/* Background image with overlay */}
+            <div className="relative min-h-[340px] flex items-end">
+              <img
+                src="/images/image1.jpg"
+                alt="Artist on stage after a concert"
+                className="absolute inset-0 w-full h-full object-cover brightness-40 group-hover:brightness-50 transition-all duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent" />
+
+              <div className="relative z-10 p-8 md:p-12 max-w-2xl">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="inline-block px-3 py-1 bg-amber-500/20 text-amber-400 rounded-full text-xs font-semibold uppercase tracking-wider">
+                    ✦ Editorial
+                  </span>
+                  <span className="inline-block px-3 py-1 bg-primary/20 text-primary rounded-full text-xs font-semibold">
+                    Culture
+                  </span>
+                </div>
+
+                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white group-hover:text-primary transition-colors leading-tight">
+                  The Music Industry Got the Exchange Backwards
+                </h2>
+
+                <p className="text-gray-300 mb-6 text-base leading-relaxed">
+                  For decades, we've measured fandom by what it spends. What if the real currency was always something else entirely?
+                </p>
+
+                <div className="flex items-center gap-6 text-sm text-gray-400 mb-6">
+                  <div className="flex items-center gap-2">
+                    <Calendar className="h-4 w-4" />
+                    March 11, 2025
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Clock className="h-4 w-4" />
+                    8 min read
+                  </div>
+                  <span className="text-gray-500">By Romeo · CelestiFan</span>
+                </div>
+
+                <Button className="w-fit bg-amber-500 hover:bg-amber-400 text-black font-semibold">
+                  Read the Essay
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </Card>
+        </Link>
+      </section>
+
       {/* Blog Posts Grid */}
       <section className="container mx-auto px-4 pb-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {posts.slice(1).map((post) => (
-            <Link 
-              key={post.title} 
+          {posts.slice(2).map((post) => (
+            <Link
+              key={post.title}
               to={post.link}
               className="block"
             >

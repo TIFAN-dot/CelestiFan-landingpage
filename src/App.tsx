@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import ScrollToTop from "./components/ScrollToTop"; // ADD THIS
+import ScrollToTop from "./components/ScrollToTop";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Features from "./pages/Features";
@@ -16,7 +16,8 @@ import Connect from "./pages/Connect";
 import NotFound from "./pages/NotFound";
 import Celeste from "./pages/Celeste";
 import Quiz from "./pages/Quiz";
-import BlogReactions from '@/pages/BlogReactions';
+import BlogReactions from "@/pages/BlogReactions";
+import BlogPostExchange from "@/pages/BlogPostExchange"; // ← ADD THIS
 
 const queryClient = new QueryClient();
 
@@ -27,7 +28,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <ScrollToTop /> {/* ADD THIS - Automatically scrolls to top on route change */}
+          <ScrollToTop />
           <Navbar />
           <main className="pt-16">
             <Routes>
@@ -39,8 +40,9 @@ const App = () => (
               <Route path="/connect" element={<Connect />} />
               <Route path="/celeste" element={<Celeste />} />
               <Route path="/quiz" element={<Quiz />} />
-              <Route path="*" element={<NotFound />} />
               <Route path="/blog/reactions" element={<BlogReactions />} />
+              <Route path="/blog/exchange-backwards" element={<BlogPostExchange />} /> {/* ← ADD THIS */}
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
           <Footer />
