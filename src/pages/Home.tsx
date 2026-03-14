@@ -1,10 +1,11 @@
+import { lazy, Suspense } from "react";
 import { ArrowRight, PartyPopper } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import CelestiQuiz from "@/components/CelestiQuiz";
 import ServicesSection from "@/components/ServicesSection";
-import FeaturesShowcase from "@/components/FeaturesShowcase";
+const FeaturesShowcase = lazy(() => import("@/components/FeaturesShowcase"));
 import FanLivesMatter from "@/components/FanLivesMatter";
 import FAQ from "@/components/FAQ";
 import {
@@ -396,7 +397,9 @@ const Home = () => {
 
       {/* ── FEATURES SHOWCASE ── */}
       <div id="features">
-        <FeaturesShowcase />
+        <Suspense fallback={null}>
+          <FeaturesShowcase />
+        </Suspense>
       </div>
 
       {/* ── WAITLIST ── */}

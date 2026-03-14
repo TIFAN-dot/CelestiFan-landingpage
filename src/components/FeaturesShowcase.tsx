@@ -55,10 +55,10 @@ const FeaturesShowcase = () => {
   return (
     <section className="py-14 md:py-20 relative overflow-hidden">
 
-      {/* Subtle background glow matching active gradient */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.04]">
+      {/* Background glow — static, no transition, no blur on mobile */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.04] hidden md:block">
         <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full blur-[120px] transition-all duration-700"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full blur-[80px]"
           style={{ background: current.gradient }}
         />
       </div>
@@ -74,12 +74,9 @@ const FeaturesShowcase = () => {
           className="text-center mb-14"
         >
           <div className="flex items-center justify-center gap-4 mb-5">
-            <div
-              className="h-px w-10 transition-all duration-500"
-              style={{ background: current.gradient }}
-            />
+            <div className="h-px w-10" style={{ background: current.gradient }} />
             <span
-              className="text-xs font-semibold tracking-[0.3em] uppercase transition-all duration-500"
+              className="text-xs font-semibold tracking-[0.3em] uppercase"
               style={{
                 background: current.gradient,
                 WebkitBackgroundClip: "text",
@@ -89,10 +86,7 @@ const FeaturesShowcase = () => {
             >
               The Platform
             </span>
-            <div
-              className="h-px w-10 transition-all duration-500"
-              style={{ background: current.gradient }}
-            />
+            <div className="h-px w-10" style={{ background: current.gradient }} />
           </div>
 
           <h2
@@ -121,7 +115,7 @@ const FeaturesShowcase = () => {
             <button
               key={i}
               onClick={() => setActive(i)}
-              className="relative px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300"
+              className="relative px-5 py-2.5 rounded-full text-sm font-semibold transition-colors duration-200"
               style={{
                 background: active === i ? f.gradient : "rgba(255,255,255,0.04)",
                 color: active === i ? "#fff" : "rgba(255,255,255,0.45)",
@@ -148,19 +142,21 @@ const FeaturesShowcase = () => {
           ))}
         </motion.div>
 
-        {/* ── MAIN CONTENT ── */}
+        {/* ── MAIN CONTENT ──
+            Mobile: simple opacity fade only — no Y movement, no exit animation
+            Desktop: full AnimatePresence with slide
+        ── */}
         <AnimatePresence mode="wait">
           <motion.div
             key={active}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
             className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center"
           >
             {/* Left — copy */}
             <div>
-              {/* Number */}
               <div className="flex items-center gap-4 mb-6">
                 <div className="h-px w-10" style={{ background: current.gradient }} />
                 <span
@@ -176,19 +172,16 @@ const FeaturesShowcase = () => {
                 </span>
               </div>
 
-              {/* Headline */}
               <h3
                 className="font-bold text-white mb-5 leading-tight"
                 style={{
                   fontFamily: "'Cormorant Garamond', Georgia, serif",
                   fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)",
-                  textWrap: "balance",
                 }}
               >
                 {current.headline}
               </h3>
 
-              {/* Sub */}
               <p
                 className="text-slate-400 leading-relaxed mb-8"
                 style={{
@@ -199,44 +192,50 @@ const FeaturesShowcase = () => {
                 {current.sub}
               </p>
 
-              {/* Tab dots — mobile nav */}
+              {/* Dot nav */}
               <div className="flex gap-2">
                 {features.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => setActive(i)}
-                    className="h-1.5 rounded-full transition-all duration-300"
+                    className="h-1.5 rounded-full transition-all duration-200"
                     style={{
                       width: active === i ? "28px" : "8px",
-                      background:
-                        active === i ? current.gradient : "rgba(255,255,255,0.15)",
+                      background: active === i ? current.gradient : "rgba(255,255,255,0.15)",
                     }}
                   />
                 ))}
               </div>
             </div>
 
-            {/* Right — screen */}
+            {/* Right — screen image
+                Mobile: no backdrop blur, no box-shadow, clean border only
+                Desktop: subtle glow shadow
+            ── */}
             <div
               className="rounded-2xl overflow-hidden border border-white/10 flex items-center justify-center p-4"
               style={{
                 background: "rgba(255,255,255,0.02)",
-                backdropFilter: "blur(8px)",
-                boxShadow: `0 0 60px rgba(${
-                  active === 0
-                    ? "168,85,247"
-                    : active === 1
-                    ? "59,130,246"
-                    : active === 2
-                    ? "6,182,212"
-                    : "16,185,129"
-                },0.12)`,
+                minHeight: "280px",
+                /* NO backdropFilter — removed entirely, kills mobile GPU */
+                boxShadow: window.innerWidth >= 1024
+                  ? `0 0 40px rgba(${
+                      active === 0 ? "168,85,247"
+                      : active === 1 ? "59,130,246"
+                      : active === 2 ? "6,182,212"
+                      : "16,185,129"
+                    },0.10)`
+                  : "none",
               }}
             >
               <img
+                key={current.image}
                 src={current.image}
                 alt={current.alt}
+                width={600}
+                height={340}
                 loading="lazy"
+                decoding="async"
                 className="w-full h-auto rounded-xl"
                 style={{ maxHeight: "340px", objectFit: "contain" }}
               />
@@ -244,7 +243,7 @@ const FeaturesShowcase = () => {
           </motion.div>
         </AnimatePresence>
 
-        {/* ── BOTTOM GRADIENT LINE ── */}
+        {/* Bottom line */}
         <div
           className="mt-10 h-px w-full opacity-20"
           style={{
