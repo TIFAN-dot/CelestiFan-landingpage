@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 // ── GRADIENT PALETTE (exact match to ServicesSection) ──────────────────────
 // /01  purple-500 → blue-500    #a855f7 → #3b82f6
@@ -32,6 +33,35 @@ const BlogPostExchange = () => {
 
   return (
     <>
+      <Helmet>
+        <title>The Music Industry Got the Exchange Backwards — Fan Economy Essay | CelestiFan</title>
+        <meta
+          name="description"
+          content="An editorial on how the music industry measured consumption instead of devotion, and why fan lives matter in the new fan economy, Afrobeats, and beyond."
+        />
+        <link rel="canonical" href="https://celestifan.com/blog/exchange-backwards" />
+        <meta
+          property="og:title"
+          content="The Music Industry Got the Exchange Backwards — Fan Economy Essay"
+        />
+        <meta
+          property="og:description"
+          content="A deep dive into how artists sell us escape, fans sell them return, and why the industry needs a bridge where fans can prove what the music meant."
+        />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://celestifan.com/blog/exchange-backwards" />
+        <meta property="og:image" content="https://celestifan.com/image1.webp" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="The Music Industry Got the Exchange Backwards — Fan Economy Essay"
+        />
+        <meta
+          name="twitter:description"
+          content="Why fan devotion, Afrobeats culture, and proof-of-impact matter more than follower counts — and how CelestiFan is building the bridge."
+        />
+        <meta name="twitter:image" content="https://celestifan.com/image1.webp" />
+      </Helmet>
       <style>{`
         /* ── BASE ── */
         .rs-wrap {

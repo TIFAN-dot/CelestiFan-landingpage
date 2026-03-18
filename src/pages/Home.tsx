@@ -3,6 +3,7 @@ import { ArrowRight, PartyPopper } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import CelestiQuiz from "@/components/CelestiQuiz";
 import ServicesSection from "@/components/ServicesSection";
 const FeaturesShowcase = lazy(() => import("@/components/FeaturesShowcase"));
@@ -150,6 +151,46 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-50">
+      <Helmet>
+        <title>CelestiFan — Amplify Artists. Ignite Fandom.</title>
+        <meta
+          name="description"
+          content="CelestiFan is the fan engagement platform where your support moves music. Earn Celeste, climb leaderboards, connect with artists. Fan Lives Matter."
+        />
+        <link rel="canonical" href="https://celestifan.com/" />
+        <meta property="og:title" content="CelestiFan — Amplify Artists. Ignite Fandom." />
+        <meta
+          property="og:description"
+          content="The platform where fans fuel music breakthroughs. Support artists. Earn Celeste. Change the game."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://celestifan.com/" />
+        <meta property="og:image" content="https://celestifan.com/fanliveimage1.webp" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@celestifan_off" />
+        <meta name="twitter:title" content="CelestiFan — Fan Lives Matter." />
+        <meta
+          name="twitter:description"
+          content="The platform where fans fuel music breakthroughs. Support artists. Earn Celeste."
+        />
+        <meta name="twitter:image" content="https://celestifan.com/fanliveimage1.webp" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "CelestiFan",
+              url: "https://celestifan.com/",
+              potentialAction: {
+                "@type": "SearchAction",
+                target: "https://celestifan.com/search?q={search_term_string}",
+                "query-input": "required name=search_term_string",
+              },
+            }),
+          }}
+        />
+      </Helmet>
 
       {/* ── SUCCESS MODAL ── */}
       <Dialog open={isSuccessModalOpen} onOpenChange={setIsSuccessModalOpen}>
@@ -223,7 +264,7 @@ const Home = () => {
             style={{ fontSize: "clamp(1rem, 2.2vw, 1.35rem)" }}
           >
             Your support has always been free. Your artist never knew your name.
-            CelestiFan changes both.
+            CelestiFan is the fan engagement platform where fan lives matter — and every act of support finally counts.
           </p>
 
           {/* CTAs — animate fine, not LCP */}

@@ -42,6 +42,18 @@
   
   <!-- Blog Posts -->
   <url>
+    <loc>https://celestifan.com/blog/reactions</loc>
+    <lastmod>2025-10-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://celestifan.com/blog/exchange-backwards</loc>
+    <lastmod>2025-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://celestifan.com/blog/how-to-skyrocket-your-music-with-fan-campaigns</loc>
     <lastmod>2025-10-17</lastmod>
     <changefreq>yearly</changefreq>

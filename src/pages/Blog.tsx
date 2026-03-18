@@ -2,6 +2,7 @@ import { Calendar, Clock, ArrowRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const Blog = () => {
   const posts = [
@@ -88,6 +89,29 @@ const Blog = () => {
 
   return (
     <div className="min-h-screen pt-20">
+      <Helmet>
+        <title>CelestiFan Blog — Fan Engagement, Fan Lives Matter & Music Culture</title>
+        <meta
+          name="description"
+          content="Stories, essays, and guides from the CelestiFan community on fan engagement, fan campaigns, fan lives matter, Afrobeats culture, and building artist careers with real fans."
+        />
+        <link rel="canonical" href="https://celestifan.com/blog" />
+        <meta property="og:title" content="CelestiFan Blog — Fan Engagement & Music Culture" />
+        <meta
+          property="og:description"
+          content="Dive into fan engagement strategies, culture essays, and success stories from the CelestiFan community."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://celestifan.com/blog" />
+        <meta property="og:image" content="https://celestifan.com/fanliveimage1.webp" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="CelestiFan Blog — Fan Engagement & Music Culture" />
+        <meta
+          name="twitter:description"
+          content="Fan-first essays and resources on campaigns, rankings, Afrobeats, and why fan engagement beats follower counts."
+        />
+        <meta name="twitter:image" content="https://celestifan.com/fanliveimage1.webp" />
+      </Helmet>
       {/* Hero */}
       <section className="py-20 container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center">

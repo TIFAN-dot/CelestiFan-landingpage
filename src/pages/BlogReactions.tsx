@@ -1,6 +1,7 @@
 import { Star, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 
 // Interface for reaction data
 interface Reaction {
@@ -71,6 +72,29 @@ const BlogReactions = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Celesti Energy Fan Reactions — Community Vibes | CelestiFan</title>
+        <meta
+          name="description"
+          content="Live fan reactions to the Celesti Energy quiz from music lovers around the world. See how fans describe their archetypes and why fan lives matter in this community."
+        />
+        <link rel="canonical" href="https://celestifan.com/blog/reactions" />
+        <meta property="og:title" content="Celesti Energy Fan Reactions — Community Vibes" />
+        <meta
+          property="og:description"
+          content="Scroll real-time reactions and ratings from fans discovering their Celesti Energy archetype on CelestiFan."
+        />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://celestifan.com/blog/reactions" />
+        <meta property="og:image" content="https://celestifan.com/quiz-archetype-mosaic.webp" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Celesti Energy Fan Reactions — Community Vibes" />
+        <meta
+          name="twitter:description"
+          content="See what fans are saying about their Celesti Energy quiz results and why they ride for their artists."
+        />
+        <meta name="twitter:image" content="https://celestifan.com/quiz-archetype-mosaic.webp" />
+      </Helmet>
       {/* Emoji Font CSS - ensures flags render properly */}
       <style>{`
         .flag-emoji {

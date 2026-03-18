@@ -1,6 +1,7 @@
 import { Target, Heart, Zap, Users, Music } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Helmet } from "react-helmet-async";
 
 const About = () => {
   const team = [
@@ -68,6 +69,29 @@ const About = () => {
 
   return (
     <div className="min-h-screen pt-20">
+      <Helmet>
+        <title>About CelestiFan — Fan Engagement Platform Where Fan Lives Matter</title>
+        <meta
+          name="description"
+          content="Learn how CelestiFan puts fans at the heart of every artist's rise. A fan-first, artist-driven music engagement platform where fan lives matter and support turns into real impact."
+        />
+        <link rel="canonical" href="https://celestifan.com/about" />
+        <meta property="og:title" content="About CelestiFan — Fan Engagement Platform" />
+        <meta
+          property="og:description"
+          content="Meet the team building CelestiFan, the fan engagement platform where artists and their biggest supporters finally meet in the middle."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://celestifan.com/about" />
+        <meta property="og:image" content="https://celestifan.com/fanliveimage1.webp" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="About CelestiFan — Fan Engagement Platform" />
+        <meta
+          name="twitter:description"
+          content="Fan-first, artist-driven music platform turning passion into power, streams into careers, and supporters into legends."
+        />
+        <meta name="twitter:image" content="https://celestifan.com/fanliveimage1.webp" />
+      </Helmet>
       {/* Hero - Reduced padding from py-20 to py-12 */}
       <section className="py-12 md:py-16 container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center">
