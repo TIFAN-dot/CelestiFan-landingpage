@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { ArrowRight, PartyPopper } from "lucide-react";
+import { ArrowRight, ChevronDown, PartyPopper, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useState } from "react";
@@ -67,6 +67,34 @@ const SocialProof = () => (
       {PROOF_LABEL}
     </p>
   </motion.div>
+);
+
+const HeroProofCards = () => (
+  <div className="pointer-events-none absolute inset-0 hidden lg:block">
+    <motion.div
+      initial={{ opacity: 0, x: -24 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.6, delay: 0.15 }}
+      className="absolute left-8 top-32 rounded-2xl border border-white/15 bg-slate-900/70 px-4 py-3 backdrop-blur-md"
+    >
+      <p className="text-[11px] uppercase tracking-[0.2em] text-slate-400">Fan Milestone</p>
+      <p className="mt-1 flex items-center gap-2 text-sm font-semibold text-slate-100">
+        <Sparkles className="h-4 w-4 text-cyan-300" />
+        Superfan badge unlocked
+      </p>
+      <p className="mt-1 text-xs text-slate-400">+250 Celeste from campaign support</p>
+    </motion.div>
+    <motion.div
+      initial={{ opacity: 0, x: 24 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.6, delay: 0.25 }}
+      className="absolute right-8 top-48 rounded-2xl border border-white/15 bg-slate-900/70 px-4 py-3 backdrop-blur-md"
+    >
+      <p className="text-[11px] uppercase tracking-[0.2em] text-slate-400">Artist Signal</p>
+      <p className="mt-1 text-sm font-semibold text-slate-100">Artist X thanked your fan crew</p>
+      <p className="mt-1 text-xs text-slate-400">Proof submitted. Leaderboard updated.</p>
+    </motion.div>
+  </div>
 );
 
 const archetypes = [
@@ -230,7 +258,7 @@ const Home = () => {
           PERF: H1 has zero animation delay — paints immediately
           PERF: blur blobs hidden on mobile via hidden md:block
       ── */}
-      <section className="min-h-screen flex items-center justify-center text-center pt-20 pb-16 overflow-hidden relative">
+      <section className="min-h-screen flex items-center justify-center text-center pt-16 md:pt-20 pb-14 md:pb-16 overflow-hidden relative">
 
         {/* Blobs — desktop only, mobile GPUs skip entirely */}
         <div className="absolute inset-0 opacity-20 pointer-events-none hidden md:block">
@@ -242,29 +270,34 @@ const Home = () => {
             className="absolute top-[30%] right-[4%] w-[32%] h-[42%] bg-secondary rounded-full blur-[80px] animate-float"
             style={{ animationDelay: "1s", willChange: 'transform' }}
           />
+          <div
+            className="absolute bottom-0 left-[5%] w-[38%] h-[45%] rounded-full blur-[90px]"
+            style={{ background: "rgba(6, 182, 212, 0.25)" }}
+          />
         </div>
+        <HeroProofCards />
 
         <div className="container mx-auto px-5 relative z-10">
 
           {/* H1 — no motion wrapper, no delay, paints as LCP instantly */}
-          <div className="mb-8">
+          <div className="mb-6 md:mb-8">
             <h1
-              className="font-bold tracking-tight leading-[1.1] text-center text-gradient font-display"
+              className="tracking-tight leading-[1.08] text-center font-display"
               style={{ fontSize: "clamp(2.4rem, 7.5vw, 6.5rem)" }}
             >
-              Amplify Artists.
+              <span className="font-semibold text-slate-100">Amplify Artists.</span>
               <br />
-              Ignite Fandom.
+              <span className="font-bold text-gradient">Ignite Fandom.</span>
             </h1>
           </div>
 
           {/* Subtitle — no animation, renders with H1 */}
           <p
-            className="text-slate-300/80 font-light leading-relaxed tracking-wide max-w-2xl mx-auto mb-10"
+            className="text-slate-300/80 font-light leading-[1.8] md:leading-[1.85] tracking-wide max-w-3xl mx-auto mb-8 md:mb-10 px-1"
             style={{ fontSize: "clamp(1rem, 2.2vw, 1.35rem)" }}
           >
-            Your support has always been free. Your artist never knew your name.
-            CelestiFan is the fan engagement platform where fan lives matter — and every act of support finally counts.
+            Music moves because fans move it first. CelestiFan is the premium fan engagement platform
+            where support becomes visible, artists discover true supporters, and fan lives matter.
           </p>
 
           {/* CTAs — animate fine, not LCP */}
@@ -272,25 +305,35 @@ const Home = () => {
             initial={{ y: 16, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.15 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center"
           >
             <Button
               size="lg"
-              className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-8 h-14 rounded-full transition-all duration-300 hover:scale-105 w-full sm:w-auto text-base"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-8 h-13 md:h-14 rounded-full transition-all duration-300 hover:scale-105 w-full sm:w-auto text-base shadow-lg shadow-primary/30"
               onClick={() => handleWaitlistClick("artist")}
             >
-              Start as an Artist
+              Start Artist Campaign
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button
               size="lg"
               variant="outline"
-              className="border-primary text-primary hover:bg-primary/10 px-8 h-14 rounded-full transition-all duration-300 hover:scale-105 w-full sm:w-auto text-base"
+              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 h-13 md:h-14 rounded-full transition-all duration-300 hover:scale-105 w-full sm:w-auto text-base"
               onClick={() => handleWaitlistClick("fan")}
             >
-              Join as a Fan
+              Join Fan Waitlist
             </Button>
           </motion.div>
+          <p className="mt-4 md:mt-5 text-sm text-slate-400">
+            Join <span className="font-semibold text-slate-200">{PROOF_COUNT}</span> {PROOF_LABEL}
+          </p>
+          <a
+            href="#features"
+            className="mt-6 md:mt-8 inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-slate-500 transition-colors hover:text-slate-300 motion-reduce:transition-none"
+          >
+            Scroll to discover
+            <ChevronDown className="h-4 w-4 motion-safe:animate-bounce" />
+          </a>
         </div>
       </section>
 
