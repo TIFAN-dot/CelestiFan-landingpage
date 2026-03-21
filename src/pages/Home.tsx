@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { ArrowRight, ChevronDown, PartyPopper, Sparkles } from "lucide-react";
+import { ArrowRight, ChevronDown, PartyPopper } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useState } from "react";
@@ -67,34 +67,6 @@ const SocialProof = () => (
       {PROOF_LABEL}
     </p>
   </motion.div>
-);
-
-const HeroProofCards = () => (
-  <div className="pointer-events-none absolute inset-0 hidden lg:block">
-    <motion.div
-      initial={{ opacity: 0, x: -24 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.6, delay: 0.15 }}
-      className="absolute left-8 top-32 rounded-2xl border border-white/15 bg-slate-900/70 px-4 py-3 backdrop-blur-md"
-    >
-      <p className="text-[11px] uppercase tracking-[0.2em] text-slate-400">Fan Milestone</p>
-      <p className="mt-1 flex items-center gap-2 text-sm font-semibold text-slate-100">
-        <Sparkles className="h-4 w-4 text-cyan-300" />
-        Superfan badge unlocked
-      </p>
-      <p className="mt-1 text-xs text-slate-400">+250 Celeste from campaign support</p>
-    </motion.div>
-    <motion.div
-      initial={{ opacity: 0, x: 24 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.6, delay: 0.25 }}
-      className="absolute right-8 top-48 rounded-2xl border border-white/15 bg-slate-900/70 px-4 py-3 backdrop-blur-md"
-    >
-      <p className="text-[11px] uppercase tracking-[0.2em] text-slate-400">Artist Signal</p>
-      <p className="mt-1 text-sm font-semibold text-slate-100">Artist X thanked your fan crew</p>
-      <p className="mt-1 text-xs text-slate-400">Proof submitted. Leaderboard updated.</p>
-    </motion.div>
-  </div>
 );
 
 const archetypes = [
@@ -275,19 +247,30 @@ const Home = () => {
             style={{ background: "rgba(6, 182, 212, 0.25)" }}
           />
         </div>
-        <HeroProofCards />
-
         <div className="container mx-auto px-5 relative z-10">
 
           {/* H1 — no motion wrapper, no delay, paints as LCP instantly */}
           <div className="mb-6 md:mb-8">
             <h1
-              className="tracking-tight leading-[1.08] text-center font-display"
-              style={{ fontSize: "clamp(2.4rem, 7.5vw, 6.5rem)" }}
+              className="tracking-tight leading-[1.02] text-center font-black"
+              style={{
+                fontFamily: "'Space Grotesk', 'Sora', 'Inter', 'Segoe UI', sans-serif",
+                fontSize: "clamp(2.8rem, 10vw, 7.6rem)",
+              }}
             >
-              <span className="font-semibold text-slate-100">Amplify Artists.</span>
+              <span className="text-slate-100">Amplify Artists.</span>
               <br />
-              <span className="font-bold text-gradient">Ignite Fandom.</span>
+              <span
+                style={{
+                  background:
+                    "linear-gradient(95deg, #6247ff 0%, #3b82f6 35%, #2dd4bf 58%, #8b5cf6 82%, #a855f7 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                Ignite Fandom.
+              </span>
             </h1>
           </div>
 
@@ -296,8 +279,7 @@ const Home = () => {
             className="text-slate-300/80 font-light leading-[1.8] md:leading-[1.85] tracking-wide max-w-3xl mx-auto mb-8 md:mb-10 px-1"
             style={{ fontSize: "clamp(1rem, 2.2vw, 1.35rem)" }}
           >
-            Music moves because fans move it first. CelestiFan is the premium fan engagement platform
-            where support becomes visible, artists discover true supporters, and fan lives matter.
+            CelestiFan is the premium fan engagement platform where support becomes visible, artists discover true supporters, and fan lives matter.
           </p>
 
           {/* CTAs — animate fine, not LCP */}
@@ -309,19 +291,19 @@ const Home = () => {
           >
             <Button
               size="lg"
-              className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-8 h-13 md:h-14 rounded-full transition-all duration-300 hover:scale-105 w-full sm:w-auto text-base shadow-lg shadow-primary/30"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-7 h-11 md:h-12 rounded-full transition-all duration-300 hover:scale-105 w-full sm:w-auto text-[0.95rem] shadow-lg shadow-primary/30"
               onClick={() => handleWaitlistClick("artist")}
             >
-              Start Artist Campaign
+              Join as Artist
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button
               size="lg"
               variant="outline"
-              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 h-13 md:h-14 rounded-full transition-all duration-300 hover:scale-105 w-full sm:w-auto text-base"
+              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-7 h-11 md:h-12 rounded-full transition-all duration-300 hover:scale-105 w-full sm:w-auto text-[0.95rem]"
               onClick={() => handleWaitlistClick("fan")}
             >
-              Join Fan Waitlist
+              Join as Fan
             </Button>
           </motion.div>
           <p className="mt-4 md:mt-5 text-sm text-slate-400">
