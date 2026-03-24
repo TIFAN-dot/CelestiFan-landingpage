@@ -8,6 +8,7 @@ import CelestiQuiz from "@/components/CelestiQuiz";
 import ServicesSection from "@/components/ServicesSection";
 const FeaturesShowcase = lazy(() => import("@/components/FeaturesShowcase"));
 import FanLivesMatter from "@/components/FanLivesMatter";
+import AmbassadorProgram from "@/components/AmbassadorProgram";
 import FAQ from "@/components/FAQ";
 import {
   Dialog,
@@ -467,6 +468,9 @@ const Home = () => {
           <FeaturesShowcase />
         </Suspense>
       </div>
+
+      {/* ── AMBASSADOR PROGRAM (pre-waitlist funnel) ── */}
+      <AmbassadorProgram onBecomeAmbassador={handleWaitlistClick} />
 
       {/* ── WAITLIST ── */}
       <motion.section
