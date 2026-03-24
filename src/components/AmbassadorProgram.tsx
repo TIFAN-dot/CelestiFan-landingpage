@@ -120,7 +120,6 @@ const AmbassadorProgram = ({ onBecomeAmbassador }: AmbassadorProgramProps) => {
                     : "border-border hover:border-primary/50"
                 }`}
               >
-                {/* Spacer aligns titles when only the middle card has the featured pill (Pricing pattern) */}
                 {tier.highlighted ? (
                   <div className="bg-primary text-primary-foreground text-sm font-semibold px-4 py-1 rounded-full inline-block mb-4 self-start">
                     Featured
