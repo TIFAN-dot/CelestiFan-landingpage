@@ -1,6 +1,5 @@
 import { Calendar, Clock, ArrowRight } from "lucide-react";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
@@ -8,352 +7,310 @@ const Blog = () => {
   const posts = [
     {
       title: "Celesti Energy – Fan Reactions",
-      excerpt: "See what fans around the world are saying about their quiz results! Real ratings, real reactions, real vibes. Join hundreds who've discovered their cosmic energy.",
+      excerpt: "See what fans around the world are saying about their quiz results. Real ratings, real reactions, real vibes. Join hundreds who've discovered their cosmic energy.",
       date: "Live Now",
       readTime: "Ongoing",
       category: "Community",
-      image: "reactions",
+      type: "live",
       link: "/blog/reactions",
-      featured: true
     },
-    // ── NEW POST ──────────────────────────────────────────────────────────────
     {
       title: "The Music Industry Got the Exchange Backwards",
       excerpt: "For decades, we've measured fandom by what it spends. What if the real currency was always something else entirely? Artists sell us escape. We sell them return.",
       date: "March 11, 2025",
       readTime: "8 min read",
       category: "Culture",
-      image: "exchange",
+      type: "editorial",
       link: "/blog/exchange-backwards",
-      featured: false,
-      isEditorial: true, // flag for special card styling
-    },
-    // ─────────────────────────────────────────────────────────────────────────
-    {
-      title: "How to Skyrocket Your Music with Fan Campaigns",
-      excerpt: "Learn how independent artists are using CelestiFan campaigns to turn loyal listeners into viral marketing engines. Discover the strategies that helped Kai Morrison gain 500K streams in two weeks.",
-      date: "March 15, 2025",
-      readTime: "5 min read",
-      category: "Artist Tips",
-      image: "campaign-guide",
-      link: "#"
     },
     {
-      title: "The Ultimate Fan Guide: Ranking Up Fast",
-      excerpt: "Want to become a top-ranked fan for your favorite artist? This comprehensive guide covers every celeste-earning action, leaderboard strategy, and proof submission tip you need to climb to #1.",
-      date: "March 10, 2025",
-      readTime: "7 min read",
-      category: "Fan Strategy",
-      image: "fan-guide",
-      link: "#"
-    },
-    {
-      title: "Why Fan Engagement Beats Follower Counts",
-      excerpt: "Social media followers are vanity metrics. What really matters? Active, passionate fans who stream, share, and show up. Here's how CelestiFan measures what truly drives music careers.",
-      date: "March 5, 2025",
-      readTime: "4 min read",
-      category: "Industry Insights",
-      image: "engagement",
-      link: "#"
-    },
-    {
-      title: "Success Story: From Bedroom Producer to Charting Artist",
-      excerpt: "How Luna & The Waves mobilized 2,000 fans to push their album to #3 on indie charts. A deep dive into the campaign strategy, fan rewards, and momentum-building tactics that worked.",
-      date: "February 28, 2025",
-      readTime: "6 min read",
-      category: "Success Stories",
-      image: "success-story",
-      link: "#"
-    },
-    {
-      title: "5 Creative Campaign Ideas for Emerging Artists",
-      excerpt: "Stuck on what kind of campaign to launch? Here are five battle-tested ideas: The 'Stream Sprint,' 'Share Showdown,' 'TikTok Takeover,' 'Merch Madness,' and the 'Fan Collab Challenge.'",
-      date: "February 20, 2025",
-      readTime: "5 min read",
-      category: "Artist Tips",
-      image: "campaign-ideas",
-      link: "#"
-    },
-    {
-      title: "Understanding CelestiFan's Celeste System",
-      excerpt: "Not all fan actions are created equal. Breaking down how streams, shares, screenshots, and engagement are weighted in our ranking algorithm—plus pro tips to maximize your celeste.",
-      date: "February 15, 2025",
-      readTime: "4 min read",
-      category: "Platform Guide",
-      image: "celeste-system",
-      link: "#"
+      title: "The Biggest Afrobeats Summer 2026",
+      excerpt: "Afro Nation Portugal, Davido & Friends Fest, Burna Boy, Wizkid and more — your complete guide to every confirmed Afrobeats event this summer. Real dates, real prices.",
+      date: "March 24, 2026",
+      readTime: "Event Guide",
+      category: "Events",
+      type: "guide",
+      link: "/blog/afrobeats-summer-2026",
     },
   ];
 
-  const categories = ["All", "Culture", "Artist Tips", "Fan Strategy", "Industry Insights", "Success Stories", "Platform Guide", "Community"];
+  const categories = ["All", "Community", "Culture", "Events"];
 
   return (
-    <div className="min-h-screen pt-20">
+    <div className="min-h-screen bg-slate-950 text-slate-50">
       <Helmet>
         <title>CelestiFan Blog — Fan Engagement, Fan Lives Matter & Music Culture</title>
-        <meta
-          name="description"
-          content="Stories, essays, and guides from the CelestiFan community on fan engagement, fan campaigns, fan lives matter, Afrobeats culture, and building artist careers with real fans."
-        />
+        <meta name="description" content="Stories, essays, and guides from the CelestiFan community on fan engagement, fan campaigns, Afrobeats culture, and building artist careers with real fans." />
         <link rel="canonical" href="https://celestifan.com/blog" />
         <meta property="og:title" content="CelestiFan Blog — Fan Engagement & Music Culture" />
-        <meta
-          property="og:description"
-          content="Dive into fan engagement strategies, culture essays, and success stories from the CelestiFan community."
-        />
+        <meta property="og:description" content="Dive into fan engagement strategies, culture essays, and success stories from the CelestiFan community." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://celestifan.com/blog" />
         <meta property="og:image" content="https://celestifan.com/fanliveimage1.webp" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="CelestiFan Blog — Fan Engagement & Music Culture" />
-        <meta
-          name="twitter:description"
-          content="Fan-first essays and resources on campaigns, rankings, Afrobeats, and why fan engagement beats follower counts."
-        />
+        <meta name="twitter:description" content="Fan-first essays and resources on campaigns, rankings, Afrobeats, and why fan engagement beats follower counts." />
         <meta name="twitter:image" content="https://celestifan.com/fanliveimage1.webp" />
       </Helmet>
-      {/* Hero */}
-      <section className="py-20 container mx-auto px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl md:text-7xl font-display mb-6 text-gradient animate-slide-up">
-            Music Matters
-          </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground">
-            Insights, strategies, and stories from the CelestiFan community
-          </p>
+
+      {/* ── HERO ── */}
+      <section className="relative overflow-hidden pt-32 pb-20 px-5">
+        <div className="absolute inset-0 pointer-events-none hidden md:block opacity-20">
+          <div className="absolute top-0 right-[10%] w-[40%] h-[60%] bg-primary rounded-full blur-[100px]" style={{ willChange: 'transform' }} />
+        </div>
+        <div className="absolute inset-0 pointer-events-none md:hidden" style={{ background: 'radial-gradient(ellipse 80% 50% at 50% 0%, rgba(168,85,247,0.1) 0%, transparent 70%)' }} />
+
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="flex items-center justify-center gap-4 mb-8"
+          >
+            <div className="h-px w-10" style={{ background: 'linear-gradient(to right, #a855f7, #3b82f6)' }} />
+            <span className="text-[0.65rem] font-semibold tracking-[0.3em] uppercase" style={{ color: 'rgba(168,85,247,0.8)' }}>
+              CelestiFan Journal
+            </span>
+            <div className="h-px w-10" style={{ background: 'linear-gradient(to right, #3b82f6, #06b6d4)' }} />
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="font-bold leading-tight mb-6"
+            style={{
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontSize: 'clamp(3rem, 8vw, 6rem)',
+              background: 'linear-gradient(135deg, #ffffff 30%, rgba(168,85,247,0.95) 65%, rgba(59,130,246,0.9) 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}
+          >
+            Music Matters.
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            style={{
+              fontFamily: "'Crimson Pro', Georgia, serif",
+              fontSize: 'clamp(1.05rem, 1.8vw, 1.25rem)',
+              color: 'rgba(255,255,255,0.45)',
+            }}
+          >
+            Insights, stories, and guides from the CelestiFan community.
+          </motion.p>
         </div>
       </section>
 
-      {/* Categories */}
-      <section className="container mx-auto px-4 mb-12">
-        <div className="flex flex-wrap gap-3 justify-center">
-          {categories.map((category) => (
-            <Button
-              key={category}
-              variant={category === "All" ? "default" : "outline"}
-              className={
-                category === "All"
-                  ? "bg-primary hover:bg-primary/90 text-primary-foreground"
-                  : "border-border hover:border-primary/50"
-              }
+      {/* ── CATEGORIES ── */}
+      <section className="container mx-auto px-5 mb-14">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.25 }}
+          className="flex flex-wrap gap-2 justify-center"
+        >
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              className="px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200"
+              style={{
+                background: cat === "All" ? 'linear-gradient(to right, #a855f7, #3b82f6)' : 'rgba(255,255,255,0.04)',
+                color: cat === "All" ? '#fff' : 'rgba(255,255,255,0.45)',
+                border: cat === "All" ? 'none' : '1px solid rgba(255,255,255,0.08)',
+              }}
             >
-              {category}
-            </Button>
+              {cat}
+            </button>
           ))}
-        </div>
+        </motion.div>
       </section>
 
-      {/* Featured Post - FAN REACTIONS */}
-      <section className="container mx-auto px-4 mb-12">
-        <Link to={posts[0].link}>
-          <Card className="overflow-hidden bg-card border-border hover:border-primary/50 transition-all cursor-pointer group">
-            <div className="grid md:grid-cols-2">
-              <div className="bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center min-h-[300px] relative overflow-hidden">
-                <div className="text-center relative z-10">
-                  <div className="text-8xl mb-4 animate-pulse">⭐</div>
-                  <p className="text-sm font-semibold text-primary uppercase tracking-wider">
-                    Live Community Feed
-                  </p>
-                </div>
-                <div className="absolute top-10 left-10 text-4xl opacity-20">✨</div>
-                <div className="absolute bottom-10 right-10 text-4xl opacity-20">✨</div>
-                <div className="absolute top-1/2 right-20 text-3xl opacity-10">⭐</div>
-              </div>
-              <div className="p-8 flex flex-col justify-center">
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="inline-block px-3 py-1 bg-primary/20 text-primary rounded-full text-sm font-semibold">
-                    Featured
-                  </span>
-                  <span className="inline-block px-3 py-1 bg-green-500/20 text-green-600 dark:text-green-400 rounded-full text-sm font-semibold animate-pulse">
-                    🔴 Live
-                  </span>
-                </div>
-                <h2 className="text-3xl font-bold mb-4 group-hover:text-primary transition-colors">
-                  {posts[0].title}
-                </h2>
-                <p className="text-muted-foreground mb-6">{posts[0].excerpt}</p>
-                <div className="flex items-center gap-6 text-sm text-muted-foreground mb-6">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="h-4 w-4" />
-                    {posts[0].date}
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Clock className="h-4 w-4" />
-                    {posts[0].readTime}
-                  </div>
-                </div>
-                <Button className="w-fit bg-primary hover:bg-primary/90 text-primary-foreground">
-                  View Reactions
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          </Card>
-        </Link>
-      </section>
+      {/* ── POSTS ── */}
+      <section className="container mx-auto px-5 pb-24 max-w-5xl">
+        <div className="space-y-4">
 
-      {/* ── EDITORIAL SPOTLIGHT — The Exchange Article ── */}
-      <section className="container mx-auto px-4 mb-12">
-        <Link to={posts[1].link}>
-          <Card className="overflow-hidden border-border hover:border-primary/50 transition-all cursor-pointer group relative">
-            {/* Background image with overlay */}
-            <div className="relative min-h-[340px] flex items-end">
-              <img
-                src="/images/image1.jpg"
-                alt="Artist on stage after a concert"
-                className="absolute inset-0 w-full h-full object-cover brightness-40 group-hover:brightness-50 transition-all duration-500"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent" />
-
-              <div className="relative z-10 p-8 md:p-12 max-w-2xl">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="inline-block px-3 py-1 bg-amber-500/20 text-amber-400 rounded-full text-xs font-semibold uppercase tracking-wider">
-                    ✦ Editorial
-                  </span>
-                  <span className="inline-block px-3 py-1 bg-primary/20 text-primary rounded-full text-xs font-semibold">
-                    Culture
-                  </span>
-                </div>
-
-                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white group-hover:text-primary transition-colors leading-tight">
-                  The Music Industry Got the Exchange Backwards
-                </h2>
-
-                <p className="text-gray-300 mb-6 text-base leading-relaxed">
-                  For decades, we've measured fandom by what it spends. What if the real currency was always something else entirely?
-                </p>
-
-                <div className="flex items-center gap-6 text-sm text-gray-400 mb-6">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="h-4 w-4" />
-                    March 11, 2025
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Clock className="h-4 w-4" />
-                    8 min read
-                  </div>
-                  <span className="text-gray-500">By Romeo · CelestiFan</span>
-                </div>
-
-                <Button className="w-fit bg-amber-500 hover:bg-amber-400 text-black font-semibold">
-                  Read the Essay
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          </Card>
-        </Link>
-      </section>
-
-      {/* Blog Posts Grid */}
-      <section className="container mx-auto px-4 pb-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {posts.slice(2).map((post) => (
-            <Link
-              key={post.title}
-              to={post.link}
-              className="block"
-            >
-              <Card className="overflow-hidden bg-card border-border hover:border-primary/50 transition-all group cursor-pointer h-full">
-                <div className="bg-muted h-48 flex items-center justify-center">
-                  <div className="text-center text-muted-foreground">
-                    <div className="text-4xl mb-2">📝</div>
-                    <p className="text-xs">{post.category}</p>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <span className="inline-block px-3 py-1 bg-primary/20 text-primary rounded-full text-xs font-semibold mb-3">
-                    {post.category}
-                  </span>
-                  <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
-                    {post.title}
-                  </h3>
-                  <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
-                    {post.excerpt}
-                  </p>
-                  <div className="flex items-center gap-4 text-xs text-muted-foreground mb-4">
-                    <div className="flex items-center gap-1">
-                      <Calendar className="h-3 w-3" />
-                      {post.date}
+          {/* ── LIVE REACTIONS — Featured ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+          >
+            <Link to={posts[0].link}>
+              <div
+                className="relative rounded-2xl overflow-hidden group cursor-pointer transition-all duration-300"
+                style={{
+                  background: 'rgba(255,255,255,0.02)',
+                  border: '1px solid rgba(168,85,247,0.2)',
+                  borderLeft: '3px solid #a855f7',
+                }}
+              >
+                <div className="grid md:grid-cols-[1fr_auto] gap-0">
+                  <div className="p-8 md:p-10">
+                    <div className="flex flex-wrap items-center gap-2 mb-5">
+                      <span className="text-[0.6rem] font-bold tracking-[0.2em] uppercase px-3 py-1 rounded-full" style={{ background: 'rgba(168,85,247,0.15)', color: '#a855f7', border: '1px solid rgba(168,85,247,0.3)' }}>Featured</span>
+                      <span className="text-[0.6rem] font-bold tracking-[0.2em] uppercase px-3 py-1 rounded-full flex items-center gap-1.5" style={{ background: 'rgba(34,197,94,0.12)', color: '#4ade80', border: '1px solid rgba(34,197,94,0.25)' }}>
+                        <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse inline-block" />
+                        Live
+                      </span>
+                      <span className="text-[0.6rem] font-bold tracking-[0.2em] uppercase px-3 py-1 rounded-full" style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.4)' }}>Community</span>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <Clock className="h-3 w-3" />
-                      {post.readTime}
+                    <h2
+                      className="font-bold leading-tight mb-4 group-hover:opacity-80 transition-opacity"
+                      style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', color: '#fff' }}
+                    >
+                      Celesti Energy – Fan Reactions
+                    </h2>
+                    <p className="mb-6" style={{ fontFamily: "'Crimson Pro', Georgia, serif", fontSize: 'clamp(1rem, 1.6vw, 1.1rem)', color: 'rgba(255,255,255,0.5)', lineHeight: 1.7 }}>
+                      See what fans around the world are saying about their quiz results. Real ratings, real reactions, real vibes.
+                    </p>
+                    <div className="flex items-center gap-6 mb-6">
+                      <div className="flex items-center gap-2 text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                        <Calendar className="h-3.5 w-3.5" />Live Now
+                      </div>
+                      <div className="flex items-center gap-2 text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                        <Clock className="h-3.5 w-3.5" />Ongoing
+                      </div>
+                    </div>
+                    <div
+                      className="inline-flex items-center gap-2 text-sm font-semibold px-5 py-2.5 rounded-full transition-all duration-200"
+                      style={{ background: 'linear-gradient(to right, #a855f7, #3b82f6)', color: '#fff' }}
+                    >
+                      View Reactions <ArrowRight className="h-4 w-4" />
                     </div>
                   </div>
-                  <Button variant="ghost" className="p-0 h-auto text-primary hover:text-primary/80">
-                    Read More
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
+                  <div className="hidden md:flex items-center justify-center px-10 min-w-[160px]">
+                    <div className="text-center">
+                      <div className="text-7xl mb-2">⭐</div>
+                      <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'rgba(168,85,247,0.6)' }}>Live Feed</p>
+                    </div>
+                  </div>
                 </div>
-              </Card>
+              </div>
             </Link>
-          ))}
-        </div>
-      </section>
+          </motion.div>
 
-      {/* Resources Section */}
-      <section className="py-20 bg-card">
-        <div className="container mx-auto px-4">
-          <h2 className="text-4xl md:text-5xl font-display text-center mb-12 text-gradient">
-            Free Resources
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <Card className="p-8 bg-background border-border hover:border-primary/50 transition-all text-center">
-              <div className="text-5xl mb-4">📖</div>
-              <h3 className="text-xl font-bold mb-3">Ultimate Fan Guide</h3>
-              <p className="text-muted-foreground mb-6">
-                Everything you need to become a top-ranked fan
-              </p>
-              <Button variant="outline" className="border-primary text-primary hover:bg-primary/10">
-                Download PDF
-              </Button>
-            </Card>
-            <Card className="p-8 bg-background border-border hover:border-primary/50 transition-all text-center">
-              <div className="text-5xl mb-4">🎯</div>
-              <h3 className="text-xl font-bold mb-3">Artist Playbook</h3>
-              <p className="text-muted-foreground mb-6">
-                Campaign strategies that actually work
-              </p>
-              <Button variant="outline" className="border-primary text-primary hover:bg-primary/10">
-                Download PDF
-              </Button>
-            </Card>
-            <Card className="p-8 bg-background border-border hover:border-primary/50 transition-all text-center">
-              <div className="text-5xl mb-4">💡</div>
-              <h3 className="text-xl font-bold mb-3">Case Studies</h3>
-              <p className="text-muted-foreground mb-6">
-                Real success stories from CelestiFan users
-              </p>
-              <Button variant="outline" className="border-primary text-primary hover:bg-primary/10">
-                Download PDF
-              </Button>
-            </Card>
-          </div>
-        </div>
-      </section>
+          {/* ── EDITORIAL — Exchange ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.05 }}
+            viewport={{ once: true }}
+          >
+            <Link to={posts[1].link}>
+              <div
+                className="relative rounded-2xl overflow-hidden group cursor-pointer min-h-[280px] flex items-end transition-all duration-300"
+                style={{ border: '1px solid rgba(255,255,255,0.07)' }}
+              >
+                <img
+                  src="/images/image1.jpg"
+                  alt="Artist on stage"
+                  className="absolute inset-0 w-full h-full object-cover brightness-40 group-hover:brightness-50 transition-all duration-500"
+                />
+                <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.92) 50%, transparent 100%)' }} />
+                <div className="relative z-10 p-8 md:p-10 max-w-2xl">
+                  <div className="flex flex-wrap items-center gap-2 mb-4">
+                    <span className="text-[0.6rem] font-bold tracking-[0.2em] uppercase px-3 py-1 rounded-full" style={{ background: 'rgba(245,158,11,0.2)', color: '#fbbf24', border: '1px solid rgba(245,158,11,0.3)' }}>✦ Editorial</span>
+                    <span className="text-[0.6rem] font-bold tracking-[0.2em] uppercase px-3 py-1 rounded-full" style={{ background: 'rgba(168,85,247,0.15)', color: '#a855f7', border: '1px solid rgba(168,85,247,0.25)' }}>Culture</span>
+                  </div>
+                  <h2
+                    className="font-bold leading-tight mb-3 text-white group-hover:opacity-80 transition-opacity"
+                    style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(1.6rem, 3vw, 2.5rem)' }}
+                  >
+                    The Music Industry Got the Exchange Backwards
+                  </h2>
+                  <p className="mb-5" style={{ fontFamily: "'Crimson Pro', Georgia, serif", fontSize: '1rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.6 }}>
+                    For decades, we've measured fandom by what it spends. What if the real currency was always something else?
+                  </p>
+                  <div className="flex items-center gap-5 mb-5 text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                    <span className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5" />March 11, 2025</span>
+                    <span className="flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" />8 min read</span>
+                    <span>By Romeo · CelestiFan</span>
+                  </div>
+                  <div
+                    className="inline-flex items-center gap-2 text-sm font-semibold px-5 py-2.5 rounded-full"
+                    style={{ background: '#f59e0b', color: '#000' }}
+                  >
+                    Read the Essay <ArrowRight className="h-4 w-4" />
+                  </div>
+                </div>
+              </div>
+            </Link>
+          </motion.div>
 
-      {/* Newsletter */}
-      <section className="py-20 container mx-auto px-4">
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-display mb-6 text-gradient">
-            Stay in the Loop
-          </h2>
-          <p className="text-muted-foreground mb-8">
-            Get weekly music insights, platform updates, and exclusive tips delivered
-            to your inbox
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 px-6 py-3 rounded-lg bg-background border border-border focus:border-primary outline-none"
-            />
-            <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
-              Subscribe
-            </Button>
-          </div>
+          {/* ── EVENT GUIDE — Afrobeats Summer ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            viewport={{ once: true }}
+          >
+            <Link to={posts[2].link}>
+              <div
+                className="relative rounded-2xl overflow-hidden group cursor-pointer transition-all duration-300"
+                style={{
+                  background: 'rgba(255,77,0,0.03)',
+                  border: '1px solid rgba(255,77,0,0.2)',
+                  borderLeft: '3px solid #FF4D00',
+                }}
+              >
+                <div className="p-8 md:p-10">
+                  <div className="flex flex-wrap items-center gap-2 mb-5">
+                    <span className="text-[0.6rem] font-bold tracking-[0.2em] uppercase px-3 py-1 rounded-full" style={{ background: '#FF4D00', color: '#fff' }}>★ New</span>
+                    <span className="text-[0.6rem] font-bold tracking-[0.2em] uppercase px-3 py-1 rounded-full" style={{ background: 'rgba(255,217,61,0.12)', color: '#FFD93D', border: '1px solid rgba(255,217,61,0.25)' }}>Event Guide</span>
+                    <span className="text-[0.6rem] font-bold tracking-[0.2em] uppercase px-3 py-1 rounded-full" style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.4)' }}>7 Events</span>
+                  </div>
+                  <h2
+                    className="font-bold leading-tight mb-4 group-hover:opacity-80 transition-opacity"
+                    style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', color: '#fff' }}
+                  >
+                    The Biggest Afrobeats Summer 2026
+                  </h2>
+                  <p className="mb-6" style={{ fontFamily: "'Crimson Pro', Georgia, serif", fontSize: 'clamp(1rem, 1.6vw, 1.1rem)', color: 'rgba(255,255,255,0.5)', lineHeight: 1.7 }}>
+                    Afro Nation Portugal, Davido & Friends Fest, Burna Boy, Wizkid and more — your complete guide to every confirmed Afrobeats event this summer. Real dates, real prices, updated as events are announced.
+                  </p>
+                  <div className="flex flex-wrap items-center gap-6 mb-6">
+                    <div className="flex items-center gap-2 text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                      <Calendar className="h-3.5 w-3.5" />March 24, 2026
+                    </div>
+                    <div className="flex items-center gap-2 text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                      <Clock className="h-3.5 w-3.5" />Event Guide
+                    </div>
+                    <span className="text-xs font-medium" style={{ color: 'rgba(255,77,0,0.7)' }}>🇵🇹 🏴󠁧󠁢󠁥󠁮󠁧󠁿 🇫🇷 🇲🇹 Europe</span>
+                  </div>
+                  <div
+                    className="inline-flex items-center gap-2 text-sm font-semibold px-5 py-2.5 rounded-full transition-all duration-200"
+                    style={{ background: '#FF4D00', color: '#fff' }}
+                  >
+                    View the Guide <ArrowRight className="h-4 w-4" />
+                  </div>
+                </div>
+              </div>
+            </Link>
+          </motion.div>
+
         </div>
+
+        {/* Coming soon note */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+          className="text-center mt-14 text-xs"
+          style={{ color: 'rgba(255,255,255,0.15)', letterSpacing: '0.05em' }}
+        >
+          More essays, guides, and stories dropping soon. Follow{" "}
+          <a href="https://x.com/celestifan_off" target="_blank" rel="noopener noreferrer" className="underline" style={{ color: 'rgba(168,85,247,0.5)' }}>
+            @celestifan_off
+          </a>{" "}
+          to stay ahead.
+        </motion.p>
       </section>
     </div>
   );
