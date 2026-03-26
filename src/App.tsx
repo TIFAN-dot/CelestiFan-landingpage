@@ -18,7 +18,8 @@ import NotFound from "./pages/NotFound";
 import Celeste from "./pages/Celeste";
 import Quiz from "./pages/Quiz";
 import BlogReactions from "@/pages/BlogReactions";
-import BlogPostExchange from "@/pages/BlogPostExchange"; // ← ADD THIS
+import BlogPostExchange from "@/pages/BlogPostExchange";
+import AfrobeatsSummer2026 from "@/pages/AfrobeatsSummer2026";
 
 const queryClient = new QueryClient();
 const CONSENT_KEY = "celestifan_consent_choice";
@@ -114,7 +115,8 @@ const App = () => (
               <Route path="/celeste" element={<Celeste />} />
               <Route path="/quiz" element={<Quiz />} />
               <Route path="/blog/reactions" element={<BlogReactions />} />
-              <Route path="/blog/exchange-backwards" element={<BlogPostExchange />} /> {/* ← ADD THIS */}
+              <Route path="/blog/exchange-backwards" element={<BlogPostExchange />} />
+              <Route path="/blog/afrobeats-summer-2026" element={<AfrobeatsSummer2026 />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>

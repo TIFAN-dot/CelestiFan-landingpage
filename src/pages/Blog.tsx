@@ -28,6 +28,16 @@ const Blog = () => {
       featured: false,
       isEditorial: true, // flag for special card styling
     },
+    {
+      title: "Afrobeats Summer 2026 — Complete Event Guide",
+      excerpt:
+        "Afro Nation Portugal, Davido & Friends Fest, Burna Boy at Milton Keynes, Wizkid at Dreamland, and more — confirmed dates, ticket prices, and lineups for the season.",
+      date: "March 24, 2026",
+      readTime: "12 min read",
+      category: "Culture",
+      image: "afrobeats-summer-2026",
+      link: "/blog/afrobeats-summer-2026",
+    },
     // ─────────────────────────────────────────────────────────────────────────
     {
       title: "How to Skyrocket Your Music with Fan Campaigns",
@@ -93,13 +103,13 @@ const Blog = () => {
         <title>CelestiFan Blog — Fan Engagement, Fan Lives Matter & Music Culture</title>
         <meta
           name="description"
-          content="Stories, essays, and guides from the CelestiFan community on fan engagement, fan campaigns, fan lives matter, Afrobeats culture, and building artist careers with real fans."
+          content="Fan engagement essays, culture guides, and event coverage — including the complete Afrobeats Summer 2026 event guide with confirmed dates, prices, and lineups. Plus stories from the CelestiFan community."
         />
         <link rel="canonical" href="https://celestifan.com/blog" />
         <meta property="og:title" content="CelestiFan Blog — Fan Engagement & Music Culture" />
         <meta
           property="og:description"
-          content="Dive into fan engagement strategies, culture essays, and success stories from the CelestiFan community."
+          content="Fan engagement essays, culture guides, and event coverage — including the complete Afrobeats Summer 2026 event guide with confirmed dates, prices, and lineups."
         />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://celestifan.com/blog" />
@@ -111,6 +121,25 @@ const Blog = () => {
           content="Fan-first essays and resources on campaigns, rankings, Afrobeats, and why fan engagement beats follower counts."
         />
         <meta name="twitter:image" content="https://celestifan.com/fanliveimage1.webp" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Blog",
+              name: "CelestiFan Blog",
+              url: "https://celestifan.com/blog",
+              blogPost: [
+                {
+                  "@type": "BlogPosting",
+                  headline: "Afrobeats Summer 2026 — Complete Event Guide",
+                  url: "https://celestifan.com/blog/afrobeats-summer-2026",
+                  datePublished: "2026-03-24",
+                },
+              ],
+            }),
+          }}
+        />
       </Helmet>
       {/* Hero */}
       <section className="py-20 container mx-auto px-4">

@@ -1,8 +1,8 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useState, useEffect } from "react";
 import { ArrowRight, ChevronDown, PartyPopper } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import CelestiQuiz from "@/components/CelestiQuiz";
 import ServicesSection from "@/components/ServicesSection";
@@ -76,10 +76,18 @@ const archetypes = [
 ];
 
 const Home = () => {
+  const [searchParams] = useSearchParams();
   const [formData, setFormData] = useState({ name: "", email: "", userType: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ type: "", message: "" });
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+
+  useEffect(() => {
+    const ref = searchParams.get("ref");
+    if (ref) {
+      sessionStorage.setItem("cf_ref", ref);
+    }
+  }, [searchParams]);
 
   const handleWaitlistClick = (type: "artist" | "fan") => {
     setFormData((prev) => ({ ...prev, userType: type }));
@@ -104,6 +112,8 @@ const Home = () => {
     setIsSubmitting(true);
     setSubmitStatus({ type: "", message: "" });
     try {
+      const referredBy =
+        searchParams.get("ref") || sessionStorage.getItem("cf_ref") || "";
       const SCRIPT_URL =
         import.meta.env.VITE_SCRIPT_URL ||
         "https://script.google.com/macros/s/AKfycbzHtjBUTZrE0ML9SV0XvyOzAYFIOF3YXyXX3v0fJizvK0IgikyqF2dGrRUbw1nFNSyB/exec";
@@ -115,6 +125,7 @@ const Home = () => {
           name: formData.name,
           email: formData.email,
           userType: formData.userType || "general",
+          referredBy,
         }),
       });
       setIsSuccessModalOpen(true);
@@ -156,13 +167,13 @@ const Home = () => {
         <title>CelestiFan — Amplify Artists. Ignite Fandom.</title>
         <meta
           name="description"
-          content="CelestiFan is the fan engagement platform where your support moves music. Earn Celeste, climb leaderboards, connect with artists. Fan Lives Matter."
+          content="Your support has always been free. Your artist never knew your name. CelestiFan changes both — turning fan dedication into recognition and giving artists visibility into who's truly riding for them."
         />
         <link rel="canonical" href="https://celestifan.com/" />
         <meta property="og:title" content="CelestiFan — Amplify Artists. Ignite Fandom." />
         <meta
           property="og:description"
-          content="The platform where fans fuel music breakthroughs. Support artists. Earn Celeste. Change the game."
+          content="Your support has always been free. Your artist never knew your name. CelestiFan changes both — turning fan dedication into recognition and giving artists visibility into who's truly riding for them."
         />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://celestifan.com/" />
@@ -172,7 +183,7 @@ const Home = () => {
         <meta name="twitter:title" content="CelestiFan — Fan Lives Matter." />
         <meta
           name="twitter:description"
-          content="The platform where fans fuel music breakthroughs. Support artists. Earn Celeste."
+          content="Your support has always been free. Your artist never knew your name. CelestiFan changes both — turning fan dedication into recognition and giving artists visibility into who's truly riding for them."
         />
         <meta name="twitter:image" content="https://celestifan.com/fanliveimage1.webp" />
         <script
@@ -280,7 +291,7 @@ const Home = () => {
             className="text-slate-300/80 font-light leading-[1.8] md:leading-[1.85] tracking-wide max-w-3xl mx-auto mb-8 md:mb-10 px-1"
             style={{ fontSize: "clamp(1rem, 2.2vw, 1.35rem)" }}
           >
-            CelestiFan is the premium fan engagement platform where support becomes visible, artists discover true supporters, and fan lives matter.
+            Your support has always been free. Your artist never knew your name. CelestiFan changes both — turning fan dedication into recognition and giving artists visibility into who&apos;s truly riding for them.
           </p>
 
           {/* CTAs — animate fine, not LCP */}
