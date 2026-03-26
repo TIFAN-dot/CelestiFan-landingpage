@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { Twitter, Instagram, Facebook, Youtube } from "lucide-react";
+import { Twitter, Instagram } from "lucide-react";
+import { motion } from "framer-motion";
 
 const Footer = () => {
   const footerLinks = [
@@ -8,95 +9,155 @@ const Footer = () => {
       links: [
         { name: "About", path: "/about" },
         { name: "Features", path: "/features" },
-        { name: "Pricing", path: "/pricing" },
         { name: "Blog", path: "/blog" },
+        { name: "Celeste", path: "/celeste" },
       ],
     },
     {
       title: "Support",
       links: [
         { name: "Connect", path: "/connect" },
-        { name: "FAQ", path: "/connect#faq" },
-        { name: "Privacy", path: "#" },
-        { name: "Terms", path: "#" },
-      ],
-    },
-    {
-      title: "Resources",
-      links: [
-        { name: "Fan Guide", path: "#" },
-        { name: "Artist Guide", path: "#" },
-        { name: "API Docs", path: "#" },
-        { name: "Community", path: "#" },
+        { name: "FAQ", path: "/#waitlist-section" },
       ],
     },
   ];
 
   const socialLinks = [
-    { icon: Twitter, href: "https://x.com/celestifan_off?s=21", label: "Twitter" },
-    { icon: Instagram, href: "https://www.instagram.com/celestifan_official?igsh=dWQ3b205ZDJ6bWNl&utm_source=qr", label: "Instagram" },
-    // { icon: Facebook, href: "#", label: "Facebook" },
-    // { icon: Youtube, href: "#", label: "YouTube" },
+    { icon: Twitter, href: "https://x.com/celestifan_off?s=21", label: "X (Twitter)", gradient: "linear-gradient(to right, #a855f7, #3b82f6)" },
+    { icon: Instagram, href: "https://www.instagram.com/celestifan_official?igsh=dWQ3b205ZDJ6bWNl&utm_source=qr", label: "Instagram", gradient: "linear-gradient(to right, #3b82f6, #06b6d4)" },
   ];
 
   return (
-    <footer className="bg-card border-t border-border mt-20">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+    <footer
+      className="relative overflow-hidden border-t"
+      style={{ background: '#04020a', borderColor: 'rgba(255,255,255,0.06)' }}
+    >
+      {/* Film grain */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.02]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+          backgroundRepeat: 'repeat',
+          backgroundSize: '128px',
+        }}
+      />
+
+      {/* Ambient glow */}
+      <div
+        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] pointer-events-none hidden md:block"
+        style={{ background: 'radial-gradient(ellipse, rgba(168,85,247,0.06) 0%, transparent 70%)' }}
+      />
+
+      <div className="relative z-10 container mx-auto px-5 pt-16 pb-8">
+
+        {/* Top — Brand + tagline */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-12 mb-14">
+
           {/* Brand */}
-          <div className="lg:col-span-2">
-            <Link to="/" className="flex items-center gap-2 mb-4 group">
-              <img src="/logo.webp" alt="CelestiFan Logo" className="h-32 w-32 text-primary group-hover:animate-float" />
-              {/* <span className="text-2xl font-display tracking-wider text-gradient">
+          <div className="max-w-sm">
+            <Link to="/" className="inline-flex items-center gap-3 mb-5 group">
+              <img src="/logo.webp" alt="CelestiFan" className="h-10 w-10" />
+              <span
+                className="font-bold text-lg tracking-wide"
+                style={{
+                  background: 'linear-gradient(to right, #a855f7, #3b82f6)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  fontFamily: "'Cormorant Garamond', Georgia, serif",
+                  fontSize: '1.4rem',
+                }}
+              >
                 CelestiFan
-              </span> */}
+              </span>
             </Link>
-            <p className="text-muted-foreground mb-6 max-w-sm">
-              Empowering artists and elevating fans. Join the music revolution
-              where every stream, share, and shoutout counts.
+
+            <p
+              className="mb-6"
+              style={{
+                fontFamily: "'Crimson Pro', Georgia, serif",
+                fontSize: '1.05rem',
+                color: 'rgba(255,255,255,0.3)',
+                lineHeight: 1.7,
+              }}
+            >
+              The platform where fan dedication finally earns — and artists see who's truly riding for them.
             </p>
-            <div className="flex gap-4">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  aria-label={social.label}
-                  className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all hover:scale-110"
-                >
-                  <social.icon className="h-5 w-5" />
-                </a>
-              ))}
+
+            {/* Social links */}
+            <div className="flex gap-3">
+              {socialLinks.map((s) => {
+                const Icon = s.icon;
+                return (
+                  <motion.a
+                    key={s.label}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={s.label}
+                    className="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-200"
+                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
+                    whileHover={{ scale: 1.1 }}
+                    onMouseEnter={e => {
+                      (e.currentTarget as HTMLElement).style.background = `rgba(168,85,247,0.15)`;
+                      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(168,85,247,0.3)';
+                    }}
+                    onMouseLeave={e => {
+                      (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)';
+                      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.08)';
+                    }}
+                  >
+                    <Icon className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.45)' }} />
+                  </motion.a>
+                );
+              })}
             </div>
           </div>
 
           {/* Links */}
-          {footerLinks.map((section) => (
-            <div key={section.title}>
-              <h3 className="font-semibold text-foreground mb-4">
-                {section.title}
-              </h3>
-              <ul className="space-y-2">
-                {section.links.map((link) => (
-                  <li key={link.name}>
-                    <Link
-                      to={link.path}
-                      className="text-muted-foreground hover:text-primary transition-colors"
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <div className="flex gap-14">
+            {footerLinks.map((section) => (
+              <div key={section.title}>
+                <p
+                  className="text-[0.6rem] font-bold tracking-[0.3em] uppercase mb-5"
+                  style={{ color: 'rgba(168,85,247,0.6)' }}
+                >
+                  {section.title}
+                </p>
+                <ul className="space-y-3">
+                  {section.links.map((link) => (
+                    <li key={link.name}>
+                      <Link
+                        to={link.path}
+                        className="text-sm transition-colors duration-200"
+                        style={{ color: 'rgba(255,255,255,0.3)', fontFamily: "'Crimson Pro', Georgia, serif", fontSize: '1rem' }}
+                        onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.8)'}
+                        onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.3)'}
+                      >
+                        {link.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="border-t border-border mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-muted-foreground text-sm">
+        {/* Divider */}
+        <div className="h-px w-full mb-7 opacity-[0.07]" style={{ background: 'linear-gradient(to right, #a855f7, #3b82f6, #06b6d4, #10b981)' }} />
+
+        {/* Bottom */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-3">
+          <p
+            style={{ fontFamily: "'Crimson Pro', Georgia, serif", fontSize: '0.9rem', color: 'rgba(255,255,255,0.18)' }}
+          >
             © {new Date().getFullYear()} CelestiFan. All rights reserved.
           </p>
-          <p className="text-muted-foreground text-sm">
-            Built with 💜 for music lovers worldwide
+          <p
+            style={{ fontFamily: "'Crimson Pro', Georgia, serif", fontSize: '0.9rem', color: 'rgba(255,255,255,0.12)' }}
+          >
+            Fan Lives Matter.
           </p>
         </div>
       </div>

@@ -99,7 +99,7 @@ const FeaturesShowcase = () => {
             Built for the Ones Who Show Up.
           </h2>
           <p className="text-sm md:text-base text-slate-400 max-w-lg mx-auto">
-            For fans whose dedication never got credited. For artists who never knew who was really there. These are the tools that change that.
+            The tools fans deserved from day one — and artists never had. Until now.
           </p>
         </motion.div>
 
