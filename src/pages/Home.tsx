@@ -81,6 +81,17 @@ const Home = () => {
   const [submitStatus, setSubmitStatus] = useState({ type: "", message: "" });
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
+  // Capture referral code — read immediately on render
+  const [refCode] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get("ref");
+    if (ref) {
+      sessionStorage.setItem("cf_ref", ref);
+      return ref;
+    }
+    return sessionStorage.getItem("cf_ref") || "";
+  });
+
   const handleWaitlistClick = (type: "artist" | "fan") => {
     setFormData((prev) => ({ ...prev, userType: type }));
     document.getElementById("waitlist-section")?.scrollIntoView({ behavior: "smooth" });
@@ -115,6 +126,7 @@ const Home = () => {
           name: formData.name,
           email: formData.email,
           userType: formData.userType || "general",
+          referredBy: refCode || "",
         }),
       });
       setIsSuccessModalOpen(true);
