@@ -157,13 +157,14 @@ const BentoCard = ({
           </h3>
         </div>
 
-        {/* Body — slides in on hover */}
+        {/* Body — always visible on mobile, slides in on hover on desktop */}
         <div
           style={{
             maxHeight: hovered ? '200px' : '0px',
             overflow: 'hidden',
             transition: 'max-height 0.4s cubic-bezier(0.16,1,0.3,1)',
           }}
+          className="hidden md:block"
         >
           <p
             className="mt-4"
@@ -177,6 +178,18 @@ const BentoCard = ({
             {body}
           </p>
         </div>
+        {/* Mobile — body always visible */}
+        <p
+          className="md:hidden mt-3"
+          style={{
+            fontFamily: "'Crimson Pro', Georgia, serif",
+            fontSize: '0.95rem',
+            color: 'rgba(255,255,255,0.45)',
+            lineHeight: 1.7,
+          }}
+        >
+          {body}
+        </p>
 
         {/* Bottom tag */}
         <div className="mt-6">
@@ -258,8 +271,8 @@ const Features = () => (
     {/* ── BENTO GRID ── */}
     <div className="max-w-6xl mx-auto px-5 pb-28">
 
-      {/* Split label row */}
-      <div className="grid grid-cols-2 gap-4 mb-3">
+      {/* Split label row — desktop only */}
+      <div className="hidden md:grid grid-cols-2 gap-4 mb-3">
         <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -282,8 +295,8 @@ const Features = () => (
         </motion.p>
       </div>
 
-      {/* Main bento grid — 4 col, 3 row */}
-      <div className="grid grid-cols-4 grid-rows-3 gap-4 auto-rows-[160px]">
+      {/* Main bento grid — desktop only */}
+      <div className="hidden md:grid grid-cols-4 grid-rows-3 gap-4 auto-rows-[160px]">
 
         {/* Artist big card — col 1-2, row 1-2 */}
         <div className="col-span-2 row-span-2">
