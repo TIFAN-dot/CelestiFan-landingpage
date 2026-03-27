@@ -1,470 +1,536 @@
-import { lazy, Suspense, useState, useEffect } from "react";
-import { ArrowRight, PartyPopper } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
-import { useSearchParams } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
-import CelestiQuiz from "@/components/CelestiQuiz";
-import ServicesSection from "@/components/ServicesSection";
-const FeaturesShowcase = lazy(() => import("@/components/FeaturesShowcase"));
-import FanLivesMatter from "@/components/FanLivesMatter";
-import AmbassadorProgram from "@/components/AmbassadorProgram";
-import FAQ from "@/components/FAQ";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Check, X, Copy, CheckCheck } from "lucide-react";
 
-const PROOF_COUNT = "800+";
-const PROOF_LABEL = "artists & fans already on the waitlist";
-const avatars = [
-  { initials: "AK", color: "#a855f7" },
-  { initials: "TF", color: "#3b82f6" },
-  { initials: "NJ", color: "#06b6d4" },
-  { initials: "RM", color: "#10b981" },
-  { initials: "SB", color: "#a855f7" },
+export type AmbassadorUserType = "artist" | "fan";
+
+export interface AmbassadorProgramProps {
+  onBecomeAmbassador: (userType: AmbassadorUserType) => void;
+}
+
+const tiers = [
+  {
+    number: "/01",
+    title: "Fan Ambassador",
+    qualifier: "Refer 5 people to CelestiFan",
+    badgeName: "Founding Fan",
+    badgeNote: "Permanent — never available after launch",
+    gradient: "linear-gradient(to right, #a855f7, #3b82f6)",
+    glowColor: "168,85,247",
+    accentColor: "#a855f7",
+    benefits: [
+      "Free platform access — 6 months",
+      "Permanent Founding Fan verified badge",
+      "Your name on the CelestiFan Founding Wall",
+      "Double Celeste earnings for 6 months",
+      "First access to every new feature before public release",
+      "Direct feedback line to the CelestiFan team",
+    ],
+    highlighted: false,
+    waitlistType: "fan" as AmbassadorUserType,
+    tierKey: "fan-ambassador",
+  },
+  {
+    number: "/02",
+    title: "Elite Fan Ambassador",
+    qualifier: "Refer 10 people to CelestiFan",
+    badgeName: "OG",
+    badgeNote: "Rarest tier — gone forever after launch",
+    gradient: "linear-gradient(to right, #3b82f6, #06b6d4)",
+    glowColor: "59,130,246",
+    accentColor: "#3b82f6",
+    benefits: [
+      "Free platform access — 8 months",
+      "Permanent OG status badge — never available again",
+      "Everything in Fan Ambassador tier",
+      "Official shoutout from CelestiFan social accounts",
+      "Invited to closed product feedback sessions",
+      "First campaign dedicated to an artist of your choice",
+    ],
+    highlighted: true,
+    waitlistType: "fan" as AmbassadorUserType,
+    tierKey: "elite-fan-ambassador",
+  },
+  {
+    number: "/03",
+    title: "Founding Artist",
+    qualifier: "Refer 5 fans or artists to CelestiFan",
+    badgeName: "Founding Artist",
+    badgeNote: "Permanent — closes at launch",
+    gradient: "linear-gradient(to right, #06b6d4, #10b981)",
+    glowColor: "6,182,212",
+    accentColor: "#06b6d4",
+    benefits: [
+      "Free Pro access — 8 months",
+      "Permanent Founding Artist verified badge",
+      "First campaign personally set up by CelestiFan team",
+      "Featured in official launch content and social",
+      "Priority support for first 6 months",
+      "Direct input on features that matter most to artists",
+    ],
+    highlighted: false,
+    waitlistType: "artist" as AmbassadorUserType,
+    tierKey: "founding-artist",
+  },
 ];
 
-const SocialProof = () => (
-  <motion.div
-    initial={{ opacity: 0, y: 12 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6, delay: 0.1 }}
-    viewport={{ once: true }}
-    className="flex flex-col items-center gap-3 mb-10"
-  >
-    <div className="flex items-center">
-      {avatars.map((a, i) => (
-        <div
-          key={i}
-          className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white border-2 border-slate-950 -ml-2 first:ml-0"
-          style={{ background: a.color, zIndex: avatars.length - i }}
-        >
-          {a.initials}
-        </div>
-      ))}
-      <div
-        className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white border-2 border-slate-950 -ml-2"
-        style={{ background: "linear-gradient(to right, #a855f7, #06b6d4)", zIndex: 0 }}
-      >
-        +
-      </div>
-    </div>
-    <p className="text-sm text-slate-400">
-      <span
-        className="font-bold text-base"
-        style={{
-          background: "linear-gradient(to right, #a855f7, #06b6d4)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-          backgroundClip: "text",
-        }}
-      >
-        {PROOF_COUNT}
-      </span>{" "}
-      {PROOF_LABEL}
-    </p>
-  </motion.div>
-);
+/* ── Generate referral code ── */
+const generateCode = (name: string): string => {
+  const clean = name.trim().toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 8);
+  const rand = Math.floor(1000 + Math.random() * 9000);
+  return `CF-${clean}-${rand}`;
+};
 
-const archetypes = [
-  "Soul Voyager", "Vibe Alchemist", "Dream Architect", "Fire Spirit",
-  "Emotional Healer", "Flow Seeker", "Story Collector", "Cosmic Connector"
-];
+/* ── Submit to Google Sheets ── */
+const SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbzHtjBUTZrE0ML9SV0XvyOzAYFIOF3YXyXX3v0fJizvK0IgikyqF2dGrRUbw1nFNSyB/exec";
 
-const Home = () => {
-  const [searchParams] = useSearchParams();
-  const [formData, setFormData] = useState({ name: "", email: "", userType: "" });
+const submitAmbassador = async (data: {
+  name: string;
+  email: string;
+  tier: string;
+  userType: string;
+  referralCode: string;
+}) => {
+  await fetch(SCRIPT_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      ...data,
+      type: "ambassador",
+      userType: data.userType,
+    }),
+  });
+};
+
+/* ── Ambassador Modal ── */
+const AmbassadorModal = ({
+  tier,
+  onClose,
+}: {
+  tier: typeof tiers[0];
+  onClose: () => void;
+}) => {
+  const [step, setStep] = useState<"form" | "success">("form");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState({ type: "", message: "" });
-  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [error, setError] = useState("");
+  const [referralCode, setReferralCode] = useState("");
+  const [copied, setCopied] = useState(false);
 
-  // Read referral from router URL (works in BrowserRouter) and persist for this tab session.
-  // We keep it derived (not in React state) so it remains correct even if the URL changes.
-  const urlRef = searchParams.get("ref") || "";
-  const storedRef = sessionStorage.getItem("cf_ref") || "";
-  const effectiveRef = urlRef || storedRef;
+  const referralLink = referralCode
+    ? `https://celestifan.com/?ref=${referralCode}`
+    : "";
 
-  useEffect(() => {
-    if (urlRef && urlRef !== storedRef) {
-      sessionStorage.setItem("cf_ref", urlRef);
-    }
-  }, [urlRef, storedRef]);
-
-  const handleWaitlistClick = (type: "artist" | "fan") => {
-    setFormData((prev) => ({ ...prev, userType: type }));
-    document.getElementById("waitlist-section")?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.name.trim() || !formData.email.trim()) {
-      setSubmitStatus({ type: "error", message: "Please fill in all fields" });
-      return;
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      setSubmitStatus({ type: "error", message: "Please enter a valid email address" });
-      return;
-    }
+  const handleSubmit = async () => {
+    if (!name.trim()) { setError("Please enter your name."); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError("Please enter a valid email."); return; }
+    setError("");
     setIsSubmitting(true);
-    setSubmitStatus({ type: "", message: "" });
+
+    const code = generateCode(name);
+    setReferralCode(code);
+
     try {
-      const SCRIPT_URL =
-        import.meta.env.VITE_SCRIPT_URL ||
-        "https://script.google.com/macros/s/AKfycbzHtjBUTZrE0ML9SV0XvyOzAYFIOF3YXyXX3v0fJizvK0IgikyqF2dGrRUbw1nFNSyB/exec";
-      await fetch(SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          userType: formData.userType || "general",
-          referredBy: effectiveRef,
-        }),
+      await submitAmbassador({
+        name: name.trim(),
+        email: email.trim(),
+        tier: tier.title,
+        userType: tier.waitlistType,
+        referralCode: code,
       });
-      setIsSuccessModalOpen(true);
-      setFormData({ name: "", email: "", userType: "" });
+      setStep("success");
     } catch {
-      setSubmitStatus({ type: "error", message: "Something went wrong. Please try again." });
+      setError("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const getNamePlaceholder = () =>
-    formData.userType === "artist" ? "Enter your artist name" : "Enter your name";
-
-  const getButtonText = () => {
-    if (isSubmitting) return "Joining...";
-    if (formData.userType === "artist") return "Join as Artist";
-    if (formData.userType === "fan") return "Join as Fan";
-    return "Join the Waitlist";
-  };
-
-  const getWaitlistTitle = () => {
-    if (formData.userType === "artist") return "Join as an Artist";
-    if (formData.userType === "fan") return "Join as a Fan";
-    return "Join the Waitlist";
-  };
-
-  const getWaitlistDescription = () => {
-    if (formData.userType === "artist")
-      return "Your fans are streaming at 2am, defending your catalog, building culture around your name — and you can't see any of them. CelestiFan changes that. Know who your real community is. Reward them. Build with them.";
-    if (formData.userType === "fan")
-      return "You've been carrying your artist further than any algorithm ever will — and getting nothing back for it. CelestiFan is where that finally changes. Your support earns, your dedication ranks, and the artist you ride for finally knows you're there.";
-    return "Music has always been built by two people — the artist who creates, and the fan who carries it into the world. CelestiFan is where both finally get what they deserve.";
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-50">
-      <Helmet>
-        <title>CelestiFan — Amplify Artists. Ignite Fandom.</title>
-        <meta
-          name="description"
-          content="Your support has always been free. Your artist never knew your name. CelestiFan changes both — turning fan dedication into recognition and giving artists visibility into who's truly riding for them."
-        />
-        <link rel="canonical" href="https://celestifan.com/" />
-        <meta property="og:title" content="CelestiFan — Amplify Artists. Ignite Fandom." />
-        <meta
-          property="og:description"
-          content="Your support has always been free. Your artist never knew your name. CelestiFan changes both — turning fan dedication into recognition and giving artists visibility into who's truly riding for them."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://celestifan.com/" />
-        <meta property="og:image" content="https://celestifan.com/fanliveimage1.webp" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@celestifan_off" />
-        <meta name="twitter:title" content="CelestiFan — Fan Lives Matter." />
-        <meta
-          name="twitter:description"
-          content="Your support has always been free. Your artist never knew your name. CelestiFan changes both turning fan dedication into recognition and giving artists visibility into who's truly riding for them."
-        />
-        <meta name="twitter:image" content="https://celestifan.com/fanliveimage1.webp" />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "WebSite", name: "CelestiFan", url: "https://celestifan.com/" }) }} />
-      </Helmet>
-
-      {/* ── SUCCESS MODAL ── */}
-      <Dialog open={isSuccessModalOpen} onOpenChange={setIsSuccessModalOpen}>
-        <DialogContent className="sm:max-w-sm bg-background border-primary shadow-2xl shadow-primary/20">
-          <DialogHeader className="text-center items-center pt-6">
-            <PartyPopper className="h-12 w-12 text-primary animate-bounce" />
-            <DialogTitle
-              className="mt-4 text-gradient"
-              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '2rem', fontWeight: 700 }}
-            >
-              You're In.
-            </DialogTitle>
-            <DialogDescription asChild>
-              <div className="mt-3 space-y-2 text-center">
-                <p style={{ fontFamily: "'Crimson Pro', Georgia, serif", fontSize: '1.05rem', color: 'rgba(255,255,255,0.55)', lineHeight: 1.7 }}>
-                  Your seat at the table is confirmed.
-                </p>
-                <p style={{ fontFamily: "'Crimson Pro', Georgia, serif", fontSize: '0.95rem', color: 'rgba(255,255,255,0.28)', lineHeight: 1.6 }}>
-                  The era where fans went unrecognised — and artists never knew who was really there — is over.
-                </p>
-              </div>
-            </DialogDescription>
-          </DialogHeader>
-          <div className="flex justify-center py-4">
-            <button
-              onClick={() => setIsSuccessModalOpen(false)}
-              className="text-sm font-semibold px-6 py-2.5 rounded-full transition-all duration-200"
-              style={{ background: 'linear-gradient(to right, #a855f7, #3b82f6)', color: '#fff' }}
-            >
-              Let's go ✦
-            </button>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      {/* ── HERO ── */}
-      <section className="min-h-screen flex flex-col items-center justify-center text-center pt-20 pb-12 overflow-hidden relative">
-
-        {/* Desktop blobs only */}
-        <div className="absolute inset-0 opacity-20 pointer-events-none hidden md:block">
-          <div className="absolute top-16 right-[12%] w-[45%] h-[55%] bg-primary rounded-full blur-[80px] animate-float" style={{ willChange: 'transform' }} />
-          <div className="absolute top-[30%] right-[4%] w-[32%] h-[42%] bg-secondary rounded-full blur-[80px] animate-float" style={{ animationDelay: "1s", willChange: 'transform' }} />
-          <div className="absolute bottom-0 left-[5%] w-[38%] h-[45%] rounded-full blur-[90px]" style={{ background: "rgba(6,182,212,0.25)" }} />
-        </div>
-
-        {/* Mobile ambient */}
-        <div className="absolute inset-0 pointer-events-none md:hidden" style={{ background: 'radial-gradient(ellipse 80% 50% at 50% 0%, rgba(168,85,247,0.1) 0%, transparent 70%)' }} />
-
-        <div className="container mx-auto px-5 relative z-10 flex flex-col items-center">
-
-          {/* Label */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex items-center gap-4 mb-8 md:mb-10"
-          >
-            <div className="h-px w-10" style={{ background: 'linear-gradient(to right, #a855f7, #3b82f6)' }} />
-            <span className="text-[0.65rem] font-semibold tracking-[0.3em] uppercase" style={{ color: 'rgba(168,85,247,0.75)' }}>
-              Fan Engagement Platform
-            </span>
-            <div className="h-px w-10" style={{ background: 'linear-gradient(to right, #3b82f6, #06b6d4)' }} />
-          </motion.div>
-
-          {/* H1 — Cormorant Garamond, no delay, instant LCP */}
-          <div className="mb-6 md:mb-8 w-full">
-            <h1
-              className="font-bold leading-[1.0] text-center"
-              style={{
-                fontFamily: "'Cormorant Garamond', Georgia, serif",
-                fontSize: "clamp(3.2rem, 10vw, 8rem)",
-              }}
-            >
-              <span className="block text-white">Amplify Artists.</span>
-              <span
-                className="block"
-                style={{
-                  background: "linear-gradient(135deg, #a855f7 0%, #3b82f6 45%, #06b6d4 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                Ignite Fandom.
-              </span>
-            </h1>
-          </div>
-
-          {/* Subtitle */}
-          <p
-            className="max-w-sm md:max-w-2xl mx-auto mb-8 md:mb-10"
-            style={{
-              fontFamily: "'Crimson Pro', Georgia, serif",
-              fontSize: "clamp(1rem, 2vw, 1.3rem)",
-              color: "rgba(255,255,255,0.4)",
-              lineHeight: 1.75,
-            }}
-          >
-            Your support has always been free. Your artist never knew your name. CelestiFan changes both — turning fan dedication into recognition and giving artists visibility into who&apos;s truly riding for them.
-          </p>
-
-          {/* CTAs */}
-          <motion.div
-            initial={{ y: 16, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.15 }}
-            className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center w-full max-w-xs sm:max-w-none"
-          >
-            <Button
-              size="lg"
-              className="font-semibold px-7 h-12 rounded-full transition-all duration-300 hover:scale-105 w-full sm:w-auto text-[0.95rem]"
-              style={{ background: 'linear-gradient(to right, #a855f7, #3b82f6)', color: '#fff', boxShadow: '0 0 24px rgba(168,85,247,0.2)' }}
-              onClick={() => handleWaitlistClick("artist")}
-            >
-              Join as Artist
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="px-7 h-12 rounded-full transition-all duration-300 hover:scale-105 w-full sm:w-auto text-[0.95rem]"
-              style={{ borderColor: 'rgba(59,130,246,0.3)', color: 'rgba(147,197,253,0.75)', background: 'rgba(59,130,246,0.06)' }}
-              onClick={() => handleWaitlistClick("fan")}
-            >
-              Join as Fan
-            </Button>
-          </motion.div>
-
-          {/* Social proof */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.35 }}
-            className="mt-6"
-            style={{
-              fontFamily: "'Crimson Pro', Georgia, serif",
-              fontSize: "clamp(0.9rem, 1.5vw, 1rem)",
-              color: "rgba(255,255,255,0.2)",
-            }}
-          >
-            Join{" "}
-            <span style={{ color: 'rgba(168,85,247,0.7)', fontWeight: 600 }}>{PROOF_COUNT}</span>{" "}
-            {PROOF_LABEL}
-          </motion.p>
-
-          {/* Mobile stat pills */}
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.45 }}
-            className="flex gap-3 mt-7 md:hidden"
-          >
-            {[
-              { label: "Campaigns", value: "Live" },
-              { label: "Celeste", value: "Earned" },
-              { label: "Artists", value: "Tracked" },
-            ].map((stat) => (
-              <div
-                key={stat.label}
-                className="flex flex-col items-center px-4 py-2.5 rounded-xl"
-                style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(168,85,247,0.1)' }}
-              >
-                <span className="text-[0.58rem] font-bold tracking-widest uppercase" style={{ color: 'rgba(168,85,247,0.6)' }}>
-                  {stat.value}
-                </span>
-                <span style={{ fontFamily: "'Crimson Pro', Georgia, serif", fontSize: '0.8rem', color: 'rgba(255,255,255,0.3)' }}>
-                  {stat.label}
-                </span>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ── FAN LIVES MATTER ── */}
-      <FanLivesMatter />
-
-      {/* ── SERVICES ── */}
-      <ServicesSection />
-
-      {/* ── QUIZ — CINEMATIC SPLIT ── */}
-      <section className="relative overflow-hidden" style={{ background: '#04020a' }}>
-        <div className="absolute inset-0 pointer-events-none opacity-[0.025] z-10" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`, backgroundRepeat: 'repeat', backgroundSize: '128px' }} />
-        <div className="absolute top-0 left-0 right-0 h-px z-20" style={{ background: 'linear-gradient(to right, transparent, rgba(168,85,247,0.3), rgba(59,130,246,0.3), transparent)' }} />
-        <div className="relative z-20 grid grid-cols-1 lg:grid-cols-2" style={{ minHeight: '85vh' }}>
-          <div className="flex flex-col justify-center px-8 md:px-14 py-24 lg:py-0">
-            <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className="flex items-center gap-4 mb-8">
-              <div className="h-px w-10" style={{ background: 'linear-gradient(to right, #a855f7, #3b82f6)' }} />
-              <span className="text-xs font-semibold tracking-[0.3em] uppercase" style={{ background: 'linear-gradient(to right, #a855f7, #3b82f6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>60 Seconds · 8 Archetypes</span>
-            </motion.div>
-            <motion.h2 initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.65, delay: 0.1 }} viewport={{ once: true }} className="font-bold leading-[1.0] mb-7" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(3rem, 5.5vw, 5.5rem)', background: 'linear-gradient(135deg, #ffffff 30%, rgba(168,85,247,0.95) 65%, rgba(59,130,246,0.9) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-              Discover<br />Your Celesti<br />Energy.
-            </motion.h2>
-            <motion.p initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} viewport={{ once: true }} className="mb-2 leading-relaxed" style={{ fontFamily: "'Crimson Pro', Georgia, serif", fontSize: 'clamp(1.05rem, 1.8vw, 1.3rem)', color: 'rgba(255,255,255,0.5)' }}>Your music taste isn't random.</motion.p>
-            <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.27 }} viewport={{ once: true }} className="mb-10" style={{ fontFamily: "'Crimson Pro', Georgia, serif", fontSize: 'clamp(1.05rem, 1.8vw, 1.3rem)', color: 'rgba(255,255,255,0.28)' }}>It reveals exactly who you are in music.</motion.p>
-            <motion.div initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.33 }} viewport={{ once: true }}><CelestiQuiz /></motion.div>
-            <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.5 }} viewport={{ once: true }} className="flex flex-wrap gap-2 mt-10">
-              {archetypes.map((name) => (
-                <span key={name} className="px-3 py-1 rounded-full text-xs font-medium" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(168,85,247,0.1)', color: 'rgba(255,255,255,0.18)', letterSpacing: '0.04em' }}>{name}</span>
-              ))}
-            </motion.div>
-          </div>
-          <div className="relative hidden lg:block" style={{ overflow: 'hidden' }}>
-            <img src="/quiz-archetype-mosaic.webp" alt="Celesti Energy Archetypes" className="absolute inset-0 w-full h-full object-cover object-center" loading="lazy" />
-            <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, #04020a 0%, rgba(4,2,10,0.8) 15%, rgba(4,2,10,0.25) 45%, transparent 100%)', zIndex: 1 }} />
-            <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, #04020a 0%, transparent 10%, transparent 90%, #04020a 100%)', zIndex: 2 }} />
-            <div className="absolute inset-0" style={{ background: 'rgba(100,60,180,0.07)', zIndex: 3 }} />
-          </div>
-        </div>
-        <div className="relative lg:hidden h-64 overflow-hidden">
-          <img src="/quiz-archetype-mosaic.webp" alt="Celesti Energy Archetypes" className="w-full h-full object-cover object-top" loading="lazy" />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, #04020a 0%, transparent 20%, transparent 70%, #04020a 100%)' }} />
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 h-px z-20" style={{ background: 'linear-gradient(to right, transparent, rgba(59,130,246,0.3), rgba(6,182,212,0.3), transparent)' }} />
-      </section>
-
-      {/* ── FEATURES SHOWCASE ── */}
-      <div id="features">
-        <Suspense fallback={null}>
-          <FeaturesShowcase />
-        </Suspense>
-      </div>
-
-      {/* ── AMBASSADOR PROGRAM ── */}
-      <AmbassadorProgram onBecomeAmbassador={handleWaitlistClick} />
-
-      {/* ── WAITLIST ── */}
-      <motion.section
-        id="waitlist-section"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        viewport={{ once: true }}
-        className="py-14 md:py-20 relative overflow-hidden"
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      style={{ background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)' }}
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+        className="relative w-full max-w-md rounded-2xl overflow-hidden"
+        style={{ background: '#0d0a1a', border: `1px solid rgba(${tier.glowColor},0.2)` }}
       >
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[250px] bg-primary rounded-full blur-[100px]" />
-        </div>
-        <div className="container mx-auto px-5 relative z-10 text-center">
-          <h2 className="font-display font-bold text-gradient mb-4" style={{ fontSize: "clamp(1.8rem, 5vw, 3.5rem)" }}>
-            {getWaitlistTitle()}
-          </h2>
-          <p className="text-sm md:text-base text-muted-foreground mb-8 max-w-lg mx-auto">
-            {getWaitlistDescription()}
-          </p>
-          <SocialProof />
-          <p className="text-sm font-semibold mb-6" style={{ background: 'linear-gradient(to right, #a855f7, #06b6d4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-            Early members get Founder status. That doesn't come back after launch.
-          </p>
-          <motion.form
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            onSubmit={handleSubmit}
-            transition={{ duration: 0.5, delay: 0.15 }}
-            viewport={{ once: true }}
-            className="flex flex-col gap-3 w-full max-w-sm mx-auto"
-          >
-            <input type="text" name="name" value={formData.name} onChange={handleInputChange} disabled={isSubmitting} placeholder={getNamePlaceholder()} className="px-5 py-3 rounded-xl bg-background border border-border focus:border-primary outline-none transition-all text-base w-full" required />
-            <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Enter your email" disabled={isSubmitting} className="px-5 py-3 rounded-xl bg-background border border-border focus:border-primary outline-none transition-all text-base w-full" required />
-            <Button disabled={isSubmitting} size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold h-12 rounded-xl w-full" type="submit">
-              {getButtonText()}
-            </Button>
-            {submitStatus.type === "error" && submitStatus.message && (
-              <div className="p-4 mt-2 rounded-xl bg-red-100 text-red-800 border border-red-200 text-sm">{submitStatus.message}</div>
-            )}
-          </motion.form>
-          <p className="text-xs text-slate-600 mt-4">No spam. No credit card. Just your seat at the table.</p>
-        </div>
-      </motion.section>
+        {/* Top gradient line */}
+        <div className="h-px w-full" style={{ background: tier.gradient }} />
 
-      {/* ── FAQ ── */}
-      <FAQ />
-    </div>
+        {/* Close */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200"
+          style={{ background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.4)' }}
+        >
+          <X className="h-4 w-4" />
+        </button>
+
+        <div className="p-8">
+          {step === "form" ? (
+            <>
+              {/* Header */}
+              <div className="mb-6">
+                <span
+                  className="text-[0.58rem] font-bold tracking-[0.2em] uppercase px-3 py-1 rounded-full"
+                  style={{ background: `rgba(${tier.glowColor},0.12)`, color: tier.accentColor, border: `1px solid rgba(${tier.glowColor},0.2)` }}
+                >
+                  {tier.badgeName}
+                </span>
+                <h3
+                  className="font-bold leading-tight mt-4 mb-1"
+                  style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '2rem', color: '#fff' }}
+                >
+                  {tier.title}
+                </h3>
+                <p style={{ fontFamily: "'Crimson Pro', Georgia, serif", fontSize: '0.95rem', color: 'rgba(255,255,255,0.35)' }}>
+                  {tier.qualifier}
+                </p>
+              </div>
+
+              {/* Form */}
+              <div className="space-y-3 mb-5">
+                <input
+                  type="text"
+                  placeholder="Your name"
+                  value={name}
+                  onChange={e => setName(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200"
+                  style={{
+                    background: 'rgba(255,255,255,0.04)',
+                    border: '1px solid rgba(255,255,255,0.08)',
+                    color: '#fff',
+                  }}
+                  onFocus={e => (e.currentTarget.style.borderColor = `rgba(${tier.glowColor},0.4)`)}
+                  onBlur={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
+                />
+                <input
+                  type="email"
+                  placeholder="Your email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200"
+                  style={{
+                    background: 'rgba(255,255,255,0.04)',
+                    border: '1px solid rgba(255,255,255,0.08)',
+                    color: '#fff',
+                  }}
+                  onFocus={e => (e.currentTarget.style.borderColor = `rgba(${tier.glowColor},0.4)`)}
+                  onBlur={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
+                  onKeyDown={e => { if (e.key === 'Enter') handleSubmit(); }}
+                />
+                {error && (
+                  <p className="text-xs" style={{ color: '#f87171' }}>{error}</p>
+                )}
+              </div>
+
+              <button
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+                className="w-full py-3 rounded-xl text-sm font-semibold transition-all duration-200"
+                style={{ background: tier.gradient, color: '#fff', opacity: isSubmitting ? 0.7 : 1 }}
+              >
+                {isSubmitting ? "Generating your code..." : "Get My Referral Code ✦"}
+              </button>
+
+              <p className="text-center mt-4 text-[0.6rem]" style={{ color: 'rgba(255,255,255,0.2)' }}>
+                No spam. Your code is yours permanently.
+              </p>
+            </>
+          ) : (
+            <>
+              {/* Success */}
+              <div className="text-center mb-6">
+                <div
+                  className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
+                  style={{ background: `rgba(${tier.glowColor},0.12)`, border: `1px solid rgba(${tier.glowColor},0.25)` }}
+                >
+                  <Check className="h-6 w-6" style={{ color: tier.accentColor }} />
+                </div>
+                <h3
+                  className="font-bold mb-2"
+                  style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '2rem', color: '#fff' }}
+                >
+                  You're an Ambassador.
+                </h3>
+                <p style={{ fontFamily: "'Crimson Pro', Georgia, serif", fontSize: '0.95rem', color: 'rgba(255,255,255,0.35)', lineHeight: 1.6 }}>
+                  Share your link. Every person who joins through it counts toward your tier.
+                </p>
+              </div>
+
+              {/* Referral code */}
+              <div
+                className="rounded-xl p-4 mb-3"
+                style={{ background: `rgba(${tier.glowColor},0.06)`, border: `1px solid rgba(${tier.glowColor},0.15)` }}
+              >
+                <p className="text-[0.58rem] font-bold tracking-[0.25em] uppercase mb-2" style={{ color: `rgba(${tier.glowColor},0.6)` }}>
+                  Your Referral Code
+                </p>
+                <div className="flex items-center justify-between gap-3">
+                  <span
+                    className="font-bold text-lg tracking-wider"
+                    style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", color: '#fff' }}
+                  >
+                    {referralCode}
+                  </span>
+                  <button
+                    onClick={() => handleCopy(referralCode)}
+                    className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg transition-all duration-200"
+                    style={{ background: `rgba(${tier.glowColor},0.12)`, color: tier.accentColor }}
+                  >
+                    {copied ? <CheckCheck className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+                    {copied ? "Copied!" : "Copy"}
+                  </button>
+                </div>
+              </div>
+
+              {/* Shareable link */}
+              <div
+                className="rounded-xl p-4 mb-6"
+                style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)' }}
+              >
+                <p className="text-[0.58rem] font-bold tracking-[0.25em] uppercase mb-2" style={{ color: 'rgba(255,255,255,0.25)' }}>
+                  Your Shareable Link
+                </p>
+                <div className="flex items-center justify-between gap-3">
+                  <span
+                    className="text-xs truncate"
+                    style={{ color: 'rgba(255,255,255,0.45)', fontFamily: 'monospace' }}
+                  >
+                    {referralLink}
+                  </span>
+                  <button
+                    onClick={() => handleCopy(referralLink)}
+                    className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg flex-shrink-0 transition-all duration-200"
+                    style={{ background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.5)' }}
+                  >
+                    {copied ? <CheckCheck className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+                    Copy link
+                  </button>
+                </div>
+              </div>
+
+              <button
+                onClick={onClose}
+                className="w-full py-2.5 rounded-xl text-sm font-semibold transition-all duration-200"
+                style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.5)', border: '1px solid rgba(255,255,255,0.08)' }}
+              >
+                Done
+              </button>
+            </>
+          )}
+        </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
-export default Home;
+/* ── Main Component ── */
+const AmbassadorProgram = ({ onBecomeAmbassador }: AmbassadorProgramProps) => {
+  const [activeTier, setActiveTier] = useState<typeof tiers[0] | null>(null);
+
+  return (
+    <>
+      <AnimatePresence>
+        {activeTier && (
+          <AmbassadorModal
+            tier={activeTier}
+            onClose={() => setActiveTier(null)}
+          />
+        )}
+      </AnimatePresence>
+
+      <section
+        id="ambassador-program"
+        className="relative overflow-hidden py-24 md:py-32"
+        style={{ background: '#020817' }}
+      >
+        <div
+          className="absolute inset-0 pointer-events-none opacity-[0.025] z-0"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+            backgroundRepeat: 'repeat', backgroundSize: '128px',
+          }}
+        />
+        <div className="absolute top-0 left-0 right-0 h-px z-10" style={{ background: 'linear-gradient(to right, transparent, rgba(168,85,247,0.4), rgba(6,182,212,0.4), transparent)' }} />
+        <div className="absolute bottom-0 left-0 right-0 h-px z-10" style={{ background: 'linear-gradient(to right, transparent, rgba(168,85,247,0.4), rgba(6,182,212,0.4), transparent)' }} />
+
+        <div className="relative z-10 container mx-auto px-5 max-w-7xl">
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="max-w-3xl mx-auto text-center mb-20"
+          >
+            <div className="flex items-center justify-center gap-4 mb-8">
+              <div className="h-px w-10" style={{ background: 'linear-gradient(to right, #a855f7, #3b82f6)' }} />
+              <span className="text-[0.65rem] font-semibold tracking-[0.3em] uppercase" style={{ color: 'rgba(168,85,247,0.8)' }}>
+                The Founding Circle
+              </span>
+              <div className="h-px w-10" style={{ background: 'linear-gradient(to right, #3b82f6, #06b6d4)' }} />
+            </div>
+
+            <h2
+              className="font-bold leading-[1.05] mb-6"
+              style={{
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontSize: 'clamp(2.4rem, 5vw, 4.5rem)',
+                background: 'linear-gradient(135deg, #ffffff 30%, rgba(168,85,247,0.95) 65%, rgba(6,182,212,0.9) 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
+              You believed before<br />the world did.
+            </h2>
+
+            <p
+              className="mb-4"
+              style={{ fontFamily: "'Crimson Pro', Georgia, serif", fontSize: 'clamp(1.05rem, 1.8vw, 1.25rem)', color: 'rgba(255,255,255,0.55)', lineHeight: 1.7 }}
+            >
+              The CelestiFan Ambassador Program — for the fans and artists who showed up first.
+            </p>
+            <p
+              style={{ fontFamily: "'Crimson Pro', Georgia, serif", fontSize: 'clamp(0.95rem, 1.5vw, 1.1rem)', color: 'rgba(255,255,255,0.28)', lineHeight: 1.7 }}
+            >
+              These are the unique chances. The Founding Circle closes the moment we launch — the badges and this status would be gone forever.
+            </p>
+          </motion.div>
+
+          {/* Tier Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-start">
+            {tiers.map((tier, index) => (
+              <motion.div
+                key={tier.title}
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className={tier.highlighted ? 'md:-mt-4' : ''}
+              >
+                <div
+                  className="relative rounded-2xl overflow-hidden h-full flex flex-col"
+                  style={{
+                    background: tier.highlighted ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.02)',
+                    border: tier.highlighted ? `1px solid rgba(${tier.glowColor},0.35)` : '1px solid rgba(255,255,255,0.07)',
+                  }}
+                >
+                  <div className="h-px w-full" style={{ background: tier.gradient }} />
+
+                  {tier.highlighted && (
+                    <div className="px-8 pt-6">
+                      <span className="text-[0.6rem] font-bold tracking-[0.2em] uppercase px-3 py-1 rounded-full" style={{ background: tier.gradient, color: '#fff' }}>
+                        Most Exclusive
+                      </span>
+                    </div>
+                  )}
+
+                  <div className="p-8 flex flex-col flex-1">
+                    <div className="flex items-center gap-3 mb-4">
+                      <span className="text-sm font-light" style={{ background: tier.gradient, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                        {tier.number}
+                      </span>
+                      <div className="h-px flex-1 opacity-20" style={{ background: tier.gradient }} />
+                    </div>
+
+                    <h3
+                      className="font-bold leading-tight mb-2"
+                      style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)', color: '#fff' }}
+                    >
+                      {tier.title}
+                    </h3>
+
+                    <p className="mb-6" style={{ fontFamily: "'Crimson Pro', Georgia, serif", fontSize: '0.95rem', color: 'rgba(255,255,255,0.4)' }}>
+                      {tier.qualifier}
+                    </p>
+
+                    <div className="mb-6 pb-6" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                      <span
+                        className="inline-block text-xs font-bold tracking-[0.15em] uppercase px-3 py-1.5 rounded-full mb-2"
+                        style={{ background: `rgba(${tier.glowColor},0.12)`, border: `1px solid rgba(${tier.glowColor},0.25)`, color: tier.accentColor }}
+                      >
+                        {tier.badgeName}
+                      </span>
+                      <p className="text-xs" style={{ color: 'rgba(255,255,255,0.25)' }}>{tier.badgeNote}</p>
+                    </div>
+
+                    <div className="space-y-3 flex-1 mb-8">
+                      {tier.benefits.map((benefit) => (
+                        <div key={benefit} className="flex items-start gap-3">
+                          <div className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ background: `rgba(${tier.glowColor},0.15)` }}>
+                            <Check className="w-2.5 h-2.5" style={{ color: tier.accentColor }} />
+                          </div>
+                          <span style={{ fontFamily: "'Crimson Pro', Georgia, serif", fontSize: '0.95rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.5 }}>
+                            {benefit}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* CTA — now opens modal */}
+                    <button
+                      onClick={() => setActiveTier(tier)}
+                      className="w-full py-3.5 rounded-xl font-semibold text-sm tracking-wide transition-all duration-300 hover:scale-[1.02]"
+                      style={
+                        tier.highlighted
+                          ? { background: tier.gradient, color: '#fff', boxShadow: `0 0 24px rgba(${tier.glowColor},0.2)` }
+                          : { background: 'transparent', color: 'rgba(255,255,255,0.7)', border: `1px solid rgba(${tier.glowColor},0.3)` }
+                      }
+                      onMouseEnter={e => {
+                        if (!tier.highlighted) {
+                          (e.currentTarget as HTMLElement).style.background = `rgba(${tier.glowColor},0.1)`;
+                          (e.currentTarget as HTMLElement).style.color = '#fff';
+                        }
+                      }}
+                      onMouseLeave={e => {
+                        if (!tier.highlighted) {
+                          (e.currentTarget as HTMLElement).style.background = 'transparent';
+                          (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.7)';
+                        }
+                      }}
+                    >
+                      Become an Ambassador ✦
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            viewport={{ once: true }}
+            className="text-center mt-16"
+            style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(1rem, 1.8vw, 1.2rem)', color: 'rgba(255,255,255,0.2)', letterSpacing: '0.05em' }}
+          >
+            Fan Lives Matter. And you were here first.
+          </motion.p>
+        </div>
+      </section>
+    </>
+  );
+};
+
+export default AmbassadorProgram;
