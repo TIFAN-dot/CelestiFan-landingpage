@@ -79,16 +79,14 @@ const archetypes = [
 const Home = () => {
   const [searchParams] = useSearchParams();
   const { t } = useTranslation();
-  const [formData, setFormData] = useState({ name: "", email: "", userType: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", userType: "", manualRef: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ type: "", message: "" });
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
-  // Read referral from router URL (works in BrowserRouter) and persist for this tab session.
-  // We keep it derived (not in React state) so it remains correct even if the URL changes.
   const urlRef = searchParams.get("ref") || "";
   const storedRef = sessionStorage.getItem("cf_ref") || "";
-  const effectiveRef = urlRef || storedRef;
+  const effectiveRef = formData.manualRef.trim() || urlRef || storedRef;
 
   useEffect(() => {
     if (urlRef && urlRef !== storedRef) {
@@ -134,7 +132,7 @@ const Home = () => {
         }),
       });
       setIsSuccessModalOpen(true);
-      setFormData({ name: "", email: "", userType: "" });
+      setFormData({ name: "", email: "", userType: "", manualRef: "" });
     } catch {
       setSubmitStatus({ type: "error", message: t("home.waitlist.errorGeneral") });
     } finally {
@@ -172,26 +170,17 @@ const Home = () => {
     <div className="min-h-screen bg-slate-950 text-slate-50">
       <Helmet>
         <title>CelestiFan — Amplify Artists. Ignite Fandom.</title>
-        <meta
-          name="description"
-          content="Your support has always been free. Your artist never knew your name. CelestiFan changes both — turning fan dedication into recognition and giving artists visibility into who's truly riding for them."
-        />
+        <meta name="description" content="Your support has always been free. Your artist never knew your name. CelestiFan changes both — turning fan dedication into recognition and giving artists visibility into who's truly riding for them." />
         <link rel="canonical" href="https://celestifan.com/" />
         <meta property="og:title" content="CelestiFan — Amplify Artists. Ignite Fandom." />
-        <meta
-          property="og:description"
-          content="Your support has always been free. Your artist never knew your name. CelestiFan changes both — turning fan dedication into recognition and giving artists visibility into who's truly riding for them."
-        />
+        <meta property="og:description" content="Your support has always been free. Your artist never knew your name. CelestiFan changes both — turning fan dedication into recognition and giving artists visibility into who's truly riding for them." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://celestifan.com/" />
         <meta property="og:image" content="https://celestifan.com/fanliveimage1.webp" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@celestifan_off" />
         <meta name="twitter:title" content="CelestiFan — Fan Lives Matter." />
-        <meta
-          name="twitter:description"
-          content="Your support has always been free. Your artist never knew your name. CelestiFan changes both turning fan dedication into recognition and giving artists visibility into who's truly riding for them."
-        />
+        <meta name="twitter:description" content="Your support has always been free. Your artist never knew your name. CelestiFan changes both — turning fan dedication into recognition and giving artists visibility into who's truly riding for them." />
         <meta name="twitter:image" content="https://celestifan.com/fanliveimage1.webp" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "WebSite", name: "CelestiFan", url: "https://celestifan.com/" }) }} />
       </Helmet>
@@ -232,20 +221,14 @@ const Home = () => {
 
       {/* ── HERO ── */}
       <section className="min-h-screen flex flex-col items-center justify-center text-center pt-20 pb-12 overflow-hidden relative">
-
-        {/* Desktop blobs only */}
         <div className="absolute inset-0 opacity-20 pointer-events-none hidden md:block">
           <div className="absolute top-16 right-[12%] w-[45%] h-[55%] bg-primary rounded-full blur-[80px] animate-float" style={{ willChange: 'transform' }} />
           <div className="absolute top-[30%] right-[4%] w-[32%] h-[42%] bg-secondary rounded-full blur-[80px] animate-float" style={{ animationDelay: "1s", willChange: 'transform' }} />
           <div className="absolute bottom-0 left-[5%] w-[38%] h-[45%] rounded-full blur-[90px]" style={{ background: "rgba(6,182,212,0.25)" }} />
         </div>
-
-        {/* Mobile ambient */}
         <div className="absolute inset-0 pointer-events-none md:hidden" style={{ background: 'radial-gradient(ellipse 80% 50% at 50% 0%, rgba(168,85,247,0.1) 0%, transparent 70%)' }} />
 
         <div className="container mx-auto px-5 relative z-10 flex flex-col items-center">
-
-          {/* Label */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -259,7 +242,6 @@ const Home = () => {
             <div className="h-px w-10" style={{ background: 'linear-gradient(to right, #3b82f6, #06b6d4)' }} />
           </motion.div>
 
-          {/* H1 — Cormorant Garamond, no delay, instant LCP */}
           <div className="mb-6 md:mb-8 w-full">
             <h1
               className="font-bold leading-[1.0] text-center"
@@ -283,7 +265,6 @@ const Home = () => {
             </h1>
           </div>
 
-          {/* Subtitle */}
           <p
             className="max-w-sm md:max-w-2xl mx-auto mb-8 md:mb-10"
             style={{
@@ -296,7 +277,6 @@ const Home = () => {
             {t("home.hero.subtitle")}
           </p>
 
-          {/* CTAs */}
           <motion.div
             initial={{ y: 16, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -323,24 +303,18 @@ const Home = () => {
             </Button>
           </motion.div>
 
-          {/* Social proof */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.35 }}
             className="mt-6"
-            style={{
-              fontFamily: "'Crimson Pro', Georgia, serif",
-              fontSize: "clamp(0.9rem, 1.5vw, 1rem)",
-              color: "rgba(255,255,255,0.2)",
-            }}
+            style={{ fontFamily: "'Crimson Pro', Georgia, serif", fontSize: "clamp(0.9rem, 1.5vw, 1rem)", color: "rgba(255,255,255,0.2)" }}
           >
             {t("home.hero.socialProofJoin")}{" "}
             <span style={{ color: 'rgba(168,85,247,0.7)', fontWeight: 600 }}>{PROOF_COUNT}</span>{" "}
             {t("home.hero.socialProofLabel")}
           </motion.p>
 
-          {/* Mobile stat pills */}
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -352,17 +326,9 @@ const Home = () => {
               { label: "Celeste", value: "Earned" },
               { label: "Artists", value: "Tracked" },
             ].map((stat) => (
-              <div
-                key={stat.label}
-                className="flex flex-col items-center px-4 py-2.5 rounded-xl"
-                style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(168,85,247,0.1)' }}
-              >
-                <span className="text-[0.58rem] font-bold tracking-widest uppercase" style={{ color: 'rgba(168,85,247,0.6)' }}>
-                  {stat.value}
-                </span>
-                <span style={{ fontFamily: "'Crimson Pro', Georgia, serif", fontSize: '0.8rem', color: 'rgba(255,255,255,0.3)' }}>
-                  {stat.label}
-                </span>
+              <div key={stat.label} className="flex flex-col items-center px-4 py-2.5 rounded-xl" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(168,85,247,0.1)' }}>
+                <span className="text-[0.58rem] font-bold tracking-widest uppercase" style={{ color: 'rgba(168,85,247,0.6)' }}>{stat.value}</span>
+                <span style={{ fontFamily: "'Crimson Pro', Georgia, serif", fontSize: '0.8rem', color: 'rgba(255,255,255,0.3)' }}>{stat.label}</span>
               </div>
             ))}
           </motion.div>
@@ -375,7 +341,7 @@ const Home = () => {
       {/* ── SERVICES ── */}
       <ServicesSection />
 
-      {/* ── QUIZ — CINEMATIC SPLIT ── */}
+      {/* ── QUIZ ── */}
       <section className="relative overflow-hidden" style={{ background: '#04020a' }}>
         <div className="absolute inset-0 pointer-events-none opacity-[0.025] z-10" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`, backgroundRepeat: 'repeat', backgroundSize: '128px' }} />
         <div className="absolute top-0 left-0 right-0 h-px z-20" style={{ background: 'linear-gradient(to right, transparent, rgba(168,85,247,0.3), rgba(59,130,246,0.3), transparent)' }} />
@@ -454,6 +420,36 @@ const Home = () => {
           >
             <input type="text" name="name" value={formData.name} onChange={handleInputChange} disabled={isSubmitting} placeholder={getNamePlaceholder()} className="px-5 py-3 rounded-xl bg-background border border-border focus:border-primary outline-none transition-all text-base w-full" required />
             <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder={t("home.waitlist.placeholderEmail")} disabled={isSubmitting} className="px-5 py-3 rounded-xl bg-background border border-border focus:border-primary outline-none transition-all text-base w-full" required />
+
+            {/* ── REFERRAL CODE INPUT ── */}
+            <div className="relative">
+              <input
+                type="text"
+                name="manualRef"
+                value={formData.manualRef}
+                onChange={handleInputChange}
+                disabled={isSubmitting}
+                placeholder="Ambassador code (optional — e.g. CF-NAME-1234)"
+                className="px-5 py-3 rounded-xl text-base w-full outline-none transition-all duration-200"
+                style={{
+                  background: 'rgba(168,85,247,0.04)',
+                  border: formData.manualRef ? '1px solid rgba(168,85,247,0.35)' : '1px solid rgba(168,85,247,0.12)',
+                  color: 'rgba(255,255,255,0.7)',
+                  fontSize: '0.9rem',
+                }}
+                onFocus={e => (e.currentTarget.style.borderColor = 'rgba(168,85,247,0.45)')}
+                onBlur={e => (e.currentTarget.style.borderColor = formData.manualRef ? 'rgba(168,85,247,0.35)' : 'rgba(168,85,247,0.12)')}
+              />
+              {formData.manualRef && (
+                <span
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[0.6rem] font-bold tracking-widest uppercase"
+                  style={{ color: 'rgba(168,85,247,0.7)' }}
+                >
+                  ✦ Applied
+                </span>
+              )}
+            </div>
+
             <Button disabled={isSubmitting} size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold h-12 rounded-xl w-full" type="submit">
               {getButtonText()}
             </Button>
