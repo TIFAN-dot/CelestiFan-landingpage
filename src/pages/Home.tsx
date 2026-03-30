@@ -6,6 +6,7 @@ import { useSearchParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import CelestiQuiz from "@/components/CelestiQuiz";
 import ServicesSection from "@/components/ServicesSection";
+import { useTranslation } from "react-i18next";
 const FeaturesShowcase = lazy(() => import("@/components/FeaturesShowcase"));
 import FanLivesMatter from "@/components/FanLivesMatter";
 import AmbassadorProgram from "@/components/AmbassadorProgram";
@@ -77,17 +78,23 @@ const archetypes = [
 
 const Home = () => {
   const [searchParams] = useSearchParams();
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({ name: "", email: "", userType: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ type: "", message: "" });
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
+  // Read referral from router URL (works in BrowserRouter) and persist for this tab session.
+  // We keep it derived (not in React state) so it remains correct even if the URL changes.
+  const urlRef = searchParams.get("ref") || "";
+  const storedRef = sessionStorage.getItem("cf_ref") || "";
+  const effectiveRef = urlRef || storedRef;
+
   useEffect(() => {
-    const ref = searchParams.get("ref");
-    if (ref) {
-      sessionStorage.setItem("cf_ref", ref);
+    if (urlRef && urlRef !== storedRef) {
+      sessionStorage.setItem("cf_ref", urlRef);
     }
-  }, [searchParams]);
+  }, [urlRef, storedRef]);
 
   const handleWaitlistClick = (type: "artist" | "fan") => {
     setFormData((prev) => ({ ...prev, userType: type }));
@@ -102,18 +109,16 @@ const Home = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.email.trim()) {
-      setSubmitStatus({ type: "error", message: "Please fill in all fields" });
+      setSubmitStatus({ type: "error", message: t("home.waitlist.errorFillFields") });
       return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      setSubmitStatus({ type: "error", message: "Please enter a valid email address" });
+      setSubmitStatus({ type: "error", message: t("home.waitlist.errorInvalidEmail") });
       return;
     }
     setIsSubmitting(true);
     setSubmitStatus({ type: "", message: "" });
     try {
-      const referredBy =
-        searchParams.get("ref") || sessionStorage.getItem("cf_ref") || "";
       const SCRIPT_URL =
         import.meta.env.VITE_SCRIPT_URL ||
         "https://script.google.com/macros/s/AKfycbzHtjBUTZrE0ML9SV0XvyOzAYFIOF3YXyXX3v0fJizvK0IgikyqF2dGrRUbw1nFNSyB/exec";
@@ -125,40 +130,42 @@ const Home = () => {
           name: formData.name,
           email: formData.email,
           userType: formData.userType || "general",
-          referredBy,
+          referredBy: effectiveRef,
         }),
       });
       setIsSuccessModalOpen(true);
       setFormData({ name: "", email: "", userType: "" });
     } catch {
-      setSubmitStatus({ type: "error", message: "Something went wrong. Please try again." });
+      setSubmitStatus({ type: "error", message: t("home.waitlist.errorGeneral") });
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const getNamePlaceholder = () =>
-    formData.userType === "artist" ? "Enter your artist name" : "Enter your name";
+    formData.userType === "artist"
+      ? t("home.waitlist.placeholderArtistName")
+      : t("home.waitlist.placeholderName");
 
   const getButtonText = () => {
-    if (isSubmitting) return "Joining...";
-    if (formData.userType === "artist") return "Join as Artist";
-    if (formData.userType === "fan") return "Join as Fan";
-    return "Join the Waitlist";
+    if (isSubmitting) return t("home.waitlist.buttonJoining");
+    if (formData.userType === "artist") return t("home.waitlist.buttonArtist");
+    if (formData.userType === "fan") return t("home.waitlist.buttonFan");
+    return t("home.waitlist.buttonJoin");
   };
 
   const getWaitlistTitle = () => {
-    if (formData.userType === "artist") return "Join as an Artist";
-    if (formData.userType === "fan") return "Join as a Fan";
-    return "Join the Waitlist";
+    if (formData.userType === "artist") return t("home.waitlist.titleArtist");
+    if (formData.userType === "fan") return t("home.waitlist.titleFan");
+    return t("home.waitlist.titleGeneral");
   };
 
   const getWaitlistDescription = () => {
     if (formData.userType === "artist")
-      return "Your fans are streaming at 2am, defending your catalog, building culture around your name — and you can't see any of them. CelestiFan changes that. Know who your real community is. Reward them. Build with them.";
+      return t("home.waitlist.descriptionArtist");
     if (formData.userType === "fan")
-      return "You've been carrying your artist further than any algorithm ever will — and getting nothing back for it. CelestiFan is where that finally changes. Your support earns, your dedication ranks, and the artist you ride for finally knows you're there.";
-    return "Music has always been built by two people — the artist who creates, and the fan who carries it into the world. CelestiFan is where both finally get what they deserve.";
+      return t("home.waitlist.descriptionFan");
+    return t("home.waitlist.descriptionGeneral");
   };
 
   return (
@@ -183,7 +190,7 @@ const Home = () => {
         <meta name="twitter:title" content="CelestiFan — Fan Lives Matter." />
         <meta
           name="twitter:description"
-          content="Your support has always been free. Your artist never knew your name. CelestiFan changes both — turning fan dedication into recognition and giving artists visibility into who's truly riding for them."
+          content="Your support has always been free. Your artist never knew your name. CelestiFan changes both turning fan dedication into recognition and giving artists visibility into who's truly riding for them."
         />
         <meta name="twitter:image" content="https://celestifan.com/fanliveimage1.webp" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "WebSite", name: "CelestiFan", url: "https://celestifan.com/" }) }} />
@@ -198,15 +205,15 @@ const Home = () => {
               className="mt-4 text-gradient"
               style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '2rem', fontWeight: 700 }}
             >
-              You're In.
+              {t("home.successModal.title")}
             </DialogTitle>
             <DialogDescription asChild>
               <div className="mt-3 space-y-2 text-center">
                 <p style={{ fontFamily: "'Crimson Pro', Georgia, serif", fontSize: '1.05rem', color: 'rgba(255,255,255,0.55)', lineHeight: 1.7 }}>
-                  Your seat at the table is confirmed.
+                  {t("home.successModal.description1")}
                 </p>
                 <p style={{ fontFamily: "'Crimson Pro', Georgia, serif", fontSize: '0.95rem', color: 'rgba(255,255,255,0.28)', lineHeight: 1.6 }}>
-                  The era where fans went unrecognised — and artists never knew who was really there — is over.
+                  {t("home.successModal.description2")}
                 </p>
               </div>
             </DialogDescription>
@@ -217,7 +224,7 @@ const Home = () => {
               className="text-sm font-semibold px-6 py-2.5 rounded-full transition-all duration-200"
               style={{ background: 'linear-gradient(to right, #a855f7, #3b82f6)', color: '#fff' }}
             >
-              Let's go ✦
+              {t("home.successModal.closeButton")}
             </button>
           </div>
         </DialogContent>
@@ -247,7 +254,7 @@ const Home = () => {
           >
             <div className="h-px w-10" style={{ background: 'linear-gradient(to right, #a855f7, #3b82f6)' }} />
             <span className="text-[0.65rem] font-semibold tracking-[0.3em] uppercase" style={{ color: 'rgba(168,85,247,0.75)' }}>
-              Fan Engagement Platform
+              {t("home.hero.label")}
             </span>
             <div className="h-px w-10" style={{ background: 'linear-gradient(to right, #3b82f6, #06b6d4)' }} />
           </motion.div>
@@ -261,7 +268,7 @@ const Home = () => {
                 fontSize: "clamp(3.2rem, 10vw, 8rem)",
               }}
             >
-              <span className="block text-white">Amplify Artists.</span>
+              <span className="block text-white">{t("home.hero.titleLine1")}</span>
               <span
                 className="block"
                 style={{
@@ -271,7 +278,7 @@ const Home = () => {
                   backgroundClip: "text",
                 }}
               >
-                Ignite Fandom.
+                {t("home.hero.titleLine2")}
               </span>
             </h1>
           </div>
@@ -286,7 +293,7 @@ const Home = () => {
               lineHeight: 1.75,
             }}
           >
-            Your support has always been free. Your artist never knew your name. CelestiFan changes both — turning fan dedication into recognition and giving artists visibility into who&apos;s truly riding for them.
+            {t("home.hero.subtitle")}
           </p>
 
           {/* CTAs */}
@@ -302,7 +309,7 @@ const Home = () => {
               style={{ background: 'linear-gradient(to right, #a855f7, #3b82f6)', color: '#fff', boxShadow: '0 0 24px rgba(168,85,247,0.2)' }}
               onClick={() => handleWaitlistClick("artist")}
             >
-              Join as Artist
+              {t("home.hero.artistButton")}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
             <Button
@@ -312,7 +319,7 @@ const Home = () => {
               style={{ borderColor: 'rgba(59,130,246,0.3)', color: 'rgba(147,197,253,0.75)', background: 'rgba(59,130,246,0.06)' }}
               onClick={() => handleWaitlistClick("fan")}
             >
-              Join as Fan
+              {t("home.hero.fanButton")}
             </Button>
           </motion.div>
 
@@ -328,9 +335,9 @@ const Home = () => {
               color: "rgba(255,255,255,0.2)",
             }}
           >
-            Join{" "}
+            {t("home.hero.socialProofJoin")}{" "}
             <span style={{ color: 'rgba(168,85,247,0.7)', fontWeight: 600 }}>{PROOF_COUNT}</span>{" "}
-            {PROOF_LABEL}
+            {t("home.hero.socialProofLabel")}
           </motion.p>
 
           {/* Mobile stat pills */}
@@ -435,7 +442,7 @@ const Home = () => {
           </p>
           <SocialProof />
           <p className="text-sm font-semibold mb-6" style={{ background: 'linear-gradient(to right, #a855f7, #06b6d4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-            Early members get Founder status. That doesn't come back after launch.
+            {t("home.waitlist.founderPerk")}
           </p>
           <motion.form
             initial={{ opacity: 0, y: 16 }}
@@ -446,7 +453,7 @@ const Home = () => {
             className="flex flex-col gap-3 w-full max-w-sm mx-auto"
           >
             <input type="text" name="name" value={formData.name} onChange={handleInputChange} disabled={isSubmitting} placeholder={getNamePlaceholder()} className="px-5 py-3 rounded-xl bg-background border border-border focus:border-primary outline-none transition-all text-base w-full" required />
-            <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Enter your email" disabled={isSubmitting} className="px-5 py-3 rounded-xl bg-background border border-border focus:border-primary outline-none transition-all text-base w-full" required />
+            <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder={t("home.waitlist.placeholderEmail")} disabled={isSubmitting} className="px-5 py-3 rounded-xl bg-background border border-border focus:border-primary outline-none transition-all text-base w-full" required />
             <Button disabled={isSubmitting} size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold h-12 rounded-xl w-full" type="submit">
               {getButtonText()}
             </Button>
@@ -454,7 +461,7 @@ const Home = () => {
               <div className="p-4 mt-2 rounded-xl bg-red-100 text-red-800 border border-red-200 text-sm">{submitStatus.message}</div>
             )}
           </motion.form>
-          <p className="text-xs text-slate-600 mt-4">No spam. No credit card. Just your seat at the table.</p>
+          <p className="text-xs text-slate-600 mt-4">{t("home.waitlist.noSpam")}</p>
         </div>
       </motion.section>
 

@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -18,12 +20,12 @@ const Navbar = () => {
   useEffect(() => { setIsOpen(false); }, [location.pathname]);
 
   const navItems = [
-    { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
-    { name: "Features", path: "/features" },
+    { name: t("navbar.home"), path: "/" },
+    { name: t("navbar.about"), path: "/about" },
+    { name: t("navbar.features"), path: "/features" },
     { name: "Celeste", path: "/celeste" },
-    { name: "Blog", path: "/blog" },
-    { name: "Connect", path: "/connect" },
+    { name: t("navbar.blog"), path: "/blog" },
+    { name: t("navbar.connect"), path: "/connect" },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -94,7 +96,19 @@ const Navbar = () => {
           </div>
 
           {/* CTA */}
-          <div className="hidden md:block flex-shrink-0">
+          <div className="hidden md:flex items-center gap-3 flex-shrink-0">
+            <select
+              value={(i18n.resolvedLanguage || i18n.language || "en").split("-")[0]}
+              onChange={(e) => i18n.changeLanguage(e.target.value)}
+              aria-label="Language"
+              className="h-9 rounded-full border border-white/10 bg-transparent px-3 text-xs font-semibold tracking-wide text-white/70 outline-none transition-colors hover:border-white/20"
+            >
+              <option value="en" className="bg-slate-950">EN</option>
+              <option value="fr" className="bg-slate-950">FR</option>
+              <option value="es" className="bg-slate-950">ES</option>
+              <option value="de" className="bg-slate-950">DE</option>
+              <option value="ar" className="bg-slate-950">AR</option>
+            </select>
             <button
               onClick={handleWaitlistClick}
               className="text-sm font-semibold px-5 py-2 rounded-full transition-all duration-200"
@@ -102,7 +116,7 @@ const Navbar = () => {
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(59,130,246,0.18)'; (e.currentTarget as HTMLElement).style.color = 'rgba(147,197,253,0.95)'; }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(59,130,246,0.1)'; (e.currentTarget as HTMLElement).style.color = 'rgba(147,197,253,0.75)'; }}
             >
-              Join the Waitlist
+              {t("home.waitlist.buttonJoin")}
             </button>
           </div>
 
@@ -151,12 +165,26 @@ const Navbar = () => {
               ))}
             </div>
             <div className="pt-4">
+              <div className="px-4 pb-3">
+                <select
+                  value={(i18n.resolvedLanguage || i18n.language || "en").split("-")[0]}
+                  onChange={(e) => i18n.changeLanguage(e.target.value)}
+                  aria-label="Language"
+                  className="h-11 w-full rounded-xl border border-white/10 bg-transparent px-3 text-sm font-semibold tracking-wide text-white/70 outline-none transition-colors hover:border-white/20"
+                >
+                  <option value="en" className="bg-slate-950">English</option>
+                  <option value="fr" className="bg-slate-950">Français</option>
+                  <option value="es" className="bg-slate-950">Español</option>
+                  <option value="de" className="bg-slate-950">Deutsch</option>
+                  <option value="ar" className="bg-slate-950">العربية</option>
+                </select>
+              </div>
               <button
                 onClick={handleWaitlistClick}
                 className="w-full text-sm font-semibold py-3 rounded-full transition-opacity duration-200"
                 style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(147,197,253,0.75)', border: '1px solid rgba(59,130,246,0.2)' }}
               >
-                Join the Waitlist
+                {t("home.waitlist.buttonJoin")}
               </button>
             </div>
           </motion.div>

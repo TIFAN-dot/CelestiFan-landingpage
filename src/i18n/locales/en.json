@@ -9,11 +9,14 @@
   },
   "home": {
     "hero": {
-      "title": "Amplify Artists. Ignite Fandom.",
-      "subtitle": "The ultimate platform where fans fuel music breakthroughs",
-      "tagline": "Earn celeste. Climb leaderboards. Connect with artists.",
-      "artistButton": "Start as an Artist",
-      "fanButton": "Join as a Fan"
+      "label": "Fan Engagement Platform",
+      "titleLine1": "Amplify Artists.",
+      "titleLine2": "Ignite Fandom.",
+      "subtitle": "Your support has always been free. Your artist never knew your name. CelestiFan changes both — turning fan dedication into recognition and giving artists visibility into who's truly riding for them.",
+      "artistButton": "Join as Artist",
+      "fanButton": "Join as Fan",
+      "socialProofJoin": "Join",
+      "socialProofLabel": "artists & fans already on the waitlist"
     },
     "stats": {
       "activeFans": "Active Fans",
@@ -61,9 +64,9 @@
       "titleGeneral": "Join the Waitlist",
       "titleArtist": "Join as an Artist",
       "titleFan": "Join as a Fan",
-      "descriptionGeneral": "Be the first to know when CelestiFan launches. Join thousands of artists and fans building the future of music together.",
-      "descriptionArtist": "Get early access to CelestiFan and start building meaningful connections with your fans. Launch campaigns, track engagement, and amplify your music career.",
-      "descriptionFan": "Be among the first fans to join CelestiFan. Prove your dedication, earn rewards, and connect directly with your favorite artists.",
+      "descriptionGeneral": "Music has always been built by two people — the artist who creates, and the fan who carries it into the world. CelestiFan is where both finally get what they deserve.",
+      "descriptionArtist": "Your fans are streaming at 2am, defending your catalog, building culture around your name — and you can't see any of them. CelestiFan changes that. Know who your real community is. Reward them. Build with them.",
+      "descriptionFan": "You've been carrying your artist further than any algorithm ever will — and getting nothing back for it. CelestiFan is where that finally changes. Your support earns, your dedication ranks, and the artist you ride for finally knows you're there.",
       "placeholderName": "Enter your name",
       "placeholderArtistName": "Enter your artist name",
       "placeholderEmail": "Enter your email",
@@ -73,15 +76,15 @@
       "buttonJoining": "Joining...",
       "errorFillFields": "Please fill in all fields",
       "errorInvalidEmail": "Please enter a valid email address",
-      "errorGeneral": "Something went wrong. Please try again."
+      "errorGeneral": "Something went wrong. Please try again.",
+      "founderPerk": "Early members get Founder status. That doesn't come back after launch.",
+      "noSpam": "No spam. No credit card. Just your seat at the table."
     },
     "successModal": {
-      "title": "Welcome to the Movement!",
-      "description1": "Welcome to CelestiFan, where every moment of support matters.",
-      "description2": "You've officially joined the movement that connects artists and fans through real actions, creativity, and rewards.",
-      "journeyTitle": "Your journey starts now",
-      "journeySubtitle": "Earn Celeste. Empower artists. Elevate fandom.",
-      "closeButton": "Let's Go!"
+      "title": "You're In.",
+      "description1": "Your seat at the table is confirmed.",
+      "description2": "The era where fans went unrecognised — and artists never knew who was really there — is over.",
+      "closeButton": "Let's go ✦"
     }
   },
   "footer": {
