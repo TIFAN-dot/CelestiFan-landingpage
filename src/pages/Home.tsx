@@ -1,12 +1,11 @@
 import { lazy, Suspense, useState, useEffect } from "react";
-import { ArrowRight, PartyPopper } from "lucide-react";
+import { ArrowRight, PartyPopper, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import CelestiQuiz from "@/components/CelestiQuiz";
 import ServicesSection from "@/components/ServicesSection";
-import { useTranslation } from "react-i18next";
 const FeaturesShowcase = lazy(() => import("@/components/FeaturesShowcase"));
 import FanLivesMatter from "@/components/FanLivesMatter";
 import AmbassadorProgram from "@/components/AmbassadorProgram";
@@ -19,6 +18,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
+const BETA_URL = "https://beta.celestifan.com/signup";
+
 const PROOF_COUNT = "800+";
 const PROOF_LABEL = "artists & fans already on the waitlist";
 const avatars = [
@@ -28,6 +29,55 @@ const avatars = [
   { initials: "RM", color: "#10b981" },
   { initials: "SB", color: "#a855f7" },
 ];
+
+/* ── Beta Banner — auto-dismisses after 6s ── */
+const BetaBanner = ({ onDismiss }: { onDismiss: () => void }) => {
+  
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.4 }}
+      className="fixed top-0 left-0 right-0 z-[60] flex items-center justify-center gap-2 sm:gap-3 px-4 py-2.5"
+      data-beta-banner="true"
+      style={{
+        background: 'linear-gradient(to right, rgba(168,85,247,0.15), rgba(59,130,246,0.12), rgba(6,182,212,0.1))',
+        borderBottom: '1px solid rgba(168,85,247,0.2)',
+        backdropFilter: 'blur(12px)',
+      }}
+    >
+      <span
+        className="text-[0.6rem] font-bold tracking-[0.25em] uppercase px-2 py-0.5 rounded-full flex-shrink-0"
+        style={{ background: 'rgba(168,85,247,0.2)', color: '#a855f7', border: '1px solid rgba(168,85,247,0.3)' }}
+      >
+        Beta Live
+      </span>
+      <p style={{ color: 'rgba(255,255,255,0.55)', fontFamily: "'Crimson Pro', Georgia, serif", fontSize: '0.9rem' }}>
+        <span className="hidden sm:inline">CelestiFan Beta is now open — come experience it.</span>
+        <span className="sm:hidden">Beta is live.</span>
+      </p>
+      <a
+        href={BETA_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex-shrink-0 flex items-center gap-1 text-xs font-bold px-3 py-1.5 rounded-full transition-all duration-200 hover:scale-105"
+        style={{ background: 'linear-gradient(to right, #a855f7, #3b82f6)', color: '#fff' }}
+      >
+        Enter Beta
+        <ArrowRight className="h-3 w-3" />
+      </a>
+      <button
+        onClick={onDismiss}
+        className="flex-shrink-0 ml-1 text-xs transition-opacity duration-200 hover:opacity-100"
+        style={{ color: 'rgba(255,255,255,0.25)' }}
+        aria-label="Dismiss"
+      >
+        ✕
+      </button>
+    </motion.div>
+  );
+};
 
 const SocialProof = () => (
   <motion.div
@@ -78,7 +128,7 @@ const archetypes = [
 
 const Home = () => {
   const [searchParams] = useSearchParams();
-  const { t } = useTranslation();
+  const [bannerVisible, setBannerVisible] = useState(true);
   const [formData, setFormData] = useState({ name: "", email: "", userType: "", manualRef: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ type: "", message: "" });
@@ -107,11 +157,11 @@ const Home = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.email.trim()) {
-      setSubmitStatus({ type: "error", message: t("home.waitlist.errorFillFields") });
+      setSubmitStatus({ type: "error", message: "Please fill in all fields" });
       return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      setSubmitStatus({ type: "error", message: t("home.waitlist.errorInvalidEmail") });
+      setSubmitStatus({ type: "error", message: "Please enter a valid email address" });
       return;
     }
     setIsSubmitting(true);
@@ -134,36 +184,34 @@ const Home = () => {
       setIsSuccessModalOpen(true);
       setFormData({ name: "", email: "", userType: "", manualRef: "" });
     } catch {
-      setSubmitStatus({ type: "error", message: t("home.waitlist.errorGeneral") });
+      setSubmitStatus({ type: "error", message: "Something went wrong. Please try again." });
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const getNamePlaceholder = () =>
-    formData.userType === "artist"
-      ? t("home.waitlist.placeholderArtistName")
-      : t("home.waitlist.placeholderName");
+    formData.userType === "artist" ? "Enter your artist name" : "Enter your name";
 
   const getButtonText = () => {
-    if (isSubmitting) return t("home.waitlist.buttonJoining");
-    if (formData.userType === "artist") return t("home.waitlist.buttonArtist");
-    if (formData.userType === "fan") return t("home.waitlist.buttonFan");
-    return t("home.waitlist.buttonJoin");
+    if (isSubmitting) return "Joining...";
+    if (formData.userType === "artist") return "Join as Artist";
+    if (formData.userType === "fan") return "Join as Fan";
+    return "Join the Waitlist";
   };
 
   const getWaitlistTitle = () => {
-    if (formData.userType === "artist") return t("home.waitlist.titleArtist");
-    if (formData.userType === "fan") return t("home.waitlist.titleFan");
-    return t("home.waitlist.titleGeneral");
+    if (formData.userType === "artist") return "Join as an Artist";
+    if (formData.userType === "fan") return "Join as a Fan";
+    return "Join the Waitlist";
   };
 
   const getWaitlistDescription = () => {
     if (formData.userType === "artist")
-      return t("home.waitlist.descriptionArtist");
+      return "Your fans are streaming at 2am, defending your catalog, building culture around your name — and you can't see any of them. CelestiFan changes that. Know who your real community is. Reward them. Build with them.";
     if (formData.userType === "fan")
-      return t("home.waitlist.descriptionFan");
-    return t("home.waitlist.descriptionGeneral");
+      return "You've been carrying your artist further than any algorithm ever will — and getting nothing back for it. CelestiFan is where that finally changes. Your support earns, your dedication ranks, and the artist you ride for finally knows you're there.";
+    return "Music has always been built by two people — the artist who creates, and the fan who carries it into the world. CelestiFan is where both finally get what they deserve.";
   };
 
   return (
@@ -185,6 +233,13 @@ const Home = () => {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "WebSite", name: "CelestiFan", url: "https://celestifan.com/" }) }} />
       </Helmet>
 
+      {/* ── BETA BANNER ── */}
+      <AnimatePresence>
+        {bannerVisible && (
+          <BetaBanner onDismiss={() => setBannerVisible(false)} />
+        )}
+      </AnimatePresence>
+
       {/* ── SUCCESS MODAL ── */}
       <Dialog open={isSuccessModalOpen} onOpenChange={setIsSuccessModalOpen}>
         <DialogContent className="sm:max-w-sm bg-background border-primary shadow-2xl shadow-primary/20">
@@ -194,16 +249,28 @@ const Home = () => {
               className="mt-4 text-gradient"
               style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '2rem', fontWeight: 700 }}
             >
-              {t("home.successModal.title")}
+              You're In.
             </DialogTitle>
             <DialogDescription asChild>
               <div className="mt-3 space-y-2 text-center">
                 <p style={{ fontFamily: "'Crimson Pro', Georgia, serif", fontSize: '1.05rem', color: 'rgba(255,255,255,0.55)', lineHeight: 1.7 }}>
-                  {t("home.successModal.description1")}
+                  Your seat at the table is confirmed.
                 </p>
                 <p style={{ fontFamily: "'Crimson Pro', Georgia, serif", fontSize: '0.95rem', color: 'rgba(255,255,255,0.28)', lineHeight: 1.6 }}>
-                  {t("home.successModal.description2")}
+                  The era where fans went unrecognised — and artists never knew who was really there — is over.
                 </p>
+                {/* Beta CTA inside modal */}
+                <a
+                  href={BETA_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 mt-2 text-xs font-semibold"
+                  style={{ color: 'rgba(168,85,247,0.7)' }}
+                >
+                  <Sparkles className="h-3.5 w-3.5" />
+                  Beta is live — try it now
+                  <ArrowRight className="h-3 w-3" />
+                </a>
               </div>
             </DialogDescription>
           </DialogHeader>
@@ -213,14 +280,17 @@ const Home = () => {
               className="text-sm font-semibold px-6 py-2.5 rounded-full transition-all duration-200"
               style={{ background: 'linear-gradient(to right, #a855f7, #3b82f6)', color: '#fff' }}
             >
-              {t("home.successModal.closeButton")}
+              Let's go ✦
             </button>
           </div>
         </DialogContent>
       </Dialog>
 
       {/* ── HERO ── */}
-      <section className="min-h-screen flex flex-col items-center justify-center text-center pt-20 pb-12 overflow-hidden relative">
+      {/* Extra top padding clears banner (40px) + navbar (64px) */}
+      <section className="min-h-screen flex flex-col items-center justify-center text-center pb-12 overflow-hidden relative"
+        style={{ paddingTop: bannerVisible ? '8.5rem' : '5rem' }}
+      >
         <div className="absolute inset-0 opacity-20 pointer-events-none hidden md:block">
           <div className="absolute top-16 right-[12%] w-[45%] h-[55%] bg-primary rounded-full blur-[80px] animate-float" style={{ willChange: 'transform' }} />
           <div className="absolute top-[30%] right-[4%] w-[32%] h-[42%] bg-secondary rounded-full blur-[80px] animate-float" style={{ animationDelay: "1s", willChange: 'transform' }} />
@@ -229,6 +299,8 @@ const Home = () => {
         <div className="absolute inset-0 pointer-events-none md:hidden" style={{ background: 'radial-gradient(ellipse 80% 50% at 50% 0%, rgba(168,85,247,0.1) 0%, transparent 70%)' }} />
 
         <div className="container mx-auto px-5 relative z-10 flex flex-col items-center">
+
+          {/* Label */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -237,72 +309,58 @@ const Home = () => {
           >
             <div className="h-px w-10" style={{ background: 'linear-gradient(to right, #a855f7, #3b82f6)' }} />
             <span className="text-[0.65rem] font-semibold tracking-[0.3em] uppercase" style={{ color: 'rgba(168,85,247,0.75)' }}>
-              {t("home.hero.label")}
+              Fan Engagement Platform
             </span>
             <div className="h-px w-10" style={{ background: 'linear-gradient(to right, #3b82f6, #06b6d4)' }} />
           </motion.div>
 
+          {/* H1 */}
           <div className="mb-6 md:mb-8 w-full">
-            <h1
-              className="font-bold leading-[1.0] text-center"
-              style={{
-                fontFamily: "'Cormorant Garamond', Georgia, serif",
-                fontSize: "clamp(3.2rem, 10vw, 8rem)",
-              }}
-            >
-              <span className="block text-white">{t("home.hero.titleLine1")}</span>
-              <span
-                className="block"
-                style={{
-                  background: "linear-gradient(135deg, #a855f7 0%, #3b82f6 45%, #06b6d4 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                {t("home.hero.titleLine2")}
+            <h1 className="font-bold leading-[1.0] text-center" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "clamp(3.2rem, 10vw, 8rem)" }}>
+              <span className="block text-white">Amplify Artists.</span>
+              <span className="block" style={{ background: "linear-gradient(135deg, #a855f7 0%, #3b82f6 45%, #06b6d4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+                Ignite Fandom.
               </span>
             </h1>
           </div>
 
-          <p
-            className="max-w-sm md:max-w-2xl mx-auto mb-8 md:mb-10"
-            style={{
-              fontFamily: "'Crimson Pro', Georgia, serif",
-              fontSize: "clamp(1rem, 2vw, 1.3rem)",
-              color: "rgba(255,255,255,0.4)",
-              lineHeight: 1.75,
-            }}
-          >
-            {t("home.hero.subtitle")}
+          {/* Subtitle */}
+          <p className="max-w-sm md:max-w-2xl mx-auto mb-8 md:mb-10" style={{ fontFamily: "'Crimson Pro', Georgia, serif", fontSize: "clamp(1rem, 2vw, 1.3rem)", color: "rgba(255,255,255,0.4)", lineHeight: 1.75 }}>
+            Your support has always been free. Your artist never knew your name. CelestiFan changes both — turning fan dedication into recognition and giving artists visibility into who's truly riding for them.
           </p>
 
+          {/* CTAs */}
           <motion.div
             initial={{ y: 16, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.15 }}
             className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center w-full max-w-xs sm:max-w-none"
           >
+            {/* Beta CTA — primary */}
+            <a
+              href={BETA_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 font-semibold px-7 h-12 rounded-full transition-all duration-300 hover:scale-105 text-[0.95rem]"
+              style={{ background: 'linear-gradient(to right, #a855f7, #3b82f6)', color: '#fff', boxShadow: '0 0 24px rgba(168,85,247,0.25)' }}
+            >
+              <Sparkles className="h-4 w-4" />
+              Try Beta Now
+              <ArrowRight className="h-4 w-4" />
+            </a>
+
+            {/* Waitlist CTAs — secondary */}
             <Button
               size="lg"
-              className="font-semibold px-7 h-12 rounded-full transition-all duration-300 hover:scale-105 w-full sm:w-auto text-[0.95rem]"
-              style={{ background: 'linear-gradient(to right, #a855f7, #3b82f6)', color: '#fff', boxShadow: '0 0 24px rgba(168,85,247,0.2)' }}
+              className="px-7 h-12 rounded-full transition-all duration-300 hover:scale-105 w-full sm:w-auto text-[0.95rem]"
+              style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.55)', border: '1px solid rgba(255,255,255,0.1)' }}
               onClick={() => handleWaitlistClick("artist")}
             >
-              {t("home.hero.artistButton")}
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="px-7 h-12 rounded-full transition-all duration-300 hover:scale-105 w-full sm:w-auto text-[0.95rem]"
-              style={{ borderColor: 'rgba(59,130,246,0.3)', color: 'rgba(147,197,253,0.75)', background: 'rgba(59,130,246,0.06)' }}
-              onClick={() => handleWaitlistClick("fan")}
-            >
-              {t("home.hero.fanButton")}
+              Join Waitlist
             </Button>
           </motion.div>
 
+          {/* Social proof */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -310,11 +368,12 @@ const Home = () => {
             className="mt-6"
             style={{ fontFamily: "'Crimson Pro', Georgia, serif", fontSize: "clamp(0.9rem, 1.5vw, 1rem)", color: "rgba(255,255,255,0.2)" }}
           >
-            {t("home.hero.socialProofJoin")}{" "}
+            Join{" "}
             <span style={{ color: 'rgba(168,85,247,0.7)', fontWeight: 600 }}>{PROOF_COUNT}</span>{" "}
-            {t("home.hero.socialProofLabel")}
+            {PROOF_LABEL}
           </motion.p>
 
+          {/* Mobile stat pills */}
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -400,6 +459,32 @@ const Home = () => {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[250px] bg-primary rounded-full blur-[100px]" />
         </div>
         <div className="container mx-auto px-5 relative z-10 text-center">
+
+          {/* Beta nudge above form */}
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="mb-8"
+          >
+            <a
+              href={BETA_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 hover:scale-105"
+              style={{
+                background: 'rgba(168,85,247,0.08)',
+                border: '1px solid rgba(168,85,247,0.2)',
+                color: 'rgba(168,85,247,0.85)',
+              }}
+            >
+              <Sparkles className="h-3.5 w-3.5" />
+              Beta is live — try the platform now
+              <ArrowRight className="h-3.5 w-3.5" />
+            </a>
+          </motion.div>
+
           <h2 className="font-display font-bold text-gradient mb-4" style={{ fontSize: "clamp(1.8rem, 5vw, 3.5rem)" }}>
             {getWaitlistTitle()}
           </h2>
@@ -408,7 +493,7 @@ const Home = () => {
           </p>
           <SocialProof />
           <p className="text-sm font-semibold mb-6" style={{ background: 'linear-gradient(to right, #a855f7, #06b6d4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-            {t("home.waitlist.founderPerk")}
+            Early members get Founder status. That doesn't come back after launch.
           </p>
           <motion.form
             initial={{ opacity: 0, y: 16 }}
@@ -419,7 +504,7 @@ const Home = () => {
             className="flex flex-col gap-3 w-full max-w-sm mx-auto"
           >
             <input type="text" name="name" value={formData.name} onChange={handleInputChange} disabled={isSubmitting} placeholder={getNamePlaceholder()} className="px-5 py-3 rounded-xl bg-background border border-border focus:border-primary outline-none transition-all text-base w-full" required />
-            <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder={t("home.waitlist.placeholderEmail")} disabled={isSubmitting} className="px-5 py-3 rounded-xl bg-background border border-border focus:border-primary outline-none transition-all text-base w-full" required />
+            <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Enter your email" disabled={isSubmitting} className="px-5 py-3 rounded-xl bg-background border border-border focus:border-primary outline-none transition-all text-base w-full" required />
 
             {/* ── REFERRAL CODE INPUT ── */}
             <div className="relative">
@@ -441,10 +526,7 @@ const Home = () => {
                 onBlur={e => (e.currentTarget.style.borderColor = formData.manualRef ? 'rgba(168,85,247,0.35)' : 'rgba(168,85,247,0.12)')}
               />
               {formData.manualRef && (
-                <span
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[0.6rem] font-bold tracking-widest uppercase"
-                  style={{ color: 'rgba(168,85,247,0.7)' }}
-                >
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[0.6rem] font-bold tracking-widest uppercase" style={{ color: 'rgba(168,85,247,0.7)' }}>
                   ✦ Applied
                 </span>
               )}
@@ -457,7 +539,7 @@ const Home = () => {
               <div className="p-4 mt-2 rounded-xl bg-red-100 text-red-800 border border-red-200 text-sm">{submitStatus.message}</div>
             )}
           </motion.form>
-          <p className="text-xs text-slate-600 mt-4">{t("home.waitlist.noSpam")}</p>
+          <p className="text-xs text-slate-600 mt-4">No spam. No credit card. Just your seat at the table.</p>
         </div>
       </motion.section>
 

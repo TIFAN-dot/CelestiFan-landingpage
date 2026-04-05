@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [bannerOffset, setBannerOffset] = useState(40);
   const location = useLocation();
   const { t, i18n } = useTranslation();
 
@@ -14,6 +15,18 @@ const Navbar = () => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Watch banner DOM — shift navbar down while it exists, back to 0 when gone
+  useEffect(() => {
+    const measure = () => {
+      const banner = document.querySelector('[data-beta-banner]') as HTMLElement | null;
+      setBannerOffset(banner ? banner.offsetHeight : 0);
+    };
+    measure();
+    const observer = new MutationObserver(measure);
+    observer.observe(document.body, { childList: true, subtree: true });
+    return () => observer.disconnect();
   }, []);
 
   // Close mobile menu on route change
@@ -41,11 +54,10 @@ const Navbar = () => {
 
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+      className="fixed left-0 right-0 z-50 transition-all duration-300"
       style={{
-        background: scrolled
-          ? 'rgba(2,8,23,0.88)'
-          : 'transparent',
+        top: bannerOffset,
+        background: scrolled ? 'rgba(2,8,23,0.88)' : 'transparent',
         backdropFilter: scrolled ? 'blur(16px)' : 'none',
         borderBottom: scrolled ? '1px solid rgba(255,255,255,0.06)' : '1px solid transparent',
       }}
