@@ -17,6 +17,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { waitlistSchema, checkRateLimit, getSecureScriptUrl } from "@/lib/security";
 
 const BETA_URL = "https://beta.celestifan.com/signup";
 
@@ -156,30 +157,37 @@ const Home = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name.trim() || !formData.email.trim()) {
-      setSubmitStatus({ type: "error", message: "Please fill in all fields" });
+
+    // 1. Rate Limit Check
+    if (!checkRateLimit("home_waitlist")) {
+      setSubmitStatus({ type: "error", message: "Too many submission attempts. Please wait a minute and try again." });
       return;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      setSubmitStatus({ type: "error", message: "Please enter a valid email address" });
+
+    // 2. Zod Schema Validation & Sanitization
+    const validationResult = waitlistSchema.safeParse({
+      name: formData.name,
+      email: formData.email,
+      userType: formData.userType || "general",
+      referredBy: effectiveRef,
+    });
+
+    if (!validationResult.success) {
+      const firstError = validationResult.error.errors[0]?.message || "Please fill in all fields correctly.";
+      setSubmitStatus({ type: "error", message: firstError });
       return;
     }
+
+    const sanitizedData = validationResult.data;
     setIsSubmitting(true);
     setSubmitStatus({ type: "", message: "" });
     try {
-      const SCRIPT_URL =
-        import.meta.env.VITE_SCRIPT_URL ||
-        "https://script.google.com/macros/s/AKfycbzHtjBUTZrE0ML9SV0XvyOzAYFIOF3YXyXX3v0fJizvK0IgikyqF2dGrRUbw1nFNSyB/exec";
+      const SCRIPT_URL = getSecureScriptUrl();
       await fetch(SCRIPT_URL, {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          userType: formData.userType || "general",
-          referredBy: effectiveRef,
-        }),
+        body: JSON.stringify(sanitizedData),
       });
       setIsSuccessModalOpen(true);
       setFormData({ name: "", email: "", userType: "", manualRef: "" });

@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, X, Copy, CheckCheck } from "lucide-react";
+import { ambassadorSchema, checkRateLimit, getSecureScriptUrl } from "@/lib/security";
 
 export type AmbassadorUserType = "artist" | "fan";
 
 export interface AmbassadorProgramProps {
   onBecomeAmbassador: (userType: AmbassadorUserType) => void;
 }
+
 
 const tiers = [
   {
@@ -80,9 +82,6 @@ const generateCode = (name: string): string => {
   return `CF-${clean}-${rand}`;
 };
 
-const SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbzHtjBUTZrE0ML9SV0XvyOzAYFIOF3YXyXX3v0fJizvK0IgikyqF2dGrRUbw1nFNSyB/exec";
-
 const submitAmbassador = async (data: {
   name: string;
   email: string;
@@ -91,11 +90,24 @@ const submitAmbassador = async (data: {
   referralCode: string;
   referredBy: string;
 }) => {
+  if (!checkRateLimit("ambassador_submit")) {
+    throw new Error("Too many submission attempts. Please wait a minute and try again.");
+  }
+
+  const validationResult = ambassadorSchema.safeParse(data);
+  if (!validationResult.success) {
+    const errorMsg = validationResult.error.errors[0]?.message || "Invalid submission data.";
+    throw new Error(errorMsg);
+  }
+
+  const sanitizedData = validationResult.data;
+  const SCRIPT_URL = getSecureScriptUrl();
+
   await fetch(SCRIPT_URL, {
     method: "POST",
     mode: "no-cors",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ...data, type: "ambassador" }),
+    body: JSON.stringify({ ...sanitizedData, type: "ambassador" }),
   });
 };
 

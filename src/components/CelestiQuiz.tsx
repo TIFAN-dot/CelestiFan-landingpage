@@ -9,6 +9,7 @@ import {
   Sparkles, Music, Users, Waves, Flame, Star, Wind, Zap,
   PartyPopper, Download, Share2, Twitter, Instagram, Gift, TrendingUp, Volume2, VolumeX
 } from "lucide-react";
+import { waitlistSchema, checkRateLimit, getSecureScriptUrl, sanitizeInput } from "@/lib/security";
 
 // ========================================
 // CELESTI ENERGY TYPES (8 Total)
@@ -443,33 +444,85 @@ const CelestiQuiz = () => {
   };
 
   const handleJoinWaitlist = async () => {
-    if (!waitlistEmail.trim() || !waitlistName.trim()) { alert('Please fill in all fields'); return; }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(waitlistEmail)) { alert('Please enter a valid email address'); return; }
+    if (!checkRateLimit("quiz_waitlist")) {
+      alert("Too many attempts. Please wait a minute before trying again.");
+      return;
+    }
+
+    const validation = waitlistSchema.safeParse({
+      name: waitlistName,
+      email: waitlistEmail,
+      userType: waitlistType || 'general',
+    });
+
+    if (!validation.success) {
+      alert(validation.error.errors[0]?.message || 'Please enter valid details');
+      return;
+    }
+
     setIsSubmittingWaitlist(true);
     try {
-      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzHtjBUTZrE0ML9SV0XvyOzAYFIOF3YXyXX3v0fJizvK0IgikyqF2dGrRUbw1nFNSyB/exec';
-      await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: waitlistName, email: waitlistEmail, userType: waitlistType || 'general' }) });
+      const SCRIPT_URL = getSecureScriptUrl();
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(validation.data),
+      });
       setWaitlistStep('success');
-    } catch (error) { alert('Something went wrong. Please try again.'); }
-    finally { setIsSubmittingWaitlist(false); }
+    } catch (error) {
+      alert('Something went wrong. Please try again.');
+    } finally {
+      setIsSubmittingWaitlist(false);
+    }
   };
 
   const handleSubmitFeedback = async () => {
-    if (!userRating || !userName.trim()) { alert('Please rate your experience and enter your name!'); return; }
+    if (!checkRateLimit("quiz_feedback")) {
+      alert("Too many feedback attempts. Please wait a minute.");
+      return;
+    }
+
+    if (!userRating || !userName.trim()) {
+      alert('Please rate your experience and enter your name!');
+      return;
+    }
+
     setIsSubmittingFeedback(true);
     try {
-      let country = 'Unknown'; let flag = '🌍';
+      let country = 'Unknown';
+      let flag = '🌍';
       try {
         const geoData = await (await fetch('https://ipapi.co/json/')).json();
-        country = geoData.country_name || 'Unknown';
+        country = sanitizeInput(geoData.country_name || 'Unknown', 50);
         const countryFlags: Record<string, string> = { 'Nigeria': '🇳🇬', 'United States': '🇺🇸', 'Italy': '🇮🇹', 'United Kingdom': '🇬🇧', 'Germany': '🇩🇪', 'France': '🇫🇷', 'Canada': '🇨🇦', 'Australia': '🇦🇺', 'Brazil': '🇧🇷', 'Japan': '🇯🇵', 'South Korea': '🇰🇷', 'India': '🇮🇳', 'Mexico': '🇲🇽', 'Spain': '🇪🇸', 'Netherlands': '🇳🇱', 'South Africa': '🇿🇦', 'Kenya': '🇰🇪', 'Ghana': '🇬🇭', 'Ireland': '🇮🇪', 'Sweden': '🇸🇪', 'Poland': '🇵🇱', 'Portugal': '🇵🇹', 'Belgium': '🇧🇪', 'Switzerland': '🇨🇭', 'Austria': '🇦🇹', 'Greece': '🇬🇷', 'Turkey': '🇹🇷', 'UAE': '🇦🇪', 'Egypt': '🇪🇬', 'Argentina': '🇦🇷', 'Philippines': '🇵🇭', 'Thailand': '🇹🇭', 'Singapore': '🇸🇬', 'Malaysia': '🇲🇾', 'Indonesia': '🇮🇩', 'Jamaica': '🇯🇲' };
         flag = countryFlags[country] || '🌍';
       } catch {}
-      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzHtjBUTZrE0ML9SV0XvyOzAYFIOF3YXyXX3v0fJizvK0IgikyqF2dGrRUbw1nFNSyB/exec';
-      await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'quiz_feedback', name: userName, rating: userRating, comment: userComment || 'No comment', energyType: result ? energyTypes[result].name : '', country, flag, timestamp: new Date().toISOString() }) });
+
+      const sanitizedFeedback = {
+        action: 'quiz_feedback',
+        name: sanitizeInput(userName, 100),
+        rating: Number(userRating),
+        comment: sanitizeInput(userComment || 'No comment', 300),
+        energyType: result ? sanitizeInput(energyTypes[result].name, 50) : '',
+        country,
+        flag,
+        timestamp: new Date().toISOString(),
+      };
+
+      const SCRIPT_URL = getSecureScriptUrl();
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(sanitizedFeedback),
+      });
       setFeedbackSubmitted(true);
-    } catch (error) { alert('Something went wrong. Please try again.'); }
-    finally { setIsSubmittingFeedback(false); }
+    } catch (error) {
+      alert('Something went wrong. Please try again.');
+    } finally {
+      setIsSubmittingFeedback(false);
+    }
   };
 
   const openWaitlistForm = () => { setShowWaitlistForm(true); setWaitlistStep('type'); setShowWaitlistPrompt(false); };
