@@ -1,14 +1,27 @@
-import { Twitter, Instagram, Facebook, Mail, User, Mic } from "lucide-react";
+import type { CSSProperties } from "react";
+import { Twitter, Instagram, Mail, User, Mic } from "lucide-react";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
+
+const TikTokIcon = ({ className, style }: { className?: string; style?: CSSProperties }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className} style={style} aria-hidden="true">
+    <path d="M16.6 5.82c-1-.9-1.6-2.2-1.6-3.65h-3.15v13.4a2.6 2.6 0 1 1-2.6-2.75c.27 0 .53.04.78.1V9.72a5.75 5.75 0 0 0-.78-.05A5.85 5.85 0 1 0 15 15.5V9.02a7.6 7.6 0 0 0 4.4 1.4V7.3a4.85 4.85 0 0 1-2.8-1.48z"/>
+  </svg>
+);
+
+const ThreadsIcon = ({ className, style }: { className?: string; style?: CSSProperties }) => (
+  <svg viewBox="0 0 192 192" fill="none" stroke="currentColor" strokeWidth="9" className={className} style={style} aria-hidden="true">
+    <path d="M141.5 71.5c-2-27-19-43-45-43-25 0-44.5 17-44.5 55v25c0 38 19.5 55 44.5 55 22 0 37.5-11.5 42-31.5 5-22.5-5.5-38-27-42-16-3-30 2-33 15.5-2 9 3 17 12 19.5" strokeLinecap="round"/>
+  </svg>
+);
 
 const Connect = () => {
   const socialLinks = [
     {
       icon: Twitter,
       label: "X (Twitter)",
-      handle: "@celestifan_off",
-      url: "https://x.com/celestifan_off",
+      handle: "@itscelestifan",
+      url: "https://x.com/itscelestifan",
       gradient: "linear-gradient(to right, #a855f7, #3b82f6)",
       glowColor: "168,85,247",
       accentColor: "#a855f7",
@@ -23,13 +36,22 @@ const Connect = () => {
       accentColor: "#3b82f6",
     },
     {
-      icon: Facebook,
-      label: "Facebook",
-      handle: "/celestifan",
-      url: "https://www.facebook.com/celestifan",
+      icon: TikTokIcon,
+      label: "TikTok",
+      handle: "@itscelestifan",
+      url: "https://www.tiktok.com/@itscelestifan",
       gradient: "linear-gradient(to right, #06b6d4, #10b981)",
       glowColor: "6,182,212",
       accentColor: "#06b6d4",
+    },
+    {
+      icon: ThreadsIcon,
+      label: "Threads",
+      handle: "@celestifan_official",
+      url: "https://www.threads.com/@celestifan_official",
+      gradient: "linear-gradient(to right, #10b981, #a855f7)",
+      glowColor: "16,185,129",
+      accentColor: "#10b981",
     },
   ];
 
@@ -143,7 +165,7 @@ const Connect = () => {
           Follow Our Journey
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {socialLinks.map((link, i) => {
             const Icon = link.icon;
             return (

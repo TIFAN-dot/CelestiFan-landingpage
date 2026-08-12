@@ -448,8 +448,8 @@ const AfrobeatsSummer2026 = () => {
                 </p>
                 <p style={{ fontFamily: "'Crimson Pro', Georgia, serif", fontSize: '1.05rem', color: 'rgba(255,255,255,0.55)', lineHeight: 1.6 }}>
                   This guide is updated as new events are announced. Detty December Nigeria, Ghana, and South Africa dates are being tracked — they'll be added the moment they're confirmed. Check back or follow{" "}
-                  <a href="https://x.com/celestifan_off" target="_blank" rel="noopener noreferrer" className="underline" style={{ color: 'rgba(168,85,247,0.8)' }}>
-                    @celestifan_off
+                  <a href="https://x.com/itscelestifan" target="_blank" rel="noopener noreferrer" className="underline" style={{ color: 'rgba(168,85,247,0.8)' }}>
+                    @itscelestifan
                   </a>{" "}
                   for live updates.
                 </p>

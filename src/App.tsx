@@ -25,12 +25,6 @@ const queryClient = new QueryClient();
 const CONSENT_KEY = "celestifan_consent_choice";
 const GA_ID = "G-S2NR6RXKR7";
 
-declare global {
-  interface Window {
-    gtag?: (...args: unknown[]) => void;
-  }
-}
-
 const CookieConsentBanner = () => {
   const [visible, setVisible] = useState(false);
 

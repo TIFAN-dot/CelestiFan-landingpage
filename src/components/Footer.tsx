@@ -1,6 +1,13 @@
+import type { CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { Twitter, Instagram } from "lucide-react";
 import { motion } from "framer-motion";
+
+const TikTokIcon = ({ className, style }: { className?: string; style?: CSSProperties }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className} style={style} aria-hidden="true">
+    <path d="M16.6 5.82c-1-.9-1.6-2.2-1.6-3.65h-3.15v13.4a2.6 2.6 0 1 1-2.6-2.75c.27 0 .53.04.78.1V9.72a5.75 5.75 0 0 0-.78-.05A5.85 5.85 0 1 0 15 15.5V9.02a7.6 7.6 0 0 0 4.4 1.4V7.3a4.85 4.85 0 0 1-2.8-1.48z"/>
+  </svg>
+);
 
 const Footer = () => {
   const footerLinks = [
@@ -23,8 +30,9 @@ const Footer = () => {
   ];
 
   const socialLinks = [
-    { icon: Twitter, href: "https://x.com/celestifan_off?s=21", label: "X (Twitter)", gradient: "linear-gradient(to right, #a855f7, #3b82f6)" },
-    { icon: Instagram, href: "https://www.instagram.com/celestifan_official?igsh=dWQ3b205ZDJ6bWNl&utm_source=qr", label: "Instagram", gradient: "linear-gradient(to right, #3b82f6, #06b6d4)" },
+    { icon: Twitter, href: "https://x.com/itscelestifan", label: "X (Twitter)", gradient: "linear-gradient(to right, #a855f7, #3b82f6)" },
+    { icon: Instagram, href: "https://www.instagram.com/celestifan_official", label: "Instagram", gradient: "linear-gradient(to right, #3b82f6, #06b6d4)" },
+    { icon: TikTokIcon, href: "https://www.tiktok.com/@itscelestifan", label: "TikTok", gradient: "linear-gradient(to right, #06b6d4, #10b981)" },
   ];
 
   return (

@@ -332,8 +332,8 @@ const Blog = () => {
           style={{ color: 'rgba(255,255,255,0.15)', letterSpacing: '0.05em' }}
         >
           More essays, guides, and stories dropping soon. Follow{" "}
-          <a href="https://x.com/celestifan_off" target="_blank" rel="noopener noreferrer" className="underline" style={{ color: 'rgba(168,85,247,0.5)' }}>
-            @celestifan_off
+          <a href="https://x.com/itscelestifan" target="_blank" rel="noopener noreferrer" className="underline" style={{ color: 'rgba(168,85,247,0.5)' }}>
+            @itscelestifan
           </a>{" "}
           to stay ahead.
         </motion.p>
