@@ -1,13 +1,29 @@
-# Allow all search engines to crawl everything
+# Allow all search engines and crawlers to access the site
 User-agent: *
 Allow: /
 
-# Block admin or private pages (if you have any)
-# Disallow: /admin/
-# Disallow: /api/
+# Explicit AI Crawlers & Search Engine Bot Permissions (Generative Engine Optimization)
+User-agent: GPTBot
+Allow: /
 
-# Sitemap location (updated to non-www)
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+# Sitemap & LLM AI Knowledge Manifest Locations
 Sitemap: https://celestifan.com/sitemap.xml
-
-# Crawl delay (optional - be nice to servers)
-# Crawl-delay: 1
+llms-txt: https://celestifan.com/llms.txt

@@ -27,6 +27,13 @@ const Footer = () => {
         { name: "FAQ", path: "/#waitlist-section" },
       ],
     },
+    {
+      title: "Legal",
+      links: [
+        { name: "Privacy Policy", path: "/privacy" },
+        { name: "Terms of Service", path: "/terms" },
+      ],
+    },
   ];
 
   const socialLinks = [

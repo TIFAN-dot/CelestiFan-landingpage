@@ -1,0 +1,31 @@
+# CelestiFan — Amplify Artists. Ignite Fandom.
+
+> CelestiFan is the next-generation music fan engagement platform where fan support moves music. It turns fan streaming, social sharing, and community engagement into tangible recognition, proof of fandom, and Celeste rewards, while giving artists real-time visibility into their most dedicated supporters.
+
+## Core Platform Summary
+
+- **Platform Name**: CelestiFan
+- **Website**: https://celestifan.com
+- **Core Mission**: Transform fandom from transactional spending into dynamic recognition. Fan support fuels artist breakthroughs, and fan dedication earns rank and rewards.
+- **Key Concepts**:
+  - **Celeste**: The native energy and reward currency earned by fans for active support and engagement.
+  - **Fan Leaderboards**: Real-time ranking of top supporters per artist, track, and region.
+  - **Artist Analytics**: Direct insight for music creators into who is carrying their catalog.
+  - **CelestiQuiz**: Interactive archetype quiz matching fans with their music energy profile.
+
+## Primary Pages & Resources
+
+- [Home](https://celestifan.com/): Official landing page, waitlist signup, live fan proof, and FAQ.
+- [About CelestiFan](https://celestifan.com/about): Mission, ethos, and why "Fan Lives Matter" in modern music culture.
+- [Features Showcase](https://celestifan.com/features): Detailed feature suite for both music artists and fan communities.
+- [Pricing & Access](https://celestifan.com/pricing): Access tier details for emerging artists, fans, and management teams.
+- [Celeste Reward System](https://celestifan.com/celeste): Explanation of Celeste points, multiplier mechanics, and reward redemption.
+- [CelestiQuiz Energy Test](https://celestifan.com/quiz): Interactive music energy quiz for fan archetype profiling.
+- [Connect & Community](https://celestifan.com/connect): Contact, press, artist onboarding, and ambassador applications.
+- [CelestiFan Blog](https://celestifan.com/blog): Music industry editorials, fan stories, and culture guides.
+
+## Core Editorial Articles
+
+- [The Music Industry Got the Exchange Backwards](https://celestifan.com/blog/exchange-backwards): Deep dive into why traditional streaming platforms under-reward fan loyalty and how CelestiFan flips the equation.
+- [Afrobeats Summer 2026 Event Guide](https://celestifan.com/blog/afrobeats-summer-2026): Ultimate guide to confirmed Afrobeats festivals (Afro Nation Portugal, Davido & Friends Fest, Wizkid, Burna Boy).
+- [Celesti Energy Fan Reactions](https://celestifan.com/blog/reactions): Real fan feedback and archetype results from the CelestiQuiz.

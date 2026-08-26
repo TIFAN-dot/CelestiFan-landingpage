@@ -20,6 +20,8 @@ import Quiz from "./pages/Quiz";
 import BlogReactions from "@/pages/BlogReactions";
 import BlogPostExchange from "@/pages/BlogPostExchange";
 import AfrobeatsSummer2026 from "@/pages/AfrobeatsSummer2026";
+import Privacy from "@/pages/Privacy";
+import Terms from "@/pages/Terms";
 
 const queryClient = new QueryClient();
 const CONSENT_KEY = "celestifan_consent_choice";
@@ -111,6 +113,8 @@ const App = () => (
               <Route path="/blog/reactions" element={<BlogReactions />} />
               <Route path="/blog/exchange-backwards" element={<BlogPostExchange />} />
               <Route path="/blog/afrobeats-summer-2026" element={<AfrobeatsSummer2026 />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/terms" element={<Terms />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
