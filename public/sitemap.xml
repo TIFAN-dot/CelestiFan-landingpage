@@ -72,7 +72,13 @@
     <priority>0.85</priority>
   </url>
 
-  <!-- Legal Portal Pages -->
+  <!-- Support & Legal Portal Pages -->
+  <url>
+    <loc>https://celestifan.com/help</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
   <url>
     <loc>https://celestifan.com/privacy</loc>
     <lastmod>2026-08-25</lastmod>

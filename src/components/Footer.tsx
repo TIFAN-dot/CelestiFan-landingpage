@@ -23,6 +23,7 @@ const Footer = () => {
     {
       title: "Support",
       links: [
+        { name: "Help Center", path: "/help" },
         { name: "Connect", path: "/connect" },
         { name: "FAQ", path: "/#waitlist-section" },
       ],
