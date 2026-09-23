@@ -117,6 +117,7 @@ const App = () => (
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/help" element={<Help />} />
+              <Route path="/support" element={<Help />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>

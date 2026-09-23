@@ -1,76 +1,131 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { motion } from "framer-motion";
 import {
+  Mail,
+  Clock,
+  HelpCircle,
+  Send,
+  CheckCircle2,
+  Shield,
+  FileText,
   Search,
   Sparkles,
   Heart,
   Music,
   ShieldAlert,
   Lock,
-  Mail,
-  HelpCircle,
-  CheckCircle2,
-  AlertTriangle,
-  ChevronRight,
-  Flame,
-  Trophy,
-  Award,
-  UserCheck,
-  Ban,
-  Flag,
-  Key,
-  Trash2,
-  CreditCard,
-  FileText,
-  Clock,
-  ExternalLink,
   MessageSquare,
 } from "lucide-react";
 
-const Help = () => {
+export default function Help() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
+  // Form State for Support Inquiry
+  const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    category: "General Inquiry",
+    message: "",
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true);
+  };
+
   const categories = [
-    { id: "getting-started", title: "Getting Started", icon: Sparkles, color: "from-purple-500/20 to-purple-900/20 border-purple-500/30 text-purple-300" },
-    { id: "for-fans", title: "For Fans", icon: Heart, color: "from-blue-500/20 to-blue-900/20 border-blue-500/30 text-blue-300" },
-    { id: "for-artists", title: "For Artists", icon: Music, color: "from-emerald-500/20 to-emerald-900/20 border-emerald-500/30 text-emerald-300" },
-    { id: "safety-reporting", title: "Safety & Reporting", icon: ShieldAlert, color: "from-red-500/20 to-red-900/20 border-red-500/30 text-red-300" },
-    { id: "account-privacy", title: "Account & Privacy", icon: Lock, color: "from-amber-500/20 to-amber-900/20 border-amber-500/30 text-amber-300" },
-    { id: "contact-us", title: "Contact Us", icon: Mail, color: "from-cyan-500/20 to-cyan-900/20 border-cyan-500/30 text-cyan-300" },
+    { id: "getting-started", title: "Getting Started", icon: Sparkles },
+    { id: "for-fans", title: "For Fans", icon: Heart },
+    { id: "for-artists", title: "For Artists", icon: Music },
+    { id: "safety-reporting", title: "Safety & Reporting", icon: ShieldAlert },
+    { id: "account-privacy", title: "Account & Privacy", icon: Lock },
+    { id: "contact-us", title: "Contact Us", icon: Mail },
   ];
 
   const faqData = [
-    // GETTING STARTED
+    // APP STORE GUIDELINE SPECIFIC FAQS
     {
-      category: "getting-started",
-      question: "WHAT IS CELESTIFAN?",
+      category: "safety-reporting",
+      question: "How do I report offensive content or abusive users in the app?",
       answer: (
-        <div className="space-y-3">
-          <p className="text-slate-300 font-semibold text-base">CelestiFan is where support gets remembered.</p>
-          <p className="text-slate-400 text-sm leading-relaxed">
-            You've been streaming your favourite artists for years. Sharing them. Showing up before anyone else noticed. None of that has ever been recorded anywhere.
+        <div className="space-y-2 text-sm text-slate-300">
+          <p>
+            Tap the three dots (•••) on any post, comment, message, campaign, or user profile and select <strong>Report</strong>. Choose a reason and submit.
           </p>
-          <p className="text-slate-300 text-sm leading-relaxed">
-            CelestiFan changes that. You submit proof of the support you're already giving, and it becomes a permanent record the artist can actually see.
+          <p className="p-3 rounded-lg bg-red-950/20 border border-red-500/20 text-xs text-red-200">
+            <strong>24-Hour Review SLA:</strong> We review all reports within 24 hours. Content violating our terms is removed and the responsible account is suspended or terminated.
+          </p>
+          <p>
+            You can also tap <strong>Block User</strong> to immediately hide all content from that user and prevent them from contacting you.
+          </p>
+        </div>
+      ),
+    },
+    {
+      category: "account-privacy",
+      question: "How do I request account deletion or data removal?",
+      answer: (
+        <div className="space-y-2 text-sm text-slate-300">
+          <p>
+            You can request account and data deletion directly in the mobile app by going to <strong>Settings → Delete Account</strong> and confirming.
+          </p>
+          <p>
+            Alternatively, email us at <a href="mailto:privacy@celestifan.com" className="text-purple-300 underline font-mono">privacy@celestifan.com</a> or <a href="mailto:support@celestifan.com" className="text-purple-300 underline font-mono">support@celestifan.com</a> with the subject <em>"Account Deletion Request"</em>.
+          </p>
+          <p className="text-xs text-slate-400">
+            Account deletion permanently removes your profile, uploaded content, Celeste points, and devotion history within 30 days.
           </p>
         </div>
       ),
     },
     {
       category: "getting-started",
-      question: "DO I NEED TO PAY?",
+      question: "What should I do if audio or video fails to play?",
       answer: (
-        <div className="space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-xs font-bold">
-            <CheckCircle2 className="w-3.5 h-3.5" /> 100% Free Core Access
-          </div>
-          <p className="text-slate-300 text-sm">
-            No. CelestiFan is free to download and free to use.
+        <div className="space-y-2 text-sm text-slate-300">
+          <p>
+            Ensure your device has an active internet connection and that Silent/Mute mode is toggled off. Tap the retry button on the audio preview or restart the app.
           </p>
-          <p className="text-slate-400 text-xs leading-relaxed">
+        </div>
+      ),
+    },
+    {
+      category: "for-fans",
+      question: "How do campaigns and Celeste rewards work?",
+      answer: (
+        <div className="space-y-2 text-sm text-slate-300">
+          <p>
+            Fans support their favorite artists by completing verified proof submissions (e.g. streaming songs or sharing links). When approved by the artist or system, fans receive Celeste points to unlock exclusive music, rewards, and leaderboard rankings.
+          </p>
+        </div>
+      ),
+    },
+
+    // GETTING STARTED
+    {
+      category: "getting-started",
+      question: "What is CelestiFan?",
+      answer: (
+        <div className="space-y-2 text-sm text-slate-300">
+          <p className="font-semibold text-slate-200">CelestiFan is where support gets remembered.</p>
+          <p className="text-slate-300">
+            You submit proof of the support you're already giving to artists (streaming, sharing, posting), and it becomes a permanent record the artist can actually see.
+          </p>
+        </div>
+      ),
+    },
+    {
+      category: "getting-started",
+      question: "Do I need to pay to use CelestiFan?",
+      answer: (
+        <div className="space-y-2 text-sm text-slate-300">
+          <p>
+            <strong>No. CelestiFan is 100% free to download and free to use.</strong>
+          </p>
+          <p className="text-xs text-slate-400">
             Optional paid tiers exist for people who want extra features, but everything core — joining campaigns, submitting proof, earning Celeste, appearing on leaderboards — is free.
           </p>
         </div>
@@ -78,18 +133,12 @@ const Help = () => {
     },
     {
       category: "getting-started",
-      question: "AM I A FAN OR AN ARTIST?",
+      question: "Am I a Fan or an Artist?",
       answer: (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs pt-1">
-          <div className="p-4 rounded-xl bg-purple-950/20 border border-purple-500/20 text-slate-300">
-            <strong className="text-purple-300 text-sm block mb-1">Choose Fan</strong>
-            If you want to support artists you love and have that support recorded permanently.
-          </div>
-          <div className="p-4 rounded-xl bg-blue-950/20 border border-blue-500/20 text-slate-300">
-            <strong className="text-blue-300 text-sm block mb-1">Choose Artist</strong>
-            If you make music and want to see who your real, most devoted supporters are.
-          </div>
-          <p className="text-slate-400 text-xs col-span-1 sm:col-span-2 italic">You choose when you sign up.</p>
+        <div className="space-y-2 text-sm text-slate-300">
+          <p>
+            Choose <strong>Fan</strong> if you want to support artists you love and have that support recorded. Choose <strong>Artist</strong> if you make music and want to see who your real supporters are. You select your account type when you sign up.
+          </p>
         </div>
       ),
     },
@@ -97,173 +146,81 @@ const Help = () => {
     // FOR FANS
     {
       category: "for-fans",
-      question: "HOW DO I JOIN A CAMPAIGN?",
+      question: "How do I join a campaign?",
       answer: (
-        <ol className="list-decimal list-inside space-y-1.5 text-xs text-slate-300 bg-slate-900/60 p-4 rounded-xl border border-white/10">
-          <li>Open the <strong>Campaigns</strong> tab</li>
+        <ol className="list-decimal list-inside space-y-1 text-sm text-slate-300">
+          <li>Open the <strong>Campaigns</strong> tab in the app</li>
           <li>Tap a campaign that interests you</li>
           <li>Tap <strong>Join</strong></li>
-          <li className="text-purple-300 font-semibold pt-1">That's it. You're in.</li>
         </ol>
       ),
     },
     {
       category: "for-fans",
-      question: "HOW DO I SUBMIT PROOF?",
+      question: "How do I submit proof?",
       answer: (
-        <div className="space-y-4 text-xs text-slate-300">
-          <p className="text-slate-300">
-            Every campaign has tasks. Each one tells you exactly what to do and what proof it needs.
-          </p>
-          <div className="p-4 rounded-xl bg-slate-900/60 border border-white/10 space-y-2">
-            <strong className="text-purple-300 text-sm block flex items-center gap-2">
-              <Music className="w-4 h-4 text-purple-400" /> For a Listening Task:
-            </strong>
-            <ol className="list-decimal list-inside space-y-1 text-slate-300">
-              <li>Open the <strong>Fan Tasks</strong> tab</li>
-              <li>Tap a task like <em>"Listen to the song"</em></li>
-              <li>Play the song on Spotify, Apple Music, Boomplay or wherever you listen</li>
-              <li>Take a screenshot while it's playing</li>
-              <li>Come back, upload the screenshot, tap <strong>Submit Proof</strong></li>
-            </ol>
-          </div>
-
-          <div className="p-4 rounded-xl bg-slate-900/60 border border-white/10 space-y-2">
-            <strong className="text-cyan-300 text-sm block flex items-center gap-2">
-              <MessageSquare className="w-4 h-4 text-cyan-400" /> For a Social Media Task:
-            </strong>
-            <ol className="list-decimal list-inside space-y-1 text-slate-300">
-              <li>Create a post, story or video using the song on TikTok, Instagram, X or any platform</li>
-              <li>Copy the link to your post</li>
-              <li>Paste the link into the task and tap <strong>Submit Proof</strong></li>
-            </ol>
-          </div>
-          <p className="text-xs text-purple-300 font-medium italic">
-            Your submission goes to the artist for approval. Once approved, you earn Celeste.
-          </p>
-        </div>
-      ),
-    },
-    {
-      category: "for-fans",
-      question: "WHY WAS MY PROOF REJECTED?",
-      answer: (
-        <div className="space-y-3 text-xs text-slate-300">
-          <p className="font-semibold text-slate-200">A submission can be rejected if:</p>
-          <ul className="list-disc list-inside space-y-1 text-slate-300 bg-red-950/20 p-4 rounded-xl border border-red-500/20">
-            <li>The screenshot doesn't clearly show the song playing</li>
-            <li>The same screenshot was submitted before</li>
-            <li>The image appears edited or manipulated</li>
-            <li>The link doesn't contain the song</li>
-            <li>It doesn't match what the task asked for</li>
-          </ul>
-          <div className="p-3 rounded-lg bg-cyan-950/20 border border-cyan-500/20 text-cyan-200">
-            <strong>Automated Appeals:</strong> Some submissions are checked automatically. If you believe an automated decision was wrong, email <a href="mailto:support@celestifan.com" className="text-cyan-300 underline font-semibold">support@celestifan.com</a> and a human moderator will review it.
-          </div>
-        </div>
-      ),
-    },
-    {
-      category: "for-fans",
-      question: "WHAT IS CELESTE?",
-      answer: (
-        <div className="space-y-3 text-xs text-slate-300">
-          <p className="text-sm font-semibold text-amber-300">
-            Celeste is CelestiFan's recognition currency. You earn it when your proof is approved.
-          </p>
-          <div className="p-4 rounded-xl bg-amber-950/20 border border-amber-500/30 text-amber-100 space-y-2">
-            <strong className="block text-amber-400 text-xs">IMPORTANT DISCLAIMERS:</strong>
-            <p>
-              Celeste is not money. It cannot be converted to cash, transferred, sold or traded. It is not a cryptocurrency.
+        <div className="space-y-3 text-sm text-slate-300">
+          <div>
+            <strong className="text-purple-300 block mb-1">For Listening Tasks:</strong>
+            <p className="text-xs text-slate-300">
+              Play the song on Spotify, Apple Music, Boomplay or your preferred player. Take a screenshot showing the song playing, then upload the screenshot in the task and tap <strong>Submit Proof</strong>.
             </p>
           </div>
-          <p className="text-slate-300">
-            Celeste exists to measure and recognise devotion. It's how your support becomes visible to the artist.
-          </p>
-        </div>
-      ),
-    },
-    {
-      category: "for-fans",
-      question: "WHAT ARE STREAKS?",
-      answer: (
-        <div className="space-y-3 text-xs text-slate-300">
-          <p>
-            If you submit approved proof on consecutive days, you build a streak — and streaks multiply the Celeste you earn.
-          </p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
-            <div className="p-3 rounded-xl bg-purple-950/30 border border-purple-500/30 text-center">
-              <span className="block font-mono text-xs text-purple-400">3 Days</span>
-              <strong className="text-lg text-purple-200">1.1x</strong>
-            </div>
-            <div className="p-3 rounded-xl bg-purple-950/30 border border-purple-500/30 text-center">
-              <span className="block font-mono text-xs text-purple-400">7 Days</span>
-              <strong className="text-lg text-purple-200">1.25x</strong>
-            </div>
-            <div className="p-3 rounded-xl bg-purple-950/30 border border-purple-500/30 text-center">
-              <span className="block font-mono text-xs text-purple-400">14 Days</span>
-              <strong className="text-lg text-purple-200">1.5x</strong>
-            </div>
-            <div className="p-3 rounded-xl bg-purple-950/30 border border-purple-500/30 text-center">
-              <span className="block font-mono text-xs text-purple-400">30 Days</span>
-              <strong className="text-lg text-purple-200">2.0x</strong>
-            </div>
+          <div>
+            <strong className="text-cyan-300 block mb-1">For Social Media Tasks:</strong>
+            <p className="text-xs text-slate-300">
+              Create a post or story using the song on TikTok, Instagram, or X. Copy your post link, paste it into the task, and tap <strong>Submit Proof</strong>.
+            </p>
           </div>
-          <p className="text-slate-400 italic">
-            Miss a day and the streak resets. Showing up consistently is the point.
+        </div>
+      ),
+    },
+    {
+      category: "for-fans",
+      question: "Why was my proof rejected?",
+      answer: (
+        <div className="space-y-2 text-sm text-slate-300">
+          <p>A submission can be rejected if:</p>
+          <ul className="list-disc list-inside space-y-1 text-xs text-slate-300">
+            <li>The screenshot does not clearly show the song playing</li>
+            <li>The same screenshot or link was submitted previously</li>
+            <li>The image appears edited or manipulated</li>
+            <li>It does not match the task requirements</li>
+          </ul>
+          <p className="text-xs text-cyan-300 pt-1">
+            If you believe an automated rejection was wrong, email <a href="mailto:support@celestifan.com" className="underline">support@celestifan.com</a> for human review.
           </p>
         </div>
       ),
     },
     {
       category: "for-fans",
-      question: "HOW DO REWARDS WORK?",
+      question: "What is Celeste?",
       answer: (
-        <div className="space-y-3 text-xs text-slate-300">
-          <p>Artists set up to three reward tiers on a campaign:</p>
-          <div className="space-y-2">
-            <div className="p-3 rounded-lg bg-slate-900/60 border border-white/10 flex justify-between items-center">
-              <div>
-                <strong className="text-purple-300 block">Base Tier</strong>
-                <span className="text-slate-400 text-[11px]">Unlocks after 1 approved proof</span>
-              </div>
-              <span className="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono text-[10px]">1 Proof</span>
-            </div>
-            <div className="p-3 rounded-lg bg-slate-900/60 border border-white/10 flex justify-between items-center">
-              <div>
-                <strong className="text-cyan-300 block">Mid Tier</strong>
-                <span className="text-slate-400 text-[11px]">Unlocks after 3 approved proofs</span>
-              </div>
-              <span className="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-[10px]">3 Proofs</span>
-            </div>
-            <div className="p-3 rounded-lg bg-slate-900/60 border border-white/10 flex justify-between items-center">
-              <div>
-                <strong className="text-amber-300 block">Top Fan Tier</strong>
-                <span className="text-slate-400 text-[11px]">Unlocks if you reach top 10 on leaderboard</span>
-              </div>
-              <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px]">Top 10 Rank</span>
-            </div>
-          </div>
-          <p className="text-slate-400 pt-1">
-            Rewards can be exclusive images, audio or certificates. Once unlocked, you have <strong>30 days</strong> to save the reward to your collection.
-          </p>
-        </div>
-      ),
-    },
-    {
-      category: "for-fans",
-      question: "WHAT IS THE LEADERBOARD?",
-      answer: (
-        <div className="space-y-3 text-xs text-slate-300">
+        <div className="space-y-2 text-sm text-slate-300">
           <p>
-            Every campaign has a leaderboard ranking Celestifans by the Celeste they've earned.
+            Celeste is CelestiFan's recognition currency awarded for approved proof.
           </p>
-          <p className="p-3 rounded-lg bg-purple-950/20 border border-purple-500/20 text-purple-200">
-            The artist can see it. Your name, your streak, your proof history — visible to the person whose music you support.
+          <div className="p-3 rounded bg-amber-950/30 border border-amber-500/20 text-xs text-amber-200">
+            <strong>Important:</strong> Celeste has no monetary value. It cannot be converted to cash, transferred, sold, or traded. It is not a cryptocurrency.
+          </div>
+        </div>
+      ),
+    },
+    {
+      category: "for-fans",
+      question: "What are streaks and multipliers?",
+      answer: (
+        <div className="space-y-2 text-sm text-slate-300">
+          <p>
+            Submitting approved proof on consecutive days builds a streak, boosting your earned Celeste:
           </p>
-          <p className="text-slate-400">
-            There's also a global ranking across the whole platform.
-          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs text-center font-mono pt-1">
+            <div className="p-2 rounded bg-slate-900 border border-white/10">3 Days: 1.1x</div>
+            <div className="p-2 rounded bg-slate-900 border border-white/10">7 Days: 1.25x</div>
+            <div className="p-2 rounded bg-slate-900 border border-white/10">14 Days: 1.5x</div>
+            <div className="p-2 rounded bg-slate-900 border border-white/10">30 Days: 2.0x</div>
+          </div>
         </div>
       ),
     },
@@ -271,177 +228,44 @@ const Help = () => {
     // FOR ARTISTS
     {
       category: "for-artists",
-      question: "HOW DO I CREATE A CAMPAIGN?",
+      question: "How do I create a campaign?",
       answer: (
-        <div className="space-y-3 text-xs text-slate-300">
-          <ol className="list-decimal list-inside space-y-1.5 bg-slate-900/60 p-4 rounded-xl border border-white/10">
-            <li>Go to <strong>Campaigns</strong> and tap <strong>Create Campaign</strong></li>
-            <li>Add a title and description</li>
-            <li>Select the song you're promoting</li>
-            <li>Add tasks — choose from templates like <em>"Listen to the song"</em> or <em>"Use song on social media"</em></li>
-            <li>Set up to three reward tiers</li>
-            <li>Publish, then share the link with your fans</li>
+        <div className="space-y-2 text-sm text-slate-300">
+          <ol className="list-decimal list-inside space-y-1 text-xs text-slate-300">
+            <li>Go to <strong>Campaigns → Create Campaign</strong></li>
+            <li>Add a title, description, and song selection</li>
+            <li>Add tasks (listening or social media templates)</li>
+            <li>Set up to three reward tiers (Base, Mid, Top Fan)</li>
+            <li>Publish and share the campaign link with fans</li>
           </ol>
-          <p className="text-emerald-400 font-semibold text-xs italic">Takes about five minutes.</p>
         </div>
       ),
     },
     {
       category: "for-artists",
-      question: "HOW DO I REVIEW SUBMISSIONS?",
+      question: "How do I review fan submissions?",
       answer: (
-        <div className="space-y-3 text-xs text-slate-300">
-          <p>
-            Open the <strong>Studio</strong> tab. The <strong>Submissions</strong> section shows every proof your fans have sent, with their name, what they submitted, and how long they've been supporting you.
-          </p>
-          <p>
-            Approve or decline each one. If you decline, you can add a note explaining why.
-          </p>
-        </div>
-      ),
-    },
-    {
-      category: "for-artists",
-      question: "WHAT CAN I SEE ABOUT MY FANS?",
-      answer: (
-        <div className="space-y-3 text-xs text-slate-300">
-          <p className="font-semibold text-slate-200">The Studio shows you what no streaming platform does:</p>
-          <ul className="list-disc list-inside space-y-1 text-slate-300 bg-emerald-950/20 p-4 rounded-xl border border-emerald-500/20">
-            <li>Who your most devoted supporters are, by name</li>
-            <li>How long each person has been supporting you</li>
-            <li>Their submission streaks</li>
-            <li>Who showed up first</li>
-          </ul>
-          <p className="text-slate-400 italic">
-            You can sort by deepest devotion, longest streak, or most consistent.
-          </p>
-        </div>
+        <p className="text-sm text-slate-300">
+          Open the <strong>Studio</strong> tab. The Submissions section shows all proof sent by fans with their name, submission, and streak. You can approve or decline each submission.
+        </p>
       ),
     },
 
-    // SAFETY AND REPORTING
-    {
-      category: "safety-reporting",
-      question: "HOW DO I REPORT SOMETHING?",
-      answer: (
-        <div className="space-y-3 text-xs text-slate-300">
-          <p>You can report any post, comment, message, campaign, profile or proof submission.</p>
-          <ol className="list-decimal list-inside space-y-1.5 bg-slate-900/60 p-4 rounded-xl border border-white/10">
-            <li>Tap the three-dot menu on the content or profile</li>
-            <li>Tap <strong>Report</strong></li>
-            <li>Choose a reason</li>
-            <li>Submit</li>
-          </ol>
-          <div className="p-3.5 rounded-xl bg-red-950/20 border border-red-500/30 text-red-200">
-            <strong className="block text-red-300 font-semibold mb-1">24-Hour Review SLA:</strong>
-            We review every report within 24 hours. Content that breaks our rules is removed and the account responsible is suspended or permanently terminated.
-          </div>
-          <p className="text-slate-400">
-            You can also email <a href="mailto:support@celestifan.com" className="text-purple-300 underline font-mono">support@celestifan.com</a> with details.
-          </p>
-        </div>
-      ),
-    },
-    {
-      category: "safety-reporting",
-      question: "HOW DO I BLOCK SOMEONE?",
-      answer: (
-        <div className="space-y-3 text-xs text-slate-300">
-          <ol className="list-decimal list-inside space-y-1.5 bg-slate-900/60 p-4 rounded-xl border border-white/10">
-            <li>Go to their profile, or tap the three-dot menu in a conversation</li>
-            <li>Tap <strong>Block</strong></li>
-          </ol>
-          <p className="p-3 rounded-lg bg-blue-950/20 border border-blue-500/20 text-blue-200">
-            Once blocked, their content disappears from your feed immediately and they can't message you.
-          </p>
-          <p className="text-slate-400">
-            You can manage blocked users in <strong>Settings → Blocked Users</strong>.
-          </p>
-        </div>
-      ),
-    },
-    {
-      category: "safety-reporting",
-      question: "WHAT COUNTS AS OBJECTIONABLE CONTENT?",
-      answer: (
-        <div className="space-y-3 text-xs text-slate-300">
-          <p>
-            Harassment, hate speech, threats, sexually explicit content, violence, spam, scams, impersonation, copyright infringement, and fake or manipulated proof submissions.
-          </p>
-          <p>
-            Full details are in our <Link to="/terms" className="text-purple-300 underline font-semibold">Terms of Service</Link>.
-          </p>
-        </div>
-      ),
-    },
-
-    // ACCOUNT AND PRIVACY
+    // ACCOUNT & PRIVACY
     {
       category: "account-privacy",
-      question: "HOW DO I CHANGE MY PASSWORD?",
+      question: "How do I change or reset my password?",
       answer: (
-        <div className="space-y-3 text-xs text-slate-300">
-          <p>Go to <strong>Settings → Change Password</strong>.</p>
-          <div className="p-3.5 rounded-xl bg-purple-950/20 border border-purple-500/20 text-purple-200">
-            <strong>Google Sign-In Users:</strong> If you signed up with Google you may not have a password. To sign in on a device without your Google account, use <em>"Get a login code instead"</em> on the login screen — we'll email you a six-digit code.
-          </div>
-        </div>
-      ),
-    },
-    {
-      category: "account-privacy",
-      question: "I FORGOT MY PASSWORD",
-      answer: (
-        <div className="space-y-3 text-xs text-slate-300">
-          <p>
-            On the login screen, tap <strong>"Get a login code instead"</strong>. Enter your email and we'll send you a six-digit code that signs you in.
-          </p>
-        </div>
-      ),
-    },
-    {
-      category: "account-privacy",
-      question: "HOW DO I DELETE MY ACCOUNT?",
-      answer: (
-        <div className="space-y-3 text-xs text-slate-300">
-          <ol className="list-decimal list-inside space-y-1.5 bg-slate-900/60 p-4 rounded-xl border border-white/10">
-            <li>Open the CelestiFan app</li>
-            <li>Go to <strong>Settings</strong></li>
-            <li>Tap <strong>Delete Account</strong></li>
-            <li>Confirm</li>
-          </ol>
-          <p>
-            Or email <a href="mailto:privacy@celestifan.com" className="text-purple-300 underline font-mono">privacy@celestifan.com</a> from the address on your account.
-          </p>
-          <div className="p-3.5 rounded-xl bg-red-950/20 border border-red-500/20 text-red-200">
-            This permanently deletes your profile, your content, your Celeste and your devotion history. It cannot be undone. Full details in our <Link to="/privacy" className="text-red-300 underline font-semibold">Privacy Policy</Link>.
-          </div>
-        </div>
-      ),
-    },
-    {
-      category: "account-privacy",
-      question: "WHAT DATA DO YOU COLLECT?",
-      answer: (
-        <div className="space-y-3 text-xs text-slate-300">
-          <p>
-            Your name, email, profile information, the content you upload, and your activity on the platform.
-          </p>
-          <div className="p-3.5 rounded-xl bg-emerald-950/20 border border-emerald-500/20 text-emerald-200">
-            <strong>WHAT WE DO NOT COLLECT:</strong> We do not collect your device location, your contacts, or your payment card details. We do not sell your data.
-          </div>
-          <p>
-            Full details in our <Link to="/privacy" className="text-purple-300 underline font-semibold">Privacy Policy</Link>.
-          </p>
-        </div>
+        <p className="text-sm text-slate-300">
+          Go to <strong>Settings → Change Password</strong> in the app. On the login screen, you can also select <em>"Get a login code instead"</em> to receive a 6-digit email code.
+        </p>
       ),
     },
   ];
 
   const filteredFaqs = faqData.filter((item) => {
     const matchesSearch =
-      item.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (typeof item.answer === "string" && item.answer.toLowerCase().includes(searchQuery.toLowerCase()));
+      item.question.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = activeCategory ? item.category === activeCategory : true;
     return matchesSearch && matchesCategory;
   });
@@ -449,176 +273,239 @@ const Help = () => {
   return (
     <>
       <Helmet>
-        <title>Help & Support Center | CelestiFan</title>
+        <title>Help & Support | CelestiFan</title>
         <meta
           name="description"
-          content="CelestiFan Help & Support Center. Everything you need to know about using CelestiFan for fans and artists, campaign proof submissions, Celeste tokens, streaks, safety, and account management."
+          content="Official Support Portal for the CelestiFan iOS and Android applications. Contact support@celestifan.com, submit help inquiries, and search user FAQs."
         />
         <link rel="canonical" href="https://celestifan.com/help" />
       </Helmet>
 
-      <div className="min-h-screen bg-[#04020a] text-slate-100 relative overflow-hidden pb-24">
-        {/* Ambient Glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] pointer-events-none bg-[radial-gradient(ellipse_at_top,rgba(168,85,247,0.15),transparent_70%)]" />
+      <div className="min-h-screen bg-[#0A0A0F] text-slate-100 py-12 px-4">
+        <div className="max-w-4xl mx-auto">
 
-        <div className="container mx-auto px-4 pt-12 max-w-6xl relative z-10">
-
-          {/* Header Hero */}
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-purple-500/30 bg-purple-950/40 text-purple-300 text-xs font-semibold mb-4 backdrop-blur-md">
-              <HelpCircle className="w-3.5 h-3.5" />
-              <span>SUPPORT & KNOWLEDGE BASE</span>
-            </div>
-
-            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 bg-gradient-to-r from-purple-400 via-purple-200 to-cyan-300 bg-clip-text text-transparent">
-              How can we help you?
+          {/* Header */}
+          <div className="text-center mb-10">
+            <h1 className="text-3xl sm:text-4xl font-extrabold mb-3 bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
+              CelestiFan Help & Support
             </h1>
-            <p className="text-slate-400 text-base md:text-lg max-w-2xl mx-auto">
-              Everything you need to know about using CelestiFan. If you can't find your answer here, email us and a real person will reply.
+            <p className="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto">
+              Welcome to the official support portal for the <strong>CelestiFan iOS and Android applications</strong>. We are here to assist you with any questions, issues, or feedback.
             </p>
 
-            {/* Support / Legal Tab Switcher */}
-            <div className="mt-8 inline-flex p-1.5 rounded-full bg-slate-900/80 border border-white/10 backdrop-blur-md">
+            {/* Navigation Switcher */}
+            <div className="mt-6 inline-flex p-1 rounded-full bg-slate-900 border border-white/10 text-xs">
               <Link
                 to="/help"
-                className="px-6 py-2 rounded-full text-xs font-bold transition-all bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg"
+                className="px-5 py-2 rounded-full font-bold bg-purple-600 text-white"
               >
-                Help Center
+                Help & Support
               </Link>
               <Link
                 to="/privacy"
-                className="px-6 py-2 rounded-full text-xs font-bold text-slate-400 hover:text-white transition-colors"
+                className="px-5 py-2 rounded-full font-medium text-slate-400 hover:text-white transition-colors"
               >
                 Privacy Policy
               </Link>
               <Link
                 to="/terms"
-                className="px-6 py-2 rounded-full text-xs font-bold text-slate-400 hover:text-white transition-colors"
+                className="px-5 py-2 rounded-full font-medium text-slate-400 hover:text-white transition-colors"
               >
                 Terms of Service
               </Link>
             </div>
           </div>
 
-          {/* Search Input Bar */}
-          <div className="max-w-2xl mx-auto mb-14">
+          {/* Direct Support Channels Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+            <div className="p-6 rounded-2xl bg-[#12121A] border border-white/10 text-center">
+              <Mail className="w-8 h-8 text-purple-400 mx-auto mb-3" />
+              <h3 className="text-lg font-bold mb-1">Email Support</h3>
+              <p className="text-slate-400 text-xs mb-3">Reach out directly to our support team.</p>
+              <a
+                href="mailto:support@celestifan.com"
+                className="text-cyan-400 font-bold text-sm underline font-mono hover:text-cyan-300"
+              >
+                support@celestifan.com
+              </a>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-[#12121A] border border-white/10 text-center">
+              <Clock className="w-8 h-8 text-cyan-400 mx-auto mb-3" />
+              <h3 className="text-lg font-bold mb-1">Response Expectation</h3>
+              <p className="text-slate-400 text-xs mb-3">Typical response time window:</p>
+              <span className="text-emerald-400 font-bold text-sm font-mono">
+                24 – 48 Business Hours
+              </span>
+            </div>
+          </div>
+
+          {/* Contact Support Form */}
+          <div className="p-6 sm:p-8 rounded-2xl bg-[#12121A] border border-white/10 mb-10">
+            <h2 className="text-xl font-bold mb-2">Send Us a Message</h2>
+            <p className="text-slate-400 text-xs mb-6">
+              Have an issue with your account, app bugs, or campaign submissions? Fill out the form below and we will email you back.
+            </p>
+
+            {submitted ? (
+              <div className="text-center py-8 px-4 border border-emerald-500/30 rounded-xl bg-emerald-950/20">
+                <CheckCircle2 className="w-12 h-12 text-emerald-400 mx-auto mb-3" />
+                <h3 className="text-lg font-bold mb-1 text-slate-100">Thank you for reaching out!</h3>
+                <p className="text-slate-300 text-xs mb-4">
+                  Your inquiry has been submitted. A support representative will email you shortly.
+                </p>
+                <button
+                  onClick={() => setSubmitted(false)}
+                  className="px-5 py-2 rounded-lg bg-purple-600 text-white font-bold text-xs hover:bg-purple-500 transition-colors"
+                >
+                  Send Another Message
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-300 mb-1">Your Name</label>
+                    <input
+                      required
+                      type="text"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      placeholder="Jane Doe"
+                      className="w-full p-3 rounded-lg bg-[#1E1E2D] border border-white/10 text-sm text-white focus:outline-none focus:border-purple-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-300 mb-1">Email Address</label>
+                    <input
+                      required
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      placeholder="jane@example.com"
+                      className="w-full p-3 rounded-lg bg-[#1E1E2D] border border-white/10 text-sm text-white focus:outline-none focus:border-purple-500"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">Issue Category</label>
+                  <select
+                    value={formData.category}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    className="w-full p-3 rounded-lg bg-[#1E1E2D] border border-white/10 text-sm text-white focus:outline-none focus:border-purple-500"
+                  >
+                    <option value="Account Access">Account & Login Issues</option>
+                    <option value="Bug Report">App Bug or Crash Report</option>
+                    <option value="Content Moderation">Content Moderation & Safety</option>
+                    <option value="Campaigns & Rewards">Campaigns & Rewards Inquiries</option>
+                    <option value="General Inquiry">General Inquiry</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">Message</label>
+                  <textarea
+                    required
+                    rows={4}
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    placeholder="Describe your issue or question in detail..."
+                    className="w-full p-3 rounded-lg bg-[#1E1E2D] border border-white/10 text-sm text-white focus:outline-none focus:border-purple-500 resize-y"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full p-3.5 rounded-lg bg-purple-600 text-white font-bold text-sm hover:bg-purple-500 transition-colors flex items-center justify-center gap-2"
+                >
+                  <Send className="w-4 h-4" /> Submit Support Request
+                </button>
+              </form>
+            )}
+          </div>
+
+          {/* Search FAQs */}
+          <div className="mb-6">
             <div className="relative">
-              <Search className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
-                placeholder="Search help articles (e.g. proof, streaks, Celeste, delete account, report)..."
+                placeholder="Search help topics (e.g. report, delete account, audio, Celeste)..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3.5 rounded-full bg-slate-900/80 border border-white/15 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-purple-500/50 shadow-xl backdrop-blur-md transition-all"
+                className="w-full pl-11 pr-4 py-3 rounded-xl bg-[#12121A] border border-white/10 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-purple-500"
               />
             </div>
           </div>
 
-          {/* Categories Grid */}
-          <div className="mb-14">
-            <h3 className="text-xs font-bold tracking-widest text-purple-400 uppercase mb-4 text-center">
-              Browse by Category
-            </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+          {/* Category Pills */}
+          <div className="flex flex-wrap gap-2 mb-8">
+            <button
+              onClick={() => setActiveCategory(null)}
+              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold border transition-all ${
+                activeCategory === null
+                  ? "bg-purple-600 border-purple-500 text-white"
+                  : "bg-[#12121A] border-white/10 text-slate-400 hover:text-white"
+              }`}
+            >
+              All Topics
+            </button>
+            {categories.map((cat) => (
               <button
-                onClick={() => setActiveCategory(null)}
-                className={`p-4 rounded-2xl border text-center transition-all ${
-                  activeCategory === null
-                    ? "bg-purple-600/20 border-purple-500/50 text-white font-bold shadow-lg"
-                    : "bg-slate-900/40 border-white/[0.08] text-slate-400 hover:text-white hover:border-white/20"
+                key={cat.id}
+                onClick={() => setActiveCategory(activeCategory === cat.id ? null : cat.id)}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold border transition-all ${
+                  activeCategory === cat.id
+                    ? "bg-purple-600 border-purple-500 text-white"
+                    : "bg-[#12121A] border-white/10 text-slate-400 hover:text-white"
                 }`}
               >
-                <span className="text-xs">All Topics</span>
+                {cat.title}
               </button>
-              {categories.map((cat) => {
-                const Icon = cat.icon;
-                const isSelected = activeCategory === cat.id;
-                return (
-                  <button
-                    key={cat.id}
-                    onClick={() => setActiveCategory(isSelected ? null : cat.id)}
-                    className={`p-4 rounded-2xl border text-center transition-all flex flex-col items-center justify-center gap-2 ${
-                      isSelected
-                        ? "bg-purple-600/30 border-purple-400 text-white font-bold shadow-lg scale-105"
-                        : "bg-slate-900/40 border-white/[0.08] text-slate-400 hover:text-white hover:border-purple-500/30"
-                    }`}
-                  >
-                    <Icon className={`w-5 h-5 ${isSelected ? "text-purple-300" : "text-slate-400"}`} />
-                    <span className="text-xs">{cat.title}</span>
-                  </button>
-                );
-              })}
+            ))}
+          </div>
+
+          {/* FAQ List */}
+          <div className="p-6 rounded-2xl bg-[#12121A] border border-white/10 mb-10">
+            <div className="flex items-center gap-2 mb-6">
+              <HelpCircle className="w-5 h-5 text-purple-400" />
+              <h2 className="text-xl font-bold">Frequently Asked Questions</h2>
+            </div>
+
+            <div className="space-y-4">
+              {filteredFaqs.length === 0 ? (
+                <p className="text-slate-400 text-xs text-center py-4">
+                  No questions match "{searchQuery}". Email <a href="mailto:support@celestifan.com" className="text-cyan-400 underline">support@celestifan.com</a> for assistance.
+                </p>
+              ) : (
+                filteredFaqs.map((faq, idx) => (
+                  <div key={idx} className="p-4 rounded-xl bg-[#181824] border border-white/5">
+                    <h4 className="text-sm font-bold text-slate-100 mb-2">{faq.question}</h4>
+                    {faq.answer}
+                  </div>
+                ))
+              )}
             </div>
           </div>
 
-          {/* Q&A Accordion Sections */}
-          <div className="max-w-4xl mx-auto space-y-4 mb-20">
-            {filteredFaqs.length === 0 ? (
-              <div className="p-8 text-center rounded-2xl border border-white/10 bg-slate-900/30 text-slate-400 text-sm">
-                No help topics match "{searchQuery}". Try searching another keyword or email us directly at <a href="mailto:support@celestifan.com" className="text-purple-300 underline">support@celestifan.com</a>.
-              </div>
-            ) : (
-              filteredFaqs.map((faq, idx) => (
-                <div
-                  key={idx}
-                  className="p-6 rounded-2xl border border-white/[0.08] bg-slate-900/40 backdrop-blur-md transition-all hover:border-purple-500/30"
-                >
-                  <h3 className="text-base font-bold text-slate-100 mb-3 flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-purple-400"></span>
-                    {faq.question}
-                  </h3>
-                  {faq.answer}
-                </div>
-              ))
-            )}
-          </div>
-
-          {/* Direct Contact & Company Details Section */}
-          <div className="max-w-4xl mx-auto p-8 rounded-3xl border border-purple-500/30 bg-gradient-to-r from-purple-950/40 via-slate-900/60 to-cyan-950/40 backdrop-blur-md">
-            <div className="text-center mb-8">
-              <Mail className="w-8 h-8 text-purple-400 mx-auto mb-2" />
-              <h3 className="text-2xl font-bold text-slate-100 mb-1">Still Need Help?</h3>
-              <p className="text-slate-300 text-sm">
-                Email support@celestifan.com and tell us what's happening. A real person will reply.
-              </p>
+          {/* Footer Legal & Platform Links */}
+          <div className="text-center border-t border-white/10 pt-8">
+            <div className="flex justify-center gap-6 mb-4">
+              <Link to="/privacy" className="text-slate-400 hover:text-white text-xs flex items-center gap-1.5">
+                <Shield className="w-3.5 h-3.5" /> Privacy Policy
+              </Link>
+              <Link to="/terms" className="text-slate-400 hover:text-white text-xs flex items-center gap-1.5">
+                <FileText className="w-3.5 h-3.5" /> Terms of Service
+              </Link>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs mb-8">
-              <div className="p-5 rounded-2xl bg-slate-900/60 border border-white/10 space-y-2">
-                <strong className="text-purple-300 text-sm block">General Support & Questions</strong>
-                <p className="text-slate-400">Campaigns, streaks, rewards, or platform issues:</p>
-                <a href="mailto:support@celestifan.com" className="text-purple-300 font-mono text-sm underline block font-semibold">
-                  support@celestifan.com
-                </a>
-                <span className="inline-block px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 text-[10px] font-mono">
-                  SLA: Reply within 48 hours
-                </span>
-              </div>
-
-              <div className="p-5 rounded-2xl bg-slate-900/60 border border-white/10 space-y-2">
-                <strong className="text-cyan-300 text-sm block">Privacy, Data & Account Deletion</strong>
-                <p className="text-slate-400">GDPR data rights, privacy inquiries, or account deletion:</p>
-                <a href="mailto:privacy@celestifan.com" className="text-cyan-300 font-mono text-sm underline block font-semibold">
-                  privacy@celestifan.com
-                </a>
-                <span className="inline-block px-2 py-0.5 rounded bg-red-500/20 text-red-300 text-[10px] font-mono">
-                  Harmful Content SLA: Reviewed within 24 hours
-                </span>
-              </div>
-            </div>
-
-            <div className="pt-6 border-t border-white/10 text-center text-xs text-slate-400 space-y-1">
-              <p className="font-semibold text-slate-200">CelestiFan Ltd</p>
-              <p>182-184 High Street North, East Ham, London E6 2JA, United Kingdom</p>
-              <p className="font-mono text-slate-500">Company Number: 17292209</p>
-              <p className="text-purple-400 font-semibold pt-2 text-sm">CelestiFan Ltd — Fan Lives Matter</p>
-            </div>
+            <p className="text-slate-500 text-xs">
+              © {new Date().getFullYear()} CelestiFan Ltd (Company No. 17292209). All rights reserved. CelestiFan mobile application for iOS and Android.
+            </p>
           </div>
 
         </div>
       </div>
     </>
   );
-};
-
-export default Help;
+}
